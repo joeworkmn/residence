@@ -1,4 +1,4 @@
 class Apartment < ActiveRecord::Base
-   store_accessor :status, :vacant
+   has_one :status, class_name: ApartmentStatus
 
 end
