@@ -6,11 +6,13 @@ gem 'rails', '4.0.0.rc1'
 gem 'pg'
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'sass-rails', '~> 4.0.0.rc1'
 gem 'bootstrap-sass', '~> 2.3.1.2'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
+gem 'validates_timeliness', '~> 3.0'
 
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'faker', '1.0.1'
@@ -23,11 +25,11 @@ gem 'jbuilder', '~> 1.0.1'
 
 group :development do
    gem 'annotate', ">=2.5.0"
+   gem 'better_errors'
+   gem 'binding_of_caller'
 end
 
 group :development, :test do
-   gem 'better_errors'
-   gem 'binding_of_caller'
 end
 
 group :test do

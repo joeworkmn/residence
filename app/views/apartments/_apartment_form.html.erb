@@ -1,0 +1,21 @@
+<%= form_for apartment do |f| %>
+   <%= f.label :number %>
+   <%= f.text_field :number %> <br /><br />
+
+   <%= f.fields_for :status do |s| %>
+      <%= s.label "Occupied?" %> 
+      <%= s.check_box :occupied %> <br /><br />
+
+      <% if apartment.persisted? %>
+         <%= status_start_date_label(apartment, s) %>
+         <%= s.date_field :status_start_date %> <br />
+      <% end %>
+
+      <%= s.label :comment %>
+      <%= s.text_area :comment %> <br />
+
+   <% end %>
+
+   <%= f.submit "Submit" %>
+
+<% end %>

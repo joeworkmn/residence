@@ -1,0 +1,7 @@
+@import "bootstrap";
+/* To fix bootstrap problem where body goes into header. */
+body {
+   padding-top: 60px;
+   padding-bottom: 40px;
+}
+@import "bootstrap-responsive";
