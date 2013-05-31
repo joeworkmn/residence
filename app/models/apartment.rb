@@ -9,4 +9,7 @@ class Apartment < ActiveRecord::Base
 
    accepts_nested_attributes_for :status
 
+
+   validates :number, numericality: true
+
 end

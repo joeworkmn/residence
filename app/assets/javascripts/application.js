@@ -15,5 +15,6 @@
 //= require bootstrap
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap
+//= require global
 // require turbolinks
-//= require_tree .
+// require_tree .

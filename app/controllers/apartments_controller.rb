@@ -1,6 +1,6 @@
 class ApartmentsController < ApplicationController
 
-   before_action :set_apartment, only: [:show, :edit]
+   before_action :set_apartment, only: [:show, :edit, :update]
 
    def show
    end
@@ -8,12 +8,10 @@ class ApartmentsController < ApplicationController
 
    def new
       @apartment = Apartment.new(status: ApartmentStatus.new)
-      #@apartment = Apartment.new
    end
 
 
    def create
-      
       #abort(apartment_params.to_s)
 
       if @apartment = Apartment.create!(apartment_params)
@@ -28,12 +26,20 @@ class ApartmentsController < ApplicationController
    end
 
 
+   def update
+      if @apartment.update(apartment_params)
+         redirect_to @apartment, notice: "Updated"
+      else 
+         render 'edit'
+      end
+   end
+
+
 
    private
 
    def apartment_params
       params.require(:apartment).permit(:number, status_attributes: [:occupied, :status_start_date, :comment])
-      #params.require(:apartment).permit(:number, status: [:occupied, :since])
    end
 
 

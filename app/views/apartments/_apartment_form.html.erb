@@ -1,14 +1,17 @@
 <%= form_for apartment do |f| %>
+   <%= render 'shared/error_messages', object: f.object %>
+
    <%= f.label :number %>
    <%= f.text_field :number %> <br /><br />
 
    <%= f.fields_for :status do |s| %>
-      <%= s.label "Occupied?" %> 
+      Occupied?
+      <% #s.label "Occupied?" %> 
       <%= s.check_box :occupied %> <br /><br />
 
       <% if apartment.persisted? %>
          <%= status_start_date_label(apartment, s) %>
-         <%= s.date_field :status_start_date %> <br />
+         <%= s.text_field :status_start_date %> <br />
       <% end %>
 
       <%= s.label :comment %>

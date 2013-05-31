@@ -21,3 +21,7 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      apartment/status:
+        status_start_date: "Date"
