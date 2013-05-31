@@ -9,10 +9,8 @@
       <% #s.label "Occupied?" %> 
       <%= s.check_box :occupied %> <br /><br />
 
-      <% if apartment.persisted? %>
-         <%= status_start_date_label(apartment, s) %>
-         <%= s.text_field :status_start_date %> <br />
-      <% end %>
+      <%= status_start_date_label(apartment, s) %>
+      <%= s.text_field :status_start_date %> <br />
 
       <%= s.label :comment %>
       <%= s.text_area :comment %> <br />

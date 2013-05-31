@@ -1,0 +1,8 @@
+<tr>
+   <td> </td>
+   <td> <%= apartment.number %> </td>
+   <td> <%= apartment.occupied ? "Occupied" : "Vacant" %> </td>
+   <td> <%= apartment.status_start_date %> </td>
+   <td> <%= apartment.comment %> </td>
+   <td> <%= link_to "edit", edit_apartment_path(apartment) %> </td>
+</tr>

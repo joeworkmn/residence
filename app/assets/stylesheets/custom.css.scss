@@ -6,6 +6,7 @@ body {
 }
 @import "bootstrap-responsive";
 
+$grayMediumLight: #eaeaea;
 
 /* forms */
 
@@ -23,3 +24,9 @@ body {
 }
 
 /* end forms */
+
+
+.apt-status-menu {
+   border-bottom: 1px solid $grayLight;
+   margin-bottom: 40px;
+}

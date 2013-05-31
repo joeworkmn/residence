@@ -1,0 +1,15 @@
+<table id="apartments-data-table" class="display">
+<thead>
+   <tr>
+      <th class="not-sortable"> <input type="checkbox" id="select-all-entries-toggle" /> </th>
+      <th> # </th>
+      <th> Status </th>
+      <th> Since </th>
+      <th> Comment </th>
+      <th class="not-sortable"></th> <!-- Edit column -->       
+   </tr>
+</thead>
+<tbody>
+   <%= render @apartments %>
+</tbody>
+</table>

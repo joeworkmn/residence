@@ -2,7 +2,13 @@ class ApartmentsController < ApplicationController
 
    before_action :set_apartment, only: [:show, :edit, :update]
 
+   def index
+      @apartments = Apartment.all
+   end
+   
+
    def show
+      @status = @apartment.occupied ? "Occupied" : "Vacant"
    end
    
 
@@ -14,7 +20,8 @@ class ApartmentsController < ApplicationController
    def create
       #abort(apartment_params.to_s)
 
-      if @apartment = Apartment.create!(apartment_params)
+      @apartment = Apartment.create(apartment_params)
+      if @apartment.valid?
          redirect_to @apartment, notice: "Created"
       else
          render :new

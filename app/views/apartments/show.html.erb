@@ -1,1 +1,9 @@
-<%= @apartment.number %>
+<div class='row'>
+   <div class='apt-status-menu span4'>
+      <p> <%= @apartment.number %> </p>
+      <p> Status: <%= @status %> </p>
+      <p> <%= @status %> since: <%= @apartment.status_start_date %> </p> 
+      <p> <%= @apartment.comment %> </p>
+      <p> <%= link_to "Edit", edit_apartment_path(@apartment) %>
+   </div>
+</div>
