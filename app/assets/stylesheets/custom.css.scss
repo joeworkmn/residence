@@ -8,6 +8,11 @@ body {
 
 $grayMediumLight: #eaeaea;
 
+.bg-gray-lighter {
+   background: $grayLighter;
+   padding: 15px;
+}
+
 /* forms */
 
 #error_explanation {
@@ -24,9 +29,3 @@ $grayMediumLight: #eaeaea;
 }
 
 /* end forms */
-
-
-.apt-status-menu {
-   border-bottom: 1px solid $grayLight;
-   margin-bottom: 40px;
-}

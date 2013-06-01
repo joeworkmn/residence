@@ -1,5 +1,11 @@
 Residence::Application.routes.draw do
 
+   root to: "sessions#new"
+
+   get '/signin', to: 'sessions#new'
+
+   resources :sessions, only: [:create, :destroy]
+
    resources :apartments do
       resources :apartment_statuses
    end
