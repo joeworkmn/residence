@@ -3,10 +3,17 @@ Residence::Application.routes.draw do
    root to: "sessions#new"
 
    get '/signin', to: 'sessions#new'
+   get '/home', to: 'pages#home'
+
 
    resources :sessions, only: [:create, :destroy]
 
+   resources :users do
+      resources :apartments
+   end
+
    resources :apartments do
+      resources :users
       resources :apartment_statuses
    end
 

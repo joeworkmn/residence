@@ -10,10 +10,13 @@
 #  email           :string(255)
 #  phone_primary   :string(255)
 #  phone_secondary :string(255)
+#  roles           :text
 #
 
 class User < ActiveRecord::Base
 
    has_secure_password
+
+   ROLES = %w[manager guard tenant]
 
 end
