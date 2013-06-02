@@ -19,10 +19,10 @@ class ApartmentsController < ApplicationController
 
    def create
       #abort(apartment_params.to_s)
-
       @apartment = Apartment.create(apartment_params)
       if @apartment.valid?
-         redirect_to @apartment, notice: "Created"
+         flash[:success] = "Apartment has been created"
+         redirect_to @apartment
       else
          render :new
       end
@@ -46,7 +46,8 @@ class ApartmentsController < ApplicationController
    private
 
    def apartment_params
-      params.require(:apartment).permit(:number, status_attributes: [:occupied, :status_start_date, :comment])
+      params.require(:apartment)
+            .permit(:number, :username, :password, status_attributes: [:occupied, :status_start_date, :comment])
    end
 
 

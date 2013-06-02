@@ -11,6 +11,7 @@
 #  phone_primary   :string(255)
 #  phone_secondary :string(255)
 #  roles           :text
+#  apartments_id   :integer
 #
 
 class User < ActiveRecord::Base

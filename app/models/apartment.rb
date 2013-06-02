@@ -2,19 +2,21 @@
 #
 # Table name: apartments
 #
-#  id     :integer          not null, primary key
-#  number :integer
+#  id              :integer          not null, primary key
+#  number          :integer
+#  username        :string(255)
+#  password_digest :string(255)
 #
 
 class Apartment < ActiveRecord::Base
+
+   has_secure_password
+
    has_one :status, class_name: ApartmentStatus, dependent: :destroy
 
    default_scope -> { includes(:status) }
 
-   delegate :occupied, to: :status, allow_nil: true
-   delegate :status_start_date, to: :status, allow_nil: true
-   delegate :number_of_tenants, to: :status, allow_nil: true
-   delegate :comment, to: :status, allow_nil: true
+   delegate :occupied, :status_start_date, :number_of_tenants, :comment, to: :status, allow_nil: true
 
    accepts_nested_attributes_for :status
 

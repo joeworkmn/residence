@@ -4,8 +4,14 @@ class SessionsController < ApplicationController
 
 
    def create
-      user = User.find_by(username: session_params[:username])
-      if user && user.authenticate(session_params[:password])
+      account = if session_params[:tenant]
+         Apartment.find_by(username: session_params[:username])
+      else
+         User.find_by(username: session_params[:username])
+      end
+
+      if account && account.authenticate(session_params[:password])
+         sign_in(account)
          redirect_to home_path, notice: "You have been signed in."
       else
          flash[:error] = "Invalid information"
@@ -15,13 +21,15 @@ class SessionsController < ApplicationController
 
 
    def destroy
+      sign_out
+      redirect_to root_path, notice: "Signed out"
    end
 
 
    private
 
    def session_params
-      params.require(:session).permit(:username, :password)
+      params.require(:session).permit(:username, :password, :tenant)
    end
 
 end

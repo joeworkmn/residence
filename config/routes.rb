@@ -3,13 +3,15 @@ Residence::Application.routes.draw do
    root to: "sessions#new"
 
    get '/signin', to: 'sessions#new'
+   delete '/signout', to: 'sessions#destroy'
    get '/home', to: 'pages#home'
 
 
    resources :sessions, only: [:create, :destroy]
 
    resources :users do
-      resources :apartments
+      # Can add this in later when managers can manage many apartments.
+      #resources :apartments
    end
 
    resources :apartments do
