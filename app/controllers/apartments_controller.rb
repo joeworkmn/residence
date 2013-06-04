@@ -47,7 +47,7 @@ class ApartmentsController < ApplicationController
 
    def apartment_params
       params.require(:apartment)
-            .permit(:number, :username, :password, status_attributes: [:occupied, :status_start_date, :comment])
+            .permit(:number, :username, :password, :password_confirmation, status_attributes: [:occupied, :status_start_date, :comment])
    end
 
 

@@ -1,35 +1,31 @@
 <div class='bg-gray-lighter'>
    <h3 class='text-center'> Create a new apartment </h3>
-   <%= form_for apartment do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
+   <%= simple_form_for apartment, html: { class: 'form-horizontal' } do |f| %>
 
-      <%= f.label :number %>
-      <%= f.text_field :number %> <br /><br />
+      <%= f.input :number %> <br />
 
       <h4>Account information for this apartment</h4>
 
-      <%= f.label :username %>
-      <%= f.text_field :username %> <br /><br />
+      <%= f.input :username %> <br />
 
-      <%= f.label :password %>
-      <%= f.password_field :password %> <br /><br />
+      <%= f.input :password, required: false %> <br />
+      <%= f.input :password_confirmation, required: false %> <br />
 
       <h4>Status Information</h4>
 
       <%= f.fields_for :status do |s| %>
-         Occupied?
-         <% #s.label "Occupied?" %> 
-         <%= s.check_box :occupied %> <br /><br />
+         <label class='checkbox'>
+            <%= s.input :occupied, label: false %> Occupied?
+         </label> <br />
 
          <%= status_start_date_label(apartment, s) %>
-         <%= s.text_field :status_start_date %> <br />
+         <%= s.input :status_start_date, label: false, as: :string %> <br />
 
-         <%= s.label :comment %>
-         <%= s.text_area :comment %> <br />
-
+         <%= s.input :comment %> <br />
       <% end %>
 
-      <%= f.submit "Submit", class: 'btn btn-primary' %>
+      <%= f.error :base %>
+      <%= f.submit "Create", class: 'btn btn-primary' %>
 
    <% end %>
 </div>
