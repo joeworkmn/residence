@@ -28,7 +28,12 @@ $grayMediumLight: #eaeaea;
    @extend .error;
    .error {
       margin-left: 5px;
+      color: #D00;
    }
+}
+
+div.input {
+   margin-bottom: 15px;
 }
 
 /* end forms */

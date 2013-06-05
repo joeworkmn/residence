@@ -1,0 +1,9 @@
+<tr>
+   <td> </td>
+   <td> <%= user.name_reversed %> </td>
+   <td> <%= user.email %> </td>
+   <td> <%= user.phone_primary %> </td>
+   <td> <%= user.phone_secondary %> </td>
+   <td> <%= user.roles.join(', ') %> </td>
+   <td> <%= link_to "edit", edit_user_path(user) %> </td>
+</tr>

@@ -1,6 +1,6 @@
 <tr>
    <td> </td>
-   <td> <%= apartment.number %> </td>
+   <td> <%= link_to(apartment.number, apartment) %> </td>
    <td> <%= apartment.occupied ? "Occupied" : "Vacant" %> </td>
    <td> <%= apartment.status_start_date %> </td>
    <td> <%= truncate(apartment.comment, length: 65, separator: ' ') %> </td>

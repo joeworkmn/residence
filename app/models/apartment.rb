@@ -15,12 +15,12 @@ class Apartment < ActiveRecord::Base
    has_one :status, class_name: ApartmentStatus, dependent: :destroy
 
    default_scope -> { includes(:status) }
+   default_scope -> { order("number ASC") }
 
    delegate :occupied, :status_start_date, :number_of_tenants, :comment, to: :status, allow_nil: true
 
    accepts_nested_attributes_for :status
 
-   validates :number, presence: true
-   validates :number, numericality: true, allow_blank: true
+   validates :number, presence: true, uniqueness: { case_sensitive: false }
 
 end

@@ -7,3 +7,10 @@ function changeStatusStartDateLabel() {
       }
    })
 }
+
+function initDataTable(selector = '.data-table-gem') {
+   $(selector).dataTable({
+      "bJQueryUI": true,
+      "aoColumnDefs": [{ "bSortable": false, "aTargets": ['not-sortable'] }]
+   })
+}

@@ -2,14 +2,9 @@
    <h3 class='text-center'> Create a new apartment </h3>
    <%= simple_form_for apartment, html: { class: 'form-horizontal' } do |f| %>
 
-      <%= f.input :number %> <br />
-
-      <h4>Account information for this apartment</h4>
-
-      <%= f.input :username %> <br />
-
-      <%= f.input :password, required: false %> <br />
-      <%= f.input :password_confirmation, required: false %> <br />
+      <%= f.input :number %>
+      <%= f.input :password, required: false %>
+      <%= f.input :password_confirmation, required: false %>
 
       <h4>Status Information</h4>
 
@@ -17,11 +12,9 @@
          <label class='checkbox'>
             <%= s.input :occupied, label: false %> Occupied?
          </label> <br />
-
          <%= status_start_date_label(apartment, s) %>
-         <%= s.input :status_start_date, label: false, as: :string %> <br />
-
-         <%= s.input :comment %> <br />
+         <%= s.input :status_start_date, label: false, as: :string %>
+         <%= s.input :comment %>
       <% end %>
 
       <%= f.error :base %>
