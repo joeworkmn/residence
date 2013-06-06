@@ -1,3 +1,8 @@
+<span id='main-flash-messages'>
 <% flash.each do |type, msg| %>
-   <%= content_tag(:div, msg, class: "alert alert-#{type}")  %> 
+   <%= content_tag(:div, class: "alert alert-#{type}") do %> 
+      <%= msg %>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+   <% end %>
 <% end %>
+</span>

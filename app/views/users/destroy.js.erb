@@ -1,0 +1,5 @@
+$("#main-flash-messages").html("<%= j render 'layouts/flash_messages' %>")
+<% if @user.destroyed? %>
+   <% rowId = dom_id(@user) %>
+   $("tr#<%= rowId %>").remove()
+<% end %>

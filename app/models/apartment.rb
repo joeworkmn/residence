@@ -23,4 +23,12 @@ class Apartment < ActiveRecord::Base
 
    validates :number, presence: true, uniqueness: { case_sensitive: false }
 
+
+
+   # Define this method to prevent "no method" 
+   # errors when doing authorization.
+   def is(role)
+      role = role.to_s
+      role == 'tenant'
+   end
 end

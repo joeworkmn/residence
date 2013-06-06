@@ -2,10 +2,12 @@
 
    <%= f.input :fname, label: "First Name" %>
    <%= f.input :lname, label: "Last Name" %>
-   <%= f.input :username %>
 
-   <%= f.input :password %>
-   <%= f.input :password_confirmation %>
+   <% if user.new_record? %>
+      <%= f.input :username %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+   <% end %>
 
    <%= f.input :email %>
    <%= f.input :phone_primary %>

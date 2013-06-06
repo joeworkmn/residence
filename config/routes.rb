@@ -15,7 +15,7 @@ Residence::Application.routes.draw do
    end
 
    resources :apartments do
-      resources :users
+      resources :tenants
       resources :apartment_statuses
    end
 

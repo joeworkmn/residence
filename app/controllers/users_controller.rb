@@ -40,6 +40,16 @@ class UsersController < ApplicationController
    end
 
 
+   def destroy
+      #abort(params[:id].to_s)
+      if @user.destroy
+         flash.now[:success] = "User has been deleted"
+      else
+         flash.now[:error] = "Error occured"
+      end
+   end
+
+
    private
 
    def user_params

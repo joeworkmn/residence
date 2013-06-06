@@ -39,12 +39,26 @@ class User < ActiveRecord::Base
       where(sql)
    end
 
+
    def name
       "#{fname} #{lname}"
    end
 
+
    def name_reversed
       "#{lname}, #{fname}"
+   end
+
+
+   def has_role?(role)
+      role = role.to_s
+      roles.include? role
+   end
+
+
+   def is?(role)
+      role = role.to_s
+      current_role == role
    end
 
 

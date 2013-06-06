@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
    def create
       account = if session_params[:tenant]
-         Apartment.find_by(username: session_params[:username])
+         Apartment.find_by(number: session_params[:username])
       else
          User.find_by(username: session_params[:username])
       end
