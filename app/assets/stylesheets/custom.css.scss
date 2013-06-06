@@ -36,4 +36,9 @@ div.input {
    margin-bottom: 15px;
 }
 
+.row-with-margin {
+   @extend .row;
+   margin-top: 20px;
+}
+
 /* end forms */

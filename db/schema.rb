@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130606070847) do
+ActiveRecord::Schema.define(version: 20130606101305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,10 +43,11 @@ ActiveRecord::Schema.define(version: 20130606070847) do
     t.string  "phone_primary"
     t.string  "phone_secondary"
     t.text    "roles",           array: true
-    t.integer "apartments_id"
+    t.integer "apartment_id"
     t.string  "current_role"
   end
 
+  add_index "users", ["apartment_id"], name: "index_users_on_apartment_id", using: :btree
   add_index "users", ["roles"], name: "index_users_on_roles", using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 

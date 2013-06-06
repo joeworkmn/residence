@@ -1,8 +1,26 @@
 <div class='row'>
-   <div class='bg-gray-lighter span4'>
+   <div class='span4 bg-gray-lighter'>
       <p> <%= @apartment.number %> </p>
       <p> <%= @status %> since: <%= @apartment.status_start_date %> </p> 
       <p> <%= @apartment.comment %> </p>
       <p> <%= link_to "Edit", edit_apartment_path(@apartment) %>
+   </div>
+</div>
+
+
+<div class='row-with-margin'>
+   <div class='span4 bg-gray-lighter'>
+      <h3> Tenants </h3>
+      <div class="accordion-heading">
+         <a class="accordion-toggle" data-toggle="collapse" href="#new-tenant-form-accordion">
+            Add new tenant
+         </a>
+      </div>
+
+      <div id="new-tenant-form-accordion" class="accordion-body collapse">
+         <div class="accordion-inner">
+            <%= render 'tenants/tenant_form', apartment: @apartment, tenant: Tenant.new %>
+         </div>
+      </div>
    </div>
 </div>

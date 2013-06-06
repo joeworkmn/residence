@@ -1,0 +1,9 @@
+<%= simple_form_for [apartment, tenant] do |f| %>
+
+   <%= f.input :fname, label: "First Name" %>
+   <%= f.input :lname, label: "Last Name" %>
+   <%= f.input :email %>
+   <%= f.input :phone_primary %>
+   <%= f.input :phone_secondary %>
+   <%= f.submit "Submit", class: 'btn btn-primary' %>
+<% end %>

@@ -4,8 +4,8 @@
    <%= f.input :lname, label: "Last Name" %>
 
    <% if user.new_record? %>
-      <%= f.input :username %>
-      <%= f.input :password %>
+      <%= f.input :username, required: true %>
+      <%= f.input :password, required: true %>
       <%= f.input :password_confirmation %>
    <% end %>
 

@@ -1,4 +1,6 @@
 class Tenant < User
-   default_scope -> { where("'manager' = any(roles)") }
+
+   belongs_to :apartment
+   default_scope -> { where("'tenant' = any(roles)") }
 
 end
