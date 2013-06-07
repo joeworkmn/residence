@@ -11,7 +11,8 @@
 #  phone_primary   :string(255)
 #  phone_secondary :string(255)
 #  roles           :text
-#  apartments_id   :integer
+#  apartment_id    :integer
+#  current_role    :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -52,6 +53,11 @@ class User < ActiveRecord::Base
 
    def name_reversed
       "#{lname}, #{fname}"
+   end
+
+
+   def roles
+      read_attribute(:roles) || write_attribute(:roles, [])
    end
 
 

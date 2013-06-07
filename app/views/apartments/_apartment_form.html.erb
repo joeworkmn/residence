@@ -1,3 +1,5 @@
+<% # TODO Give apppropriate title to form depending on new or edit %>
+
 <div class='bg-gray-lighter'>
    <h3 class='text-center'> Create a new apartment </h3>
    <%= simple_form_for apartment, html: { class: 'form-horizontal' } do |f| %>
@@ -17,8 +19,7 @@
          <%= s.input :comment %>
       <% end %>
 
-      <%= f.error :base %>
-      <%= f.submit "Create", class: 'btn btn-primary' %>
+      <%= f.submit "Submit", class: 'btn btn-primary' %>
 
    <% end %>
 </div>

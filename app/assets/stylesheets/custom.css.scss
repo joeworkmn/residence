@@ -8,10 +8,6 @@ body {
 
 $grayMediumLight: #eaeaea;
 
-.bg-gray-lighter {
-   background: $grayLighter;
-   padding: 15px;
-}
 
 /* forms */
 
@@ -39,6 +35,24 @@ div.input {
 .row-with-margin {
    @extend .row;
    margin-top: 20px;
+}
+
+.collection-list {
+   list-style: none;
+   li {
+      margin-left: -20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid $grayLight;
+   }
+}
+
+ul#tenants {
+   @extend .collection-list;
+}
+
+.bg-gray-lighter {
+   background: $grayLighter;
+   padding: 15px;
 }
 
 /* end forms */

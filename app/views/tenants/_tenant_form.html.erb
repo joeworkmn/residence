@@ -1,9 +1,12 @@
-<%= simple_form_for [apartment, tenant] do |f| %>
-
+<%= simple_form_for [apartment, tenant], remote: true do |f| %>
    <%= f.input :fname, label: "First Name" %>
    <%= f.input :lname, label: "Last Name" %>
    <%= f.input :email %>
    <%= f.input :phone_primary %>
    <%= f.input :phone_secondary %>
-   <%= f.submit "Submit", class: 'btn btn-primary' %>
+   <% if tenant.new_record? %>
+      <%= f.submit "Add Tenant", class: 'btn btn-primary' %>
+   <% else %>
+      <%= f.submit "Update Tenant", class: 'btn btn-primary' %>
+   <% end %>
 <% end %>

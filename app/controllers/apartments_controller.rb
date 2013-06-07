@@ -9,6 +9,7 @@ class ApartmentsController < ApplicationController
 
    def show
       @status = @apartment.occupied ? "Occupied" : "Vacant"
+      @tenants = @apartment.tenants
    end
    
 

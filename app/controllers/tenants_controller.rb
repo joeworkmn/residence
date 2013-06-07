@@ -4,15 +4,9 @@ class TenantsController < ApplicationController
 
 
    def create
-      #@abort(params.to_s)
-
       @tenant = @apartment.tenants.create(tenant_params)
-      abort(@tenant.valid?.to_s)
       if @tenant.valid?
-         flash[:success] = "Tenant has be added."
-         redirect_to @apartment
-      else 
-         render @apartment
+         @message = {success: "Tenant has been added"}
       end
    end
 

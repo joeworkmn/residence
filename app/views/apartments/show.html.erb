@@ -9,18 +9,29 @@
 
 
 <div class='row-with-margin'>
-   <div class='span4 bg-gray-lighter'>
+
+    <!-- Column 1 -->
+   <div class='span4'>
       <h3> Tenants </h3>
       <div class="accordion-heading">
          <a class="accordion-toggle" data-toggle="collapse" href="#new-tenant-form-accordion">
             Add new tenant
          </a>
       </div>
+      <ul id='tenants'>
+         <%= render partial: 'tenant', collection: @tenants %>
+      </ul>
+   </div> <!-- End Column 1 -->
 
+    <!-- Column 2 -->
+   <div class='span5'>
       <div id="new-tenant-form-accordion" class="accordion-body collapse">
          <div class="accordion-inner">
-            <%= render 'tenants/tenant_form', apartment: @apartment, tenant: Tenant.new %>
+            <span id='tenant-form-message'></span>
+            <div id='tenant-form' class='bg-gray-lighter'>
+               <%= render 'tenants/tenant_form', apartment: @apartment, tenant: Tenant.new %>
+            </div>
          </div>
       </div>
-   </div>
+   </div> <!-- End Column 2 -->
 </div>
