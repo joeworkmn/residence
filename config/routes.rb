@@ -15,7 +15,9 @@ Residence::Application.routes.draw do
    end
 
    resources :apartments do
-      resources :tenants
+      resources :tenants do
+         patch 'relocate', on: :member 
+      end
       resources :apartment_statuses
    end
 

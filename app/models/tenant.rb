@@ -18,19 +18,27 @@
 class Tenant < User
    
 
-   default_scope -> { where("'tenant' = any(roles)") }
+   default_scope -> { where(tenant: true) }
 
    belongs_to :apartment
 
-   before_create :set_tenant_role
+   before_create :set_as_tenant
 
+
+   # Accepts either an Apartment model or just it's id.
+   def lives_in?(apartment)
+      if apartment.instance_of? Apartment
+         self.apartment_id == apartment.id
+      else
+         self.apartment_id == apartment
+      end
+   end
    
 
    private
 
-   def set_tenant_role
-      roles << 'tenant'
+   def set_as_tenant
+      self.tenant = true
    end
-
 
 end

@@ -10,6 +10,7 @@ class ApartmentsController < ApplicationController
    def show
       @status = @apartment.occupied ? "Occupied" : "Vacant"
       @tenants = @apartment.tenants
+      @apartments = Apartment.unscoped.order(:number)
    end
    
 

@@ -32,6 +32,21 @@ div.input {
    margin-bottom: 15px;
 }
 
+/* end forms */
+
+
+
+
+.bg-gray-lighter {
+   background: $grayLighter;
+   padding: 15px;
+}
+
+.bg-gray-lighter-no-pad {
+   background: $grayLighter;
+}
+
+
 .row-with-margin {
    @extend .row;
    margin-top: 20px;
@@ -39,7 +54,7 @@ div.input {
 
 .collection-list {
    list-style: none;
-   li {
+    > li { // the > means only immediate children. I.E only immediate <li> children of .collection-list.
       margin-left: -20px;
       margin-bottom: 20px;
       border-bottom: 1px solid $grayLight;
@@ -49,10 +64,3 @@ div.input {
 ul#tenants {
    @extend .collection-list;
 }
-
-.bg-gray-lighter {
-   background: $grayLighter;
-   padding: 15px;
-}
-
-/* end forms */

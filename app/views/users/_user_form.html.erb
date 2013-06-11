@@ -14,7 +14,7 @@
    <%= f.input :phone_secondary %>
 
    <%= f.input :roles, label: false do %>
-      <%= f.collection_check_boxes :roles, User::ROLES.reject { |r| r == 'tenant' }, :to_s, :humanize do |b| %>
+      <%= f.collection_check_boxes :roles, User::ROLES, :to_s, :humanize do |b| %>
          <%= b.label { b.check_box + b.text } %>
       <% end %> 
    <% end %> <br />

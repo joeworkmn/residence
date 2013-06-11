@@ -4,10 +4,32 @@ class TenantsController < ApplicationController
 
 
    def create
+      @apartments = Apartment.unscoped.order(:number)
       @tenant = @apartment.tenants.create(tenant_params)
       if @tenant.valid?
          @message = {success: "Tenant has been added"}
       end
+   end
+
+
+   def destroy
+      tenant = @apartment.tenants.find_by(id: params[:id])
+      tenant.destroy
+   end
+
+
+   def relocate
+      # TODO relocate action: When I add feature to allow managers to own their own apartments...
+      # TODO make sure to do this through the managers association.
+      
+      @tenant = @apartment.tenants.find_by(id: params[:id])
+      @tenant.apartment_id = params[:new_apartment_id]
+      if @tenant.save
+         flash[:success] = "Tenant has been relocated." 
+      else 
+         flash[:error] = "Error occured."
+      end
+      redirect_to @apartment
    end
 
 

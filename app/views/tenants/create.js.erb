@@ -3,7 +3,7 @@ $("#tenant-form span.error").remove()
 $("#tenant-form .field_with_errors").removeClass("field_with_errors")
 <% if @tenant.valid? %>
    $("#tenant-form-message").html("<%= j content_message(@message) %>")
-   $("ul#tenants").append("<%= j render 'apartments/tenant', tenant: @tenant %>")
+   $("ul#tenants").append("<%= j render 'apartments/tenant', apartment: @apartment, tenant: @tenant %>")
 <% else %>
    $("#tenant-form").html("<%= j render 'tenant_form', apartment: @apartment, tenant: @tenant %>")
 <% end %>

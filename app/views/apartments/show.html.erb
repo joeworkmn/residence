@@ -19,7 +19,7 @@
          </a>
       </div>
       <ul id='tenants'>
-         <%= render partial: 'tenant', collection: @tenants %>
+         <%= render partial: 'tenant', collection: @tenants, locals: { apartment: @apartment } %>
       </ul>
    </div> <!-- End Column 1 -->
 

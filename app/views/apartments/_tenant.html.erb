@@ -1,6 +1,8 @@
-<li>
-<p><%= content_tag(:strong, tenant.name) %></p>
-<p><%= "Email: #{tenant.email}" %></p>
-<p><%= "Primary #: #{tenant.phone_primary}" %></p>
-<p><%= "Secondary #: #{tenant.phone_secondary}" %></p>
+<li id='<%= dom_id(tenant) %>'>
+   <p><%= content_tag(:strong, tenant.name) %></p>
+   <p><%= "Email: #{tenant.email}" %></p>
+   <p><%= "Primary #: #{tenant.phone_primary}" %></p>
+   <p><%= "Secondary #: #{tenant.phone_secondary}" %></p>
+   <%= link_to "delete", [apartment, tenant], method: :delete, data: { confirm: "Really delete tenant from database?" } %> |
+   <%= render 'tenants/relocate_link', tenant: tenant, apartment: apartment %>
 </li>

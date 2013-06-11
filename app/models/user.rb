@@ -25,14 +25,13 @@ class User < ActiveRecord::Base
    # Still hashes password.
    has_secure_password validations: false
 
-   before_validation :check_roles, unless: -> { is_tenant? }
-   #before_validation :check_password_confirmation, unless: -> { is_tenant? }
+   before_validation :check_roles, unless: :currently_a_tenant?
 
-   validates :username, presence: true, uniqueness: { case_sensitive: false }, unless: -> { is_tenant? }
-   validates :password, presence: true, unless: -> { is_tenant? }
+   validates :username, presence: true, uniqueness: { case_sensitive: false }, unless: :currently_a_tenant?
+   validates :password, presence: true, unless: :currently_a_tenant?
    validates_confirmation_of :password
       
-   validates :roles, presence: { message: "Must select at least one" }, unless: -> { is_tenant? }
+   validates :roles, presence: { message: "Must select at least one" }, unless: :currently_a_tenant?
    validates :email, format: { with: VALID_EMAIL_REGEX }, allow_blank: true
 
 
@@ -61,18 +60,22 @@ class User < ActiveRecord::Base
    end
 
 
+   # Checks if user has role in roles
    def has_role?(role)
       role = role.to_s
       roles.include? role
    end
 
 
+   # Checks if user's current_role is role
    def is?(role)
       role = role.to_s
       current_role == role
    end
 
-   def is_tenant?
+
+   # Current instance a Tenant?
+   def currently_a_tenant?
       self.instance_of? Tenant
    end
 
