@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
       account = if session_params[:tenant]
          Apartment.find_by(number: session_params[:username])
       else
-         User.find_by(username: session_params[:username])
+         Staff.find_by(username: session_params[:username])
       end
 
       if account && account.authenticate(session_params[:password])

@@ -9,10 +9,8 @@ Residence::Application.routes.draw do
 
    resources :sessions, only: [:create, :destroy]
 
-   resources :users do
-      # Can add this in later when managers can manage many apartments.
-      #resources :apartments
-   end
+   resources :users
+   resources :staffs
 
    resources :apartments do
       resources :tenants do

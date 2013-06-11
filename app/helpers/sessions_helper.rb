@@ -3,7 +3,7 @@ module SessionsHelper
    def sign_in(account)
       cookies.permanent[:id] = account.id
 
-      if account.instance_of?(User)
+      if account.instance_of?(Staff)
          cookies.permanent[:signed_in_as_staff?] = true
       else
          cookies.permanent[:signed_in_as_tenant?] = true
@@ -20,7 +20,7 @@ module SessionsHelper
 
 
    def current_account
-      @current_account ||= signed_in_as_staff? ? User.find_by(id: cookies[:id]) : Apartment.find_by(id: cookies[:id])
+      @current_account ||= signed_in_as_staff? ? Staff.find_by(id: cookies[:id]) : Apartment.find_by(id: cookies[:id])
    end
    
 
