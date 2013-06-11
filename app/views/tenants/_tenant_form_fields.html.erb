@@ -1,0 +1,10 @@
+<%= f.input :fname, label: "First Name", required: false %>
+<%= f.input :lname, label: "Last Name" %>
+<%= f.input :email %>
+<%= f.input :phone_primary %>
+<%= f.input :phone_secondary %>
+<% if tenant.new_record? %>
+   <%= f.submit "Add Tenant", class: 'btn btn-primary' %>
+<% else %>
+   <%= f.submit "Update Tenant", class: 'btn btn-primary' %>
+<% end %>

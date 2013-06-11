@@ -1,7 +1,7 @@
 class TenantsController < ApplicationController
 
    before_action :set_apartment, except: [:promote_to_staff_form, :promote_to_staff]
-   before_action :set_tenant, only: [:edit, :promote_to_staff_form]
+   before_action :set_tenant, only: [:promote_to_staff_form]
 
 
    def create
@@ -14,6 +14,17 @@ class TenantsController < ApplicationController
 
 
    def edit
+      @tenant = @apartment.tenants.find_by(id: params[:id])
+   end
+
+
+   def update
+      @tenant = @apartment.tenants.find_by(id: params[:id])
+      if @tenant.update(tenant_params)
+         redirect_to @apartment, notice: "Tenant has been updates."
+      else
+         render :edit
+      end
    end
 
 

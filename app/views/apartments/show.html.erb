@@ -28,8 +28,8 @@
       <div id="new-tenant-form-accordion" class="accordion-body collapse">
          <div class="accordion-inner">
             <span id='tenant-form-message'></span>
-            <div id='tenant-form' class='bg-gray-lighter'>
-               <%= render 'tenants/tenant_form', apartment: @apartment, tenant: Tenant.new %>
+            <div id='tenant-form'>
+               <%= tenant_form(@apartment, Tenant.new, remote: true) %>
             </div>
          </div>
       </div>

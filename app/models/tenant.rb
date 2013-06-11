@@ -19,6 +19,7 @@ class Tenant < User
    
 
    default_scope -> { where(tenant: true) }
+   default_scope -> { order(:lname) }
 
    belongs_to :apartment
 
