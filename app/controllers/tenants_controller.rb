@@ -1,6 +1,7 @@
 class TenantsController < ApplicationController
 
    before_action :set_apartment
+   before_action :set_tenant, only: [:promote_to_staff_form]
 
 
    def create
@@ -33,6 +34,23 @@ class TenantsController < ApplicationController
    end
 
 
+   def promote_to_staff_form
+      # Unscope because the user is still a tenant at this point.
+      @tenant = Staff.unscoped.find_by(id: params[:id])
+   end
+
+   def promote_to_staff
+      # Find through Staff because I want the validations for staff fields.
+      # Unscope because the user is still a tenant at this point.
+      @tenant = Staff.unscoped.find_by(id: params[:id])
+
+      if @tenant.update(promote_to_staff_params)
+         redirect_to promote_to_staff_form_tenant_path(@tenant), notice: "Tenant has been added to staff."
+      else 
+         render 'promote_to_staff_form'
+      end
+   end
+
    private
 
    def tenant_params
@@ -40,9 +58,18 @@ class TenantsController < ApplicationController
             .permit(:fname, :lname, :email, :phone_primary, :phone_secondary)
    end
 
+
+   def promote_to_staff_params
+      params.require(:staff)
+            .permit(:username, :password, :password_confirmation, roles: [])
+   end
+
    def set_apartment
       @apartment = Apartment.find_by(id: params[:apartment_id])
    end
 
 
+   def set_tenant
+      @tenant = Tenant.find_by(id: params[:id])
+   end
 end

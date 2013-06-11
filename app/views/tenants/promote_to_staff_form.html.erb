@@ -1,0 +1,17 @@
+<div class='bg-gray-lighter'>
+   <h2> Add This Tenant To Staff </h2>
+   <p> <i> <%= @tenant.name %> </i> </p>
+   <%= simple_form_for @tenant, url: promote_to_staff_tenant_path(@tenant) do |f| %>
+      <%= f.input :username, required: true %>
+      <%= f.input :password, required: true %>
+      <%= f.input :password_confirmation %>
+
+      <%= f.input :roles, label: false do %>
+         <%= f.collection_check_boxes :roles, User::ROLES, :to_s, :humanize do |b| %>
+            <%= b.label { b.check_box + b.text } %>
+         <% end %> 
+      <% end %> <br />
+
+      <%= f.submit "Submit", class: 'btn btn-primary' %>
+   <% end %>
+</div>

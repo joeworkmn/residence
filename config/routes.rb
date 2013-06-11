@@ -12,11 +12,16 @@ Residence::Application.routes.draw do
    resources :users
    resources :staffs
 
+   resources :tenants do
+      get 'promote_to_staff_form', on: :member
+      patch 'promote_to_staff', on: :member
+   end
+
    resources :apartments do
+      resources :apartment_statuses
       resources :tenants do
          patch 'relocate', on: :member 
       end
-      resources :apartment_statuses
    end
 
 

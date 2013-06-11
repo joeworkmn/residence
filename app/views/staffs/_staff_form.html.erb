@@ -3,15 +3,14 @@
    <%= f.input :fname, label: "First Name" %>
    <%= f.input :lname, label: "Last Name" %>
 
-   <% if staff.new_record? %>
-      <%= f.input :username, required: true %>
-      <%= f.input :password, required: true %>
-      <%= f.input :password_confirmation %>
-   <% end %>
 
    <%= f.input :email %>
    <%= f.input :phone_primary %>
    <%= f.input :phone_secondary %>
+
+   <%= f.input :username, required: true %>
+   <%= f.input :password, required: true %>
+   <%= f.input :password_confirmation %>
 
    <%= f.input :roles, label: false do %>
       <%= f.collection_check_boxes :roles, User::ROLES, :to_s, :humanize do |b| %>
