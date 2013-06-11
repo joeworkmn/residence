@@ -1,7 +1,7 @@
 class TenantsController < ApplicationController
 
-   before_action :set_apartment
-   before_action :set_tenant, only: [:promote_to_staff_form]
+   before_action :set_apartment, except: [:promote_to_staff_form, :promote_to_staff]
+   before_action :set_tenant, only: [:edit, :promote_to_staff_form]
 
 
    def create
@@ -13,9 +13,13 @@ class TenantsController < ApplicationController
    end
 
 
+   def edit
+   end
+
+
    def destroy
       tenant = @apartment.tenants.find_by(id: params[:id])
-      tenant.destroy
+      redirect_to @apartment, notice: "Tenant has been removed." if tenant.remove
    end
 
 
@@ -39,13 +43,15 @@ class TenantsController < ApplicationController
       @tenant = Staff.unscoped.find_by(id: params[:id])
    end
 
+
    def promote_to_staff
       # Find through Staff because I want the validations for staff fields.
       # Unscope because the user is still a tenant at this point.
       @tenant = Staff.unscoped.find_by(id: params[:id])
 
       if @tenant.update(promote_to_staff_params)
-         redirect_to promote_to_staff_form_tenant_path(@tenant), notice: "Tenant has been added to staff."
+         redirect_to promote_to_staff_form_tenant_path(@tenant), 
+                     notice: "Tenant has been added to staff."
       else 
          render 'promote_to_staff_form'
       end

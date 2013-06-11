@@ -3,6 +3,7 @@
    <p><%= "Email: #{tenant.email}" %></p>
    <p><%= "Primary #: #{tenant.phone_primary}" %></p>
    <p><%= "Secondary #: #{tenant.phone_secondary}" %></p>
+   <%= link_to "edit", edit_apartment_tenant_path(apartment, tenant) %> |
    <%= link_to "delete", [apartment, tenant], method: :delete, data: { confirm: "Really delete tenant from database?" } %> |
    <%= render 'tenants/relocate_link', tenant: tenant, apartment: apartment %> |
    <%= link_to "add to staff", promote_to_staff_form_tenant_path(tenant) %>

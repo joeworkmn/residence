@@ -33,6 +33,16 @@ class Tenant < User
          self.apartment_id == apartment
       end
    end
+
+
+   def remove
+      if roles.empty?
+         self.destroy
+      else
+         self.tenant = false
+         self.save
+      end
+   end
    
 
    private
