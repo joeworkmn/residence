@@ -9,6 +9,14 @@ class Staff < User
    validates :roles, presence: { message: "Must select at least one" }
 
 
+   def remove
+      if tenant?
+         self.roles = []
+         self.save(validate: false)
+      else
+         self.destroy
+      end
+   end
    
    
 private

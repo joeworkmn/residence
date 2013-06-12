@@ -41,7 +41,7 @@ class StaffsController < ApplicationController
 
    def destroy
       #abort(params[:id].to_s)
-      if @staff.destroy
+      if @staff.remove
          flash.now[:success] = "Staff member has been deleted"
       else
          flash.now[:error] = "Error occured"
