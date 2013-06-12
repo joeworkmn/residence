@@ -68,7 +68,8 @@ class TenantsController < ApplicationController
       end
    end
 
-   private
+
+private
 
    def tenant_params
       params.require(:tenant)

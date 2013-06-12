@@ -53,7 +53,9 @@ class StaffsController < ApplicationController
 
    def staff_params
       params.require(:staff)
-            .permit(:fname, :lname, :username, :password, :password_confirmation, :email, :phone_primary, :phone_secondary, roles: [])
+            .permit(:fname, :lname, :username, :password, 
+                    :password_confirmation, :email, :phone_primary, 
+                    :phone_secondary, roles: [])
    end
 
 

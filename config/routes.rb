@@ -1,5 +1,11 @@
 Residence::Application.routes.draw do
 
+  resources :ticket_violations
+
+  resources :violations
+
+  resources :tickets
+
    root to: "sessions#new"
 
    get '/signin', to: 'sessions#new'

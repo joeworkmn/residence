@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130609111012) do
+ActiveRecord::Schema.define(version: 20130612053234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,25 @@ ActiveRecord::Schema.define(version: 20130609111012) do
 
   add_index "apartments", ["number"], name: "index_apartments_on_number", unique: true, using: :btree
 
+  create_table "ticket_violations", force: true do |t|
+    t.integer  "ticket_id"
+    t.integer  "violation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tickets", force: true do |t|
+    t.integer  "staff_id"
+    t.integer  "apartment_id"
+    t.string   "description"
+    t.decimal  "total_fine"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tickets", ["apartment_id"], name: "index_tickets_on_apartment_id", using: :btree
+  add_index "tickets", ["staff_id"], name: "index_tickets_on_staff_id", using: :btree
+
   create_table "users", force: true do |t|
     t.string  "fname"
     t.string  "lname"
@@ -51,5 +70,12 @@ ActiveRecord::Schema.define(version: 20130609111012) do
   add_index "users", ["apartment_id"], name: "index_users_on_apartment_id", using: :btree
   add_index "users", ["roles"], name: "index_users_on_roles", using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
+
+  create_table "violations", force: true do |t|
+    t.string   "name"
+    t.decimal  "fine"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

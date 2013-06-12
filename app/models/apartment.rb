@@ -13,6 +13,7 @@ class Apartment < ActiveRecord::Base
 
    has_one :status, class_name: ApartmentStatus, dependent: :destroy
    has_many :tenants, class_name: Tenant, dependent: :destroy
+   has_many :tickets, dependent: :destroy
 
    default_scope -> { includes(:status) }
    default_scope -> { order("number") }

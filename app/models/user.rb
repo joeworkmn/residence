@@ -13,6 +13,7 @@
 #  roles           :text
 #  apartment_id    :integer
 #  current_role    :string(255)
+#  tenant          :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base
