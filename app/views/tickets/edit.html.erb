@@ -1,11 +1,1 @@
-<%= simple_form_for(@ticket) do |f| %>
-   <%= f.input :description %>
-
-
-   <%= f.input :violations do %>
-      <%= f.collection_check_boxes :violation_ids, Violation.all, :id, :name %>
-   <% end %>
-
-   <%= f.submit "Submit" %>
-
-<% end %>
+<%= render 'ticket_form', title: "Edit Ticket" %>

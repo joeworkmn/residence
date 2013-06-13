@@ -18,6 +18,7 @@ class Ticket < ActiveRecord::Base
    has_many   :violations, through: :ticket_violations
 
    validates :violations, presence: { message: "Must select at least one violation." }
+   validates :apartment_id, presence: { message: "Must select an apartment." }
+   validates :total_fine, numericality: true
 
-   #accepts_nested_attributes_for :ticket_violations
 end

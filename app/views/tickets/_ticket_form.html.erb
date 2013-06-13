@@ -1,0 +1,22 @@
+<div class='bg-gray-lighter'>
+   <h3> <%= title %> </h3>
+   <%= simple_form_for(@ticket) do |f| %>
+      <%= f.input :description, as: :text %>
+
+      <%= f.association :apartment, label_method: :number, prompt: "Select offending apartment" %>
+
+      <b>Select one or more violations:</b> <br /><br />
+      <%= f.input :violations, label: false do %> <!-- wrap in this so I can use validates :violations inside of model -->
+         <%= f.collection_check_boxes :violation_ids, Violation.all, :id, :name do |b| %>
+            <%= b.label do %> 
+               <%= b.check_box(class: 'violation', data: {fine: b.object.fine}) + b.text + " - " + number_to_currency(b.object.fine.to_s) %>
+            <% end %>
+         <% end %>
+      <% end %> <br />
+
+      <%= f.input :total_fine, label: "Total fine in $" %>
+
+      <%= f.submit "Submit", class: 'btn btn-primary' %>
+
+   <% end %>
+</div>

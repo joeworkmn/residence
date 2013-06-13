@@ -7,31 +7,30 @@ class TicketsController < ApplicationController
 
 
    def create
-      #abort(ticket_params.to_s)
-      @ticket = Ticket.create(ticket_params)
+      # Want to keep track of who created the ticket so do it through association.
+      @ticket = current_account.tickets.create(ticket_params)
       if @ticket.valid?
-         abort('hi')
+         flash[:success] = "Ticket has been created."
          redirect_to new_ticket_path
       else
-         abort('hi')
          render :new
       end
    end
+
 
    def edit
       @ticket = Ticket.find_by(id: params[:id])
    end
 
 
+   # Any manager or guard can update ticket.
    def update
       @ticket = Ticket.find_by(id: params[:id])
 
       if @ticket.update(ticket_params)
-         #abort('hi')
          flash[:success] = "Ticket has been updated."
          redirect_to edit_ticket_path(@ticket)
       else
-         #abort('hi')
          render :edit
       end
    end
@@ -40,7 +39,7 @@ class TicketsController < ApplicationController
 private
 
    def ticket_params
-      params.require(:ticket).permit(:description, violation_ids: [])
+      params.require(:ticket).permit(:description, :apartment_id, :total_fine, violation_ids: [])
    end
 
 
