@@ -28,6 +28,8 @@ group :development do
    gem 'annotate', ">=2.5.0"
    gem 'better_errors'
    gem 'binding_of_caller'
+   gem 'thin'
+   gem 'pry'
 end
 
 group :development, :test do

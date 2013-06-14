@@ -11,7 +11,8 @@ function changeStatusStartDateLabel() {
 function initDataTable(selector = '.data-table-gem') {
    $(selector).dataTable({
       "bJQueryUI": true,
-      "aoColumnDefs": [{ "bSortable": false, "aTargets": ['not-sortable'] }]
+      "aoColumnDefs": [{ "bSortable": false, "aTargets": ['not-sortable'] },
+                       { "sType": "num-html", "aTargets": ['num-html'] } ]
    })
 }
 
