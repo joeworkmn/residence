@@ -16,6 +16,10 @@
 
       <%= f.input :total_fine, label: "Total fine in $" %>
 
+      <% if @ticket.persisted? %>
+         <%= f.input :paid, label: "Paid?" %>
+      <% end %>
+
       <%= f.submit "Submit", class: 'btn btn-primary' %>
 
    <% end %>

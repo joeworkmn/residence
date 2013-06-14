@@ -6,9 +6,10 @@
 #  staff_id     :integer
 #  apartment_id :integer
 #  description  :string(255)
-#  total_fine   :decimal(, )
+#  total_fine   :decimal(, )      default(0.0)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  paid         :boolean          default(FALSE)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html

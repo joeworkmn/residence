@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Apartments.
-10.times do |f|
+7.times do |f|
    f += 1
    f = f.to_s
    10.times do |a|
@@ -23,3 +23,8 @@ end
 
 Staff.create(fname: "John", lname: "Doe", username: 'jdoe', password: 'password', phone_primary: '111-1111', phone_secondary: '111-1112', roles: ['manager'])
 Staff.create(fname: "Tim", lname: "Duncan", username: 'timmy', password: 'password', phone_primary: '111-2221', roles: ['guard'])
+
+
+Violation.create(name: 'Noise')
+Violation.create(name: 'Loittering', fine: 5)
+Violation.create(name: 'Parking', fine: 7)

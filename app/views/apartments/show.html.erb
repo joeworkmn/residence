@@ -9,7 +9,6 @@
 
 
 <div class='row-with-margin'>
-
     <!-- Column 1 -->
    <div class='span4'>
       <h3> Tenants </h3>
@@ -34,4 +33,12 @@
          </div>
       </div>
    </div> <!-- End Column 2 -->
+</div>
+
+
+<div class='row-with-margin'>
+   <div class='span12'>
+      <h3> Tickets </h3>
+      <%= render 'tickets/tickets', tickets: @tickets %>
+   </div>
 </div>

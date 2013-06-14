@@ -35,6 +35,12 @@ div.input {
 /* end forms */
 
 
+// Adds scroll bar to menu if too long.
+.dropdown-menu-long {
+   max-height: 300px;
+   overflow-y: auto;
+}
+
 
 
 .bg-gray-lighter {

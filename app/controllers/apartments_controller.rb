@@ -11,6 +11,7 @@ class ApartmentsController < ApplicationController
       @status = @apartment.occupied ? "Occupied" : "Vacant"
       @tenants = @apartment.tenants
       @apartments = Apartment.unscoped.order(:number)
+      @tickets = @apartment.tickets.includes(:staff)
    end
    
 

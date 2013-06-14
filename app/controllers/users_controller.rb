@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-   # TODO Add action to make a staff member a tenant.
    
    before_action :set_user, only: [:edit, :update, :destroy]
 

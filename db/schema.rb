@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130613053549) do
+ActiveRecord::Schema.define(version: 20130614063051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20130613053549) do
     t.decimal  "total_fine",   default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "paid",         default: false
   end
 
   add_index "tickets", ["apartment_id"], name: "index_tickets_on_apartment_id", using: :btree
@@ -72,10 +73,8 @@ ActiveRecord::Schema.define(version: 20130613053549) do
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   create_table "violations", force: true do |t|
-    t.string   "name"
-    t.decimal  "fine"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string  "name"
+    t.decimal "fine", default: 0.0
   end
 
 end

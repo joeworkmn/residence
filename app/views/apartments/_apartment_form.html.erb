@@ -1,7 +1,5 @@
-<% # TODO Give apppropriate title to form depending on new or edit %>
-
 <div class='bg-gray-lighter'>
-   <h3 class='text-center'> Create a new apartment </h3>
+   <h3 class='text-center'> <%= title %> </h3>
    <%= simple_form_for apartment, html: { class: 'form-horizontal' } do |f| %>
 
       <%= f.input :number %>

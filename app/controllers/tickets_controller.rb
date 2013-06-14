@@ -39,7 +39,7 @@ class TicketsController < ApplicationController
 private
 
    def ticket_params
-      params.require(:ticket).permit(:description, :apartment_id, :total_fine, violation_ids: [])
+      params.require(:ticket).permit(:description, :apartment_id, :total_fine, :paid, violation_ids: [])
    end
 
 
