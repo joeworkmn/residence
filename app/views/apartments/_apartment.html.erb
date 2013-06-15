@@ -1,8 +1,9 @@
 <tr>
    <td> </td>
-   <td> <%= link_to(apartment.number, apartment) %> </td>
-   <td> <%= apartment.occupied ? "Occupied" : "Vacant" %> </td>
-   <td> <%= apartment.status_start_date %> </td>
-   <td> <%= truncate(apartment.comment, length: 65, separator: ' ') %> </td>
-   <td> <%= link_to "edit", edit_apartment_path(apartment) %> </td>
+   <td class='text-center'> <%= link_to(apartment.number, apartment) %>  </td>
+   <td class='text-center'> <%= apartment.occupied ? "Occupied" : "Vacant" %> </td>
+   <td class='text-center'> <%= apartment.status_start_date %> </td>
+   <td class='text-center'> <%= truncate(apartment.comment, length: 65, separator: ' ') %> </td>
+   <td class='text-center'> <%= apartment.tickets.count %> </td>
+   <td class='text-center'> <%= link_to "edit", edit_apartment_path(apartment) %> </td>
 </tr>

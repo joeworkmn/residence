@@ -1,6 +1,6 @@
 class ApartmentsController < ApplicationController
 
-   before_action :set_apartment, only: [:show, :edit, :update]
+   before_action :set_apartment, only: [:show, :edit, :update, :vacate]
 
    def index
       @apartments = Apartment.all
@@ -8,7 +8,6 @@ class ApartmentsController < ApplicationController
    
 
    def show
-      @status = @apartment.occupied ? "Occupied" : "Vacant"
       @tenants = @apartment.tenants
       @apartments = Apartment.unscoped.order(:number)
       @tickets = @apartment.tickets.includes(:staff)

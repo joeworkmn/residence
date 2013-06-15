@@ -14,7 +14,9 @@
 
 class Ticket < ActiveRecord::Base
    belongs_to :staff
-   belongs_to :apartment
+   # For counter_cache, if the column isn't the pluralized version of this model (i.e tickets_count),
+   # then I would have to specify the column name explicitly.
+   belongs_to :apartment, counter_cache: true
    has_many   :ticket_violations
    has_many   :violations, through: :ticket_violations
 

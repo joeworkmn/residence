@@ -18,13 +18,19 @@ class Apartment < ActiveRecord::Base
    default_scope -> { includes(:status) }
    default_scope -> { order("number") }
 
-   delegate :occupied, :status_start_date, :number_of_tenants, :comment, to: :status, allow_nil: true
+   delegate :occupied, :occupied=, :status_start_date, :number_of_tenants, :comment, to: :status, allow_nil: true
 
    accepts_nested_attributes_for :status
 
    validates :number, presence: true, numericality: true, uniqueness: { case_sensitive: false }
 
+   after_update :vacate, unless: -> { occupied }
 
+
+
+   def state
+      occupied ? "Occupied" : "Vacant"
+   end
 
    # Define this method to prevent "no method" 
    # errors when doing authorization.
@@ -32,4 +38,14 @@ class Apartment < ActiveRecord::Base
       role = role.to_s
       role == 'tenant'
    end
+
+
+
+   private
+
+   def vacate
+      tickets.destroy_all
+      tenants.destroy_all
+   end
+
 end

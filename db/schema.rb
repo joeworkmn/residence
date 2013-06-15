@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130614063051) do
+ActiveRecord::Schema.define(version: 20130615035634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20130614063051) do
   create_table "apartments", force: true do |t|
     t.integer "number"
     t.string  "password_digest"
+    t.integer "tickets_count",   default: 0, null: false
   end
 
   add_index "apartments", ["number"], name: "index_apartments_on_number", unique: true, using: :btree
