@@ -1,5 +1,9 @@
 class TicketsController < ApplicationController
 
+   def index
+      @tickets = Ticket.all.includes(:staff, :apartment, :violations)
+   end
+
    def new
       #@ticket = Ticket.new(ticket_violations: TicketViolation.new)
       @ticket = Ticket.new

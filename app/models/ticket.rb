@@ -13,6 +13,10 @@
 #
 
 class Ticket < ActiveRecord::Base
+
+   default_scope -> { order(updated_at: :desc) }
+
+
    belongs_to :staff
    # For counter_cache, if the column isn't the pluralized version of this model (i.e tickets_count),
    # then I would have to specify the column name explicitly.
