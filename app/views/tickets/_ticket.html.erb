@@ -1,0 +1,18 @@
+<tr>
+   <td> <%= ticket.staff.name                                 %> </td>
+   <% if local_assigns[:show_apt_num] %>
+      <td> <%= link_to(ticket.apartment.number, ticket.apartment) %> </td>
+   <% end %>
+   <td> <%= ticket.violations.map { |v| v.name }.join(', ')   %> </td>
+   <td> <%= number_to_currency(ticket.total_fine)             %> </td>
+   <td> <%= ticket.created_at                                 %> </td>
+   <td> <%= ticket.updated_at                                 %> </td>
+   <td> <%= ticket.paid? ? "Yes" : "No"                       %> </td>
+   <td> 
+      <%= 
+          link_to("details", ticket) + " | " + 
+          link_to("edit", [:edit, ticket]) + " | " +
+          delete_ticket_link(ticket)
+      %> 
+   </td>
+</tr>

@@ -1,32 +1,19 @@
 <table class="display data-table-gem">
 <thead>
    <tr>
-      <th> Creator            </th>
-      <% if local_assigns[:view] == :index %>
-         <th> Apt. #             </th>
+      <th> Creator                             </th>
+      <% if local_assigns[:show_apt_num] %>
+         <th class='num-html'> Apt. #                           </th>
       <% end %>
-      <th> Violations         </th>
-      <th> Total Fine         </th>
-      <th> Create At          </th>
-      <th> Updated At         </th>
-      <th> Paid?              </th>
-      <th class='unsortable'> </th>
+      <th> Violations                          </th>
+      <th class='currency-column'> Total Fine  </th>
+      <th> Create At                           </th>
+      <th> Updated At                          </th>
+      <th> Paid?                               </th>
+      <th class='not-sortable'>                  </th>
    </tr>
 </thead>
 <tbody>
-   <% tickets.each do |t| %>
-      <tr>
-         <td> <%= t.staff.name                                        %> </td>
-         <% if local_assigns[:view] == :index %>
-         <td> <%= t.apartment.number %>             </td>
-         <% end %>
-         <td> <%= t.violations.map { |v| v.name }.join(', ')          %> </td>
-         <td> <%= number_to_currency(t.total_fine)                    %> </td>
-         <td> <%= t.created_at                                        %> </td>
-         <td> <%= t.updated_at                                        %> </td>
-         <td> <%= t.paid? ? "Yes" : "No"                              %> </td>
-         <td> <%= link_to "details", t                                %> </td>
-      </tr>
-   <% end %>
+   <%= render tickets, show_apt_num: local_assigns[:show_apt_num]  %>
 </tbody>
 </table>

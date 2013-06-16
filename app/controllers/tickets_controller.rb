@@ -4,8 +4,13 @@ class TicketsController < ApplicationController
       @tickets = Ticket.all.includes(:staff, :apartment, :violations)
    end
 
+
+   def show
+      ticket
+   end
+
+
    def new
-      #@ticket = Ticket.new(ticket_violations: TicketViolation.new)
       @ticket = Ticket.new
    end
 
@@ -23,19 +28,27 @@ class TicketsController < ApplicationController
 
 
    def edit
-      @ticket = Ticket.find_by(id: params[:id])
+      ticket
    end
 
 
    # Any manager or guard can update ticket.
    def update
-      @ticket = Ticket.find_by(id: params[:id])
-
-      if @ticket.update(ticket_params)
+      if ticket.update(ticket_params)
          flash[:success] = "Ticket has been updated."
-         redirect_to edit_ticket_path(@ticket)
+         redirect_to edit_ticket_path(ticket)
       else
          render :edit
+      end
+   end
+
+
+   def destroy
+      result = ticket.destroy
+      if result.destroyed?
+         destroy_ticket_redirect(ticket)
+      else
+         redirect_to :back, error: "Error occured. Ticket has not been deleted."
       end
    end
 
@@ -44,6 +57,11 @@ private
 
    def ticket_params
       params.require(:ticket).permit(:description, :apartment_id, :total_fine, :paid, violation_ids: [])
+   end
+
+
+   def ticket
+      @ticket ||= Ticket.find_by(id: params[:id])
    end
 
 

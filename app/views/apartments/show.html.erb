@@ -1,11 +1,11 @@
 <div class='row'>
 
-   <%= apartment_label(@apartment) %>
+   <div class='span2'>
+      <%= apartment_label(@apartment) %>
+   </div>
 
-   <div class='span4 pull-right bg-gray-lighter'>
-      <p> <%= @apartment.state %> since: <%= @apartment.status_start_date %> </p> 
-      <p> <%= @apartment.comment %> </p>
-      <p> <%= link_to "Edit", edit_apartment_path(@apartment) %>
+   <div class='span4 pull-right'>
+      <%= render 'status_box', apartment: @apartment %>
    </div>
 </div>
 

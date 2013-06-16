@@ -1,6 +1,5 @@
 class ApartmentsController < ApplicationController
 
-   before_action :set_apartment, only: [:show, :edit, :update, :vacate]
 
    def index
       @apartments = Apartment.all
@@ -8,9 +7,9 @@ class ApartmentsController < ApplicationController
    
 
    def show
-      @tenants = @apartment.tenants
+      @tenants = apartment.tenants
       @apartments = Apartment.unscoped.order(:number)
-      @tickets = @apartment.tickets.includes(:staff)
+      @tickets = apartment_tickets
    end
    
 
@@ -20,7 +19,6 @@ class ApartmentsController < ApplicationController
 
 
    def create
-      #abort(apartment_params.to_s)
       @apartment = Apartment.create(apartment_params)
       if @apartment.valid?
          flash[:success] = "Apartment has been created"
@@ -32,12 +30,13 @@ class ApartmentsController < ApplicationController
 
 
    def edit
+      apartment
    end
 
 
    def update
-      if @apartment.update(apartment_params)
-         redirect_to @apartment, notice: "Updated"
+      if apartment.update(apartment_params)
+         redirect_to apartment, notice: "Updated"
       else 
          render 'edit'
       end
@@ -52,8 +51,8 @@ class ApartmentsController < ApplicationController
             .permit(:number, :password, :password_confirmation, status_attributes: [:occupied, :status_start_date, :comment])
    end
 
-
-   def set_apartment
+   def apartment
       @apartment = Apartment.find_by(id: params[:id])
    end
+
 end

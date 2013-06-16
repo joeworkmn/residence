@@ -1,0 +1,18 @@
+<div class='row'>
+<div class='span4 bg-gray-lighter'>
+   <h3 class='text-center'> Ticket Details </h3>
+   <h4> Apartment:          <%= link_to(@ticket.apartment.number, @ticket.apartment)  %> </h4>
+   <p> <b>Creator:</b>      <%= @ticket.staff.name                                    %> </p>
+   <p> <b>Violations:</b>   <%= @ticket.violations.map { |v| v.name }.join(', ')      %> </p>
+   <p> <b>Total Fine:</b>   <%= number_to_currency(@ticket.total_fine)                %> </p>
+   <p> <b>Created At:</b>   <%= @ticket.created_at.to_formatted_s(:long)              %> </p>
+   <p> <b>Updated At:</b>   <%= @ticket.updated_at.to_formatted_s(:long)              %> </p>
+   <p> <b>Paid?</b>         <%= @ticket.paid? ? "Yes" : "No"                          %> </p>
+   <p> <b>Description:</b>  <%= @ticket.description                                   %> </p>
+
+   <p> 
+      <%= link_to "edit", [:edit, @ticket] %> |
+      <%= delete_ticket_link @ticket %>
+   </p>
+</div>
+</div>

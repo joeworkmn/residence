@@ -18,6 +18,9 @@
 
 class Staff < User
 
+   # Staff roles.
+   ROLES = %w[manager guard]
+
    default_scope -> { staff_only } 
 
    has_secure_password
@@ -39,6 +42,18 @@ class Staff < User
       end
    end
    
+   # Checks if user has role in roles
+   def has_role?(role)
+      role = role.to_s
+      roles.include? role
+   end
+
+
+   # Checks if user's current_role is role
+   def is?(role)
+      role = role.to_s
+      current_role == role
+   end
    
 private
 

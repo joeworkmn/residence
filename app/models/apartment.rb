@@ -18,7 +18,7 @@ class Apartment < ActiveRecord::Base
    default_scope -> { includes(:status) }
    default_scope -> { order("number") }
 
-   delegate :occupied, :occupied=, :status_start_date, :number_of_tenants, :comment, to: :status, allow_nil: true
+   delegate :occupied, :occupied=, :occupied?, :status_start_date, :number_of_tenants, :comment, to: :status, allow_nil: true
 
    accepts_nested_attributes_for :status
 
@@ -34,9 +34,8 @@ class Apartment < ActiveRecord::Base
 
    # Define this method to prevent "no method" 
    # errors when doing authorization.
-   def is(role)
-      role = role.to_s
-      role == 'tenant'
+   def is?(role)
+      role.to_s == 'tenant'
    end
 
 
