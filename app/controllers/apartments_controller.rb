@@ -1,8 +1,11 @@
 class ApartmentsController < ApplicationController
 
+   load_and_authorize_resource
+
 
    def index
-      @apartments = Apartment.all
+      #@apartments = Apartment.all
+      #abort('hi')
    end
    
 
@@ -14,12 +17,13 @@ class ApartmentsController < ApplicationController
    
 
    def new
-      @apartment = Apartment.new(status: ApartmentStatus.new)
+      #@apartment = Apartment.new(status: ApartmentStatus.new)
    end
 
 
    def create
-      @apartment = Apartment.create(apartment_params)
+      #@apartment = Apartment.create(apartment_params)
+      abort('hi')
       if @apartment.valid?
          flash[:success] = "Apartment has been created"
          redirect_to @apartment
