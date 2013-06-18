@@ -24,7 +24,7 @@ module ApartmentsHelper
 
 
    def apartment_tickets
-      if current_account.instance_of? Staff
+      if current_user.instance_of? Staff
          @apartment.tickets.includes(:staff, :violations)
       else
          @apartment.tickets.unpaid.includes(:staff, :violations)

@@ -17,7 +17,7 @@ class TicketsController < ApplicationController
 
    def create
       # Want to keep track of who created the ticket so do it through association.
-      @ticket = current_account.tickets.create(ticket_params)
+      @ticket = current_user.tickets.create(ticket_params)
       if @ticket.valid?
          flash[:success] = "Ticket has been created."
          redirect_to new_ticket_path
