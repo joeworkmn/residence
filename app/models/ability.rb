@@ -4,7 +4,8 @@ class Ability
   def initialize(user)
 
      if user.is?(:manager)
-        can :manage, Apartment
+        #can :manage, Apartment
+        can :create, Apartment, number: 777, status: ApartmentStatus.new
      end
 
 

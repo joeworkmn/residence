@@ -22,8 +22,8 @@ class ApartmentsController < ApplicationController
 
 
    def create
-      #@apartment = Apartment.create(apartment_params)
       abort('hi')
+      #@apartment = Apartment.create(apartment_params)
       if @apartment.valid?
          flash[:success] = "Apartment has been created"
          redirect_to @apartment
