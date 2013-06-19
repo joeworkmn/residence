@@ -1,8 +1,5 @@
 class ApartmentsController < ApplicationController
 
-   load_and_authorize_resource
-
-
    def index
       #@apartments = Apartment.all
       #abort('hi')
