@@ -1,5 +1,7 @@
 $("#main-flash-messages").html("<%= j render 'layouts/flash_messages' %>")
 <% if @staff.destroyed? %>
    <% rowId = dom_id(@staff) %>
-   $("tr#<%= rowId %>").remove()
+   row = $("tr#<%= rowId %>").get(0)
+
+   $(".data-table-gem").dataTable().fnDeleteRow(row)
 <% end %>
