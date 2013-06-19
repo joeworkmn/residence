@@ -1,10 +1,5 @@
 Residence::Application.routes.draw do
 
-  resources :ticket_violations
-
-  resources :violations
-
-  resources :tickets
 
    root to: "sessions#new"
 
@@ -29,6 +24,13 @@ Residence::Application.routes.draw do
          patch 'relocate', on: :member 
       end
    end
+
+   resources :tickets do 
+      delete 'destroy_multiple', on: :collection
+   end
+
+   resources :violations
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

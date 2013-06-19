@@ -53,6 +53,11 @@ class TicketsController < ApplicationController
    end
 
 
+   def destroy_multiple
+      @tickets = Ticket.destroy(params[:ticket_ids])
+   end
+
+
 private
 
    def ticket_params

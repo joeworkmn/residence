@@ -1,0 +1,12 @@
+<% @tickets.each do |t| %>
+   <% if t.destroyed? %>
+      row = $("tr#" + '<%= dom_id(t) %>')
+      row.remove()
+
+      // For some reason I can't store the datatable, so I have to chain the methods as show.
+      // Using fnDeleteRow deletes the row above the actual row.
+      // Passing the index to fnDeleteRow works, but the fnGetPosition function doesn't seem to be working.
+      //rowPos = $(".data-table-gem").dataTable().fnGetPosition(row)
+      //$(".data-table-gem").dataTable().fnDeleteRow(rowPos)
+   <% end %>
+<% end %>

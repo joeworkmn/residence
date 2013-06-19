@@ -1,19 +1,24 @@
-<table class="display data-table-gem">
-<thead>
-   <tr>
-      <th> Creator                             </th>
-      <% if local_assigns[:show_apt_num] %>
-         <th class='num-html'> Apt. #                           </th>
-      <% end %>
-      <th> Violations                          </th>
-      <th class='currency-column'> Total Fine  </th>
-      <th> Create At                           </th>
-      <th> Updated At                          </th>
-      <th> Paid?                               </th>
-      <th class='not-sortable'>                  </th>
-   </tr>
-</thead>
-<tbody>
-   <%= render tickets, show_apt_num: local_assigns[:show_apt_num]  %>
-</tbody>
-</table>
+<%= form_tag(destroy_multiple_tickets_path, method: 'delete', remote: true) do %> 
+   <table class="display data-table-gem">
+   <thead>
+      <tr>
+         <th class="not-sortable"> <input type="checkbox" id="select-all-tickets-toggle" /> </th>
+         <th> Creator                             </th>
+         <% if local_assigns[:show_apt_num] %>
+            <th class='num-html'> Apt. #                           </th>
+         <% end %>
+         <th> Violations                          </th>
+         <th class='currency-column'> Total Fine  </th>
+         <th> Create At                           </th>
+         <th> Updated At                          </th>
+         <th> Paid?                               </th>
+         <th class='not-sortable'>                  </th>
+      </tr>
+   </thead>
+   <tbody>
+      <%= render tickets, show_apt_num: local_assigns[:show_apt_num]  %>
+   </tbody>
+   </table>
+
+   <%= submit_tag "Delete selected", class: "btn btn-danger", data: { confirm: "Really delete selected tickets?" } %>
+<% end %>

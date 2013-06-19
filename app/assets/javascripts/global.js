@@ -33,3 +33,17 @@ function calcTicketsTotalFine() {
       $("#ticket_total_fine").val(totalFine)
    })
 }
+
+
+// toggle == the id of the toggle.
+// checkboxes == the class of the checkboxes to be checked.
+function checkboxToggle(toggle, checkboxes) {
+   $("body").on('click', toggle, function() {
+      toggle = $(toggle)
+      if (toggle.is(":checked")) {
+         $(checkboxes).prop("checked", true)
+      } else {
+         $(checkboxes).prop("checked", false)
+      }
+   })
+}
