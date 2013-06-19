@@ -1,6 +1,4 @@
 <% if @ticket.destroyed? %>
-   // Must use .get(0) because jquery returns an array of rows, 
-   // but fnDeleteRow expects a single row.
-   row = $("tr#" + '<%= dom_id(@ticket) %>').get(0)
-   $(".data-table-gem").dataTable().fnDeleteRow(row)
+   $("#main-flash-messages").html("<%= j render('layouts/flash_messages') %>")
+   deleteDTRow('<%= dom_id(@ticket) %>')
 <% end %>

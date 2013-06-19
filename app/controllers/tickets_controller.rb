@@ -55,6 +55,7 @@ class TicketsController < ApplicationController
 
    def destroy_multiple
       @tickets = Ticket.destroy(params[:ticket_ids])
+      set_deleted_tickets_flash_now
    end
 
 

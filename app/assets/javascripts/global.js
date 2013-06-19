@@ -47,3 +47,12 @@ function checkboxToggle(toggle, checkboxes) {
       }
    })
 }
+
+
+// Deletes a DataTables row.
+function deleteDTRow(rowID) {
+   // Must use .get(0) because jquery returns an array of rows, 
+   // but fnDeleteRow expects a single row.
+   row = $("tr#" + rowID).get(0)
+   $(".data-table-gem").dataTable().fnDeleteRow(row)
+}
