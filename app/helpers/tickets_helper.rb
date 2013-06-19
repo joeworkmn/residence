@@ -7,19 +7,27 @@ module TicketsHelper
 
       opts = from = default_opts.merge(opts)
 
+      # from keeps the slice, opts gets the rest.
       opts = from.slice!(:from)
 
-      #link_to("delete", ticket, opts)
       link_to("delete", ticket_path(ticket, from), opts)
    end
 
 
+   # Since a ticket can be deleted from multiple views, we want to redirect
+   # to the correct view after destroying the ticket.
    def destroy_ticket_redirect(ticket)
-      #path = (request.referer == ticket_url(ticket) || 
-      #        request.referer == edit_ticket_url(ticket)) ? tickets_path : :back
-
       path = (params[:from] == 'edit' || params[:from] == 'show') ? tickets_path : :back
 
       redirect_to path, notice: "Ticket has been deleted."
+   end
+
+
+   def after_ticket_destroyed
+      if request.xhr?
+      else
+         # redirect to appropriate action
+         destroy_ticket_redirect(ticket)
+      end
    end
 end

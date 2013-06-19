@@ -13,7 +13,7 @@
       <%= 
           link_to("details", ticket) + " | " + 
           link_to("edit", [:edit, ticket]) + " | " +
-          delete_ticket_link(ticket)
+          delete_ticket_link(ticket, remote: true)
       %> 
    </td>
 </tr>

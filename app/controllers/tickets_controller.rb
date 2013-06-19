@@ -44,9 +44,9 @@ class TicketsController < ApplicationController
 
 
    def destroy
-      result = ticket.destroy
-      if result.destroyed?
-         destroy_ticket_redirect(ticket)
+      ticket.destroy
+      if ticket.destroyed?
+         after_ticket_destroyed
       else
          redirect_to :back, error: "Error occured. Ticket has not been deleted."
       end
