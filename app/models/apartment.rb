@@ -39,6 +39,9 @@ class Apartment < ActiveRecord::Base
    end
 
 
+   def self.ransackable_attributes(auth_object = nil)
+      %w( number ) + _ransackers.keys
+   end
 
    private
 

@@ -1,7 +1,11 @@
 class TicketsController < ApplicationController
 
    def index
-      @tickets = Ticket.all.includes(:staff, :apartment, :violations)
+      @search = Ticket.includes(:staff, :apartment, :violations).search(params[:q])
+      @tickets = @search.result
+      @search.build_condition
+      
+      #@tickets = Ticket.all.includes(:staff, :apartment, :violations)
    end
 
 

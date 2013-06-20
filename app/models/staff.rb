@@ -55,6 +55,10 @@ class Staff < User
       current_role == role
    end
    
+   def self.ransackable_attributes(auth_object = nil)
+      %w( fname lname email roles ) + _ransackers.keys
+   end
+
 private
 
    def self.staff_only

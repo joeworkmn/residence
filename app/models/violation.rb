@@ -15,4 +15,8 @@ class Violation < ActiveRecord::Base
    validates_presence_of :name
    validates :fine, numericality: true
 
+   def self.ransackable_attributes(auth_object = nil)
+      %w( name fine ) + _ransackers.keys
+   end
+
 end

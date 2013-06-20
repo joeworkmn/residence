@@ -1,2 +1,19 @@
 <h3> Tickets </h3>
+<%= search_form_for @search do |f| %>
+   <%= f.condition_fields do |c| %>
+      <div>
+         <%= c.attribute_fields do |a| %>
+            <%= a.attribute_select associations: [:staff, :apartment, :violations]  %>
+         <% end %>
+         <%= c.predicate_select compounds: false %>
+         <%= c.value_fields do |v| %>
+            <%= v.text_field :value %>
+         <% end %>
+      </div>
+   <% end %>
+
+   <%= f.submit "Search" %>
+<% end %>
+
+
 <%= render 'tickets/tickets', tickets: @tickets, show_apt_num: true %>

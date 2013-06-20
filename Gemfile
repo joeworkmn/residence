@@ -19,6 +19,8 @@ gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'cancan'
+gem 'ransack', git: "git://github.com/ernie/ransack", branch: 'rails-4'
+gem 'polyamorous'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.0.1'

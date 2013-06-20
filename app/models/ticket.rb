@@ -29,4 +29,8 @@ class Ticket < ActiveRecord::Base
    validates :total_fine, numericality: true
 
 
+   def self.ransackable_attributes(auth_object = nil)
+    %w( description total_fine paid) + _ransackers.keys
+   end
+
 end
