@@ -4,8 +4,6 @@ class TicketsController < ApplicationController
       @search = Ticket.includes(:staff, :apartment, :violations).search(params[:q])
       @tickets = @search.result
       @search.build_condition
-      
-      #@tickets = Ticket.all.includes(:staff, :apartment, :violations)
    end
 
 
