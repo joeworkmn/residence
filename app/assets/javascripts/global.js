@@ -1,3 +1,8 @@
+$(document).ready(function() {
+   $.datepicker.setDefaults({ dateFormat: 'yy-mm-dd' })
+})
+
+
 function changeStatusStartDateLabel() {    
    $("body").on('click',"#apartment_status_attributes_occupied", function() { 
       if ($(this).is(':checked')) {
