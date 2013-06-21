@@ -56,3 +56,41 @@ function deleteDTRow(rowID) {
    row = $("tr#" + rowID).get(0)
    $(".data-table-gem").dataTable().fnDeleteRow(row)
 }
+
+
+function setRansackBooleanFieldValue() {
+   $(".search-conditions .predicate-select").on('change', function() {
+
+      val = $(this).val()
+      if (val == "true") {
+         $(this).next().val("true")
+      } else if (val == "false") {
+         $(this).next().val("false")
+      } 
+   })
+}
+
+
+function ransackDateSearches() {
+   attrSelects = $(".attribute-select")
+   $.each(attrSelects, function() {
+      setDatePickerIfDateType( $(this) )
+   })
+
+   $(".search-conditions .attribute-select").on('change', function() {
+      setDatePickerIfDateType( $(this) )
+   })
+}
+
+
+// Attaches datepicker if the Ransack selected attribute is a date type (i.e. matches one of dateAttrs)
+function setDatePickerIfDateType(attrSelect) {
+
+   dateAttrs = ["created_at", "updated_at"]
+
+   if ( $.inArray(attrSelect.val(), dateAttrs) != -1 ) {
+      attrSelect.next().next().datepicker()
+   } else {
+      attrSelect.next().next().datepicker("destroy")
+   }
+}

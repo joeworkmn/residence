@@ -30,7 +30,7 @@ class Ticket < ActiveRecord::Base
 
 
    def self.ransackable_attributes(auth_object = nil)
-    %w( description total_fine paid) + _ransackers.keys
+      %w(total_fine paid created_at updated_at) + _ransackers.keys
    end
 
 end

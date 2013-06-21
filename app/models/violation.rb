@@ -16,7 +16,12 @@ class Violation < ActiveRecord::Base
    validates :fine, numericality: true
 
    def self.ransackable_attributes(auth_object = nil)
-      %w( name fine ) + _ransackers.keys
+      if auth_object == 'tickets'
+         %w(name) + _ransackers.keys
+      else
+         %w(name fine) + _ransackers.keys
+      end
+      #%w( name fine ) + _ransackers.keys
    end
 
 end

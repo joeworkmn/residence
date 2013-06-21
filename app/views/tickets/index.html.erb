@@ -1,19 +1,18 @@
-<h3> Tickets </h3>
 <%= search_form_for @search do |f| %>
    <%= f.condition_fields do |c| %>
-      <div>
+      <div class='search-conditions'>
          <%= c.attribute_fields do |a| %>
-            <%= a.attribute_select associations: [:staff, :apartment, :violations]  %>
+            <%= a.attribute_select({ associations: [:apartment, :violations] }, class: "attribute-select") %>
          <% end %>
-         <%= c.predicate_select compounds: false %>
+         <%= c.predicate_select({ only: ransack_search_predicates, compounds: false }, class: "predicate-select") %>
          <%= c.value_fields do |v| %>
             <%= v.text_field :value %>
          <% end %>
       </div>
    <% end %>
 
-   <%= f.submit "Search" %>
+   <%= f.submit "Filter", class: 'btn' %>
 <% end %>
 
-
+<h3> Tickets </h3>
 <%= render 'tickets/tickets', tickets: @tickets, show_apt_num: true %>

@@ -9,4 +9,9 @@ module ApplicationHelper
       end
       raw(div)
    end
+
+
+   def ransack_search_predicates(*additional_predicates)
+      additional_predicates += [:eq, :not_eq, :matches, :lt, :gt, :cont, :true, :false]
+   end
 end
