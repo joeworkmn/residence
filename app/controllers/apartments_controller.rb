@@ -1,13 +1,13 @@
 class ApartmentsController < ApplicationController
 
    def index
-      @apartments = Apartment.all
+      @apartments = Apartment.includes(:status)
    end
    
 
    def show
       @tenants = apartment.tenants
-      @apartments = Apartment.unscoped.order(:number)
+      @apartments = Apartment.all
       @tickets = apartment_tickets
    end
    
@@ -51,7 +51,7 @@ class ApartmentsController < ApplicationController
    end
 
    def apartment
-      @apartment = Apartment.find_by(id: params[:id])
+      @apartment ||= Apartment.find_by(id: params[:id])
    end
 
 end

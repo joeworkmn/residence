@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0.rc1'
+#gem 'rails', '4.0.0.rc1'
+gem 'rails', '4.0.0.rc2'
 
 gem 'pg'
 
@@ -40,6 +41,7 @@ group :test do
    gem 'factory_girl_rails'
    gem 'capybara'
    gem 'shoulda'
+   gem 'shoulda-matchers'
    gem 'mocha', require: false
 end
 

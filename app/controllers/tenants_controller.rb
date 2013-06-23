@@ -5,7 +5,7 @@ class TenantsController < ApplicationController
 
 
    def create
-      @apartments = Apartment.unscoped.order(:number)
+      @apartments = Apartment.all
       @tenant = @apartment.tenants.create(tenant_params)
       if @tenant.valid?
          @message = {success: "Tenant has been added"}

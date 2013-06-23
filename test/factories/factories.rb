@@ -1,7 +1,13 @@
+class MiniTest::Unit::TestCase
+  include FactoryGirl::Syntax::Methods
+end
+
+
 FactoryGirl.define do
    factory :apartment do
-      number      101
-      password    'password'
+      number                 101
+      password               'password'
+      password_confirmation  'password'
 
       # status attrs.
       ignore do
