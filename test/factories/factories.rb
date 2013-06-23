@@ -1,34 +1,51 @@
-# To use in rails console, require 'factory_girl_rails'
 FactoryGirl.define do
-   # Hard code method
    factory :apartment do
-      number             101
+      number      101
+      password    'password'
 
-      #factory :user_with_checkbooks do
-      #   ignore do
-      #      checkbook_count 10
-      #   end
+      # status attrs.
+      ignore do
+         occupied           true
+         status_start_date  { Time.now }
+         number_of_tenants  5
+         comment            Faker::Lorem.sentence(10)
+      end
 
-      #   after(:create) do |user, evaluator|
-      #      FactoryGirl.create_list(:checkbook, evaluator.checkbook_count, owner: user)
-      #   end
-      #end
+      status do
+         build(:apartment_status, 
+               occupied: occupied, 
+               status_start_date: status_start_date, 
+               number_of_tenants: number_of_tenants, 
+               comment: comment)
+      end
+
+      factory :apartment_with_tenants do
+         ignore do
+            tenants_count 3
+         end
+
+         after(:create) do |apt, eval|
+            FactoryGirl.create_list(:tenant, eval.tenants_count, apartment: apt)
+         end
+
+      end
    end
 
+
+   # Defining attributes in apartment factory.
    factory :apartment_status do
-      occupied           true
-      status_start_date  Time.now
-      number_of_tenants  5
+   end
+
+
+   factory :tenant do
+      fname             Faker::Name.first_name
+      lname             Faker::Name.last_name
+      email             Faker::Internet.email
+      phone_primary     Faker::PhoneNumber.phone_number
+      phone_secondary   Faker::PhoneNumber.phone_number
 
       apartment
    end
-
-   #factory :checkbook do
-   #   sequence(:name) { |n| "Test Checkbook #{n}" }
-
-   #   association :owner, factory: :user
-   #end
-
 
    #factory :entry do
    #   check_num           "1"
@@ -40,17 +57,6 @@ FactoryGirl.define do
    #   checkbook # This line says that this entry is associated with a checkbook. 
    #             # Then I can create this entry in tests using 
    #             # FactoryGirl.create(:entry, checkbook: @checkbook) where @checkbook is defined in the test
-   #end
-   
-   # Each time FactoryGirl.create(:user) is used, the sequence block
-   # variable is incremented. So first time the user's fname will be
-   # Person_1, then Person_2, and so on.
-   #factory :user do
-   #   sequence(:fname) { |n| "Person_#{n}" }
-   #   sequence(:lname) { |n| "Person_#{n}" }
-   #   sequence(:username) { |n| "person#{n}" }
-   #   password              "password"
-   #   password_confirmation "password"
    #end
    
 end

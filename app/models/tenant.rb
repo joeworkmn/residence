@@ -27,6 +27,8 @@ class Tenant < User
    before_create :set_as_tenant
 
 
+   validates_presence_of :apartment_id
+
    # Accepts either an Apartment model or just it's id.
    def lives_in?(apartment)
       if apartment.instance_of? Apartment

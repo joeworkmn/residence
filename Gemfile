@@ -39,6 +39,8 @@ end
 group :test do
    gem 'factory_girl_rails'
    gem 'capybara'
+   gem 'shoulda'
+   gem 'mocha', require: false
 end
 
 group :doc do
