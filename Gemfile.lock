@@ -104,6 +104,9 @@ GEM
     mime-types (1.23)
     mini_portile (0.5.0)
     minitest (4.7.5)
+    minitest-spec-rails (4.7.3)
+      minitest (~> 4.7)
+      rails (>= 3.0)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.7.7)
@@ -202,6 +205,7 @@ DEPENDENCIES
   jquery-datatables-rails!
   jquery-rails
   jquery-ui-rails
+  minitest-spec-rails
   mocha
   pg
   polyamorous
