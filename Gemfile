@@ -32,6 +32,7 @@ group :development do
    gem 'binding_of_caller'
    gem 'thin'
    gem 'pry'
+   gem 'byebug'
 end
 
 group :development, :test do
@@ -39,11 +40,14 @@ end
 
 group :test do
    gem 'minitest-spec-rails'
+   gem 'minitest-reporters'
+   gem 'turn'
    gem 'factory_girl_rails'
    gem 'capybara'
    gem 'shoulda'
    gem 'shoulda-matchers'
    gem 'mocha', require: false
+   gem 'capybara_minitest_spec'
 end
 
 group :doc do

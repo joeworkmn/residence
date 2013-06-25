@@ -36,23 +36,13 @@ FactoryGirl.define do
          end
       end
 
-
-      #factory :apartment_with_tenants do
-      #   ignore do
-      #      tenants_count 3
-      #   end
-
-      #   after(:create) do |apt, eval|
-      #      FactoryGirl.create_list(:tenant, eval.tenants_count, apartment: apt)
-      #   end
-
-      #end
    end
 
 
    # Defining attributes in apartment factory.
    factory :apartment_status do
    end
+
 
    factory :user do
       fname             { Faker::Name.first_name          }

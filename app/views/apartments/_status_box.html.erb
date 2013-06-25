@@ -1,5 +1,5 @@
 <div class='bg-gray-lighter'>
-   <p> <%= apartment.state %> since: <%= apartment.status_start_date.to_formatted_s(:long) %> </p> 
+   <p> <%= apartment.state %> since: <%= apartment.status_start_date.try(:to_formatted_s, :long) %> </p> 
    <p> <%= apartment.comment %> </p>
    <p> <%= link_to "Edit apartment information", edit_apartment_path(apartment) %>
 </div>

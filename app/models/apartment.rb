@@ -42,7 +42,7 @@ class Apartment < ActiveRecord::Base
       %w( number ) + _ransackers.keys
    end
 
-   private
+private
 
    def vacate
       tickets.destroy_all

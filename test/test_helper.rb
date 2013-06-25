@@ -2,6 +2,13 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
+#require "minitest/reporters"
+#MiniTest::Reporters.use!
+
+Turn.config.trace = 1
+
+# Includes support files
+Dir[Rails.root.join("test/support/**/*.rb")].each {|f| require f}
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
