@@ -1,5 +1,13 @@
 module ApplicationHelper
 
+   def full_title(page_title)
+      if page_title.blank?
+         "Residence"
+      else
+         "Residence | #{page_title}"
+      end
+   end
+
    # For when I want to add messages to a specific portion of the page
    # instead of the top of page.
    def content_message(messages={})

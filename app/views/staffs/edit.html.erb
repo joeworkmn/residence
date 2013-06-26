@@ -1,3 +1,5 @@
+<% provide(:title, "Edit Staff") %>
+
 <div class='bg-gray-lighter'>
    <h2> Edit <%= @staff.fname + " " + @staff.lname %> </h2>
    <%= render 'staff_form', staff: @staff %>

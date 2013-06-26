@@ -13,7 +13,7 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
       let(:apartments) { Apartment.all }
 
-      it { must_have_selector('h2', text: "Apartments") }
+      it { must_have_selector('title', text: "Apartments Index") }
 
       it { must_have_link("edit") }
 
