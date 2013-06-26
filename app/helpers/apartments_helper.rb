@@ -14,7 +14,7 @@ module ApartmentsHelper
    def apartment_label(apartment)
       alert_type = apartment.occupied ? 'alert-info' : 'alert-error'
 
-      content_tag(:div, :class => "text-center alert #{alert_type}") do
+      content_tag(:div, id: "apartment-label", :class => "text-center alert #{alert_type}") do
          raw(
             content_tag(:h3, apartment.number) +
             content_tag(:h3, apartment.state)

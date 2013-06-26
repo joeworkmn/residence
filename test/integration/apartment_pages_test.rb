@@ -13,7 +13,8 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
       let(:apartments) { Apartment.all }
 
-      it { must_have_selector('title', text: "Apartments Index") }
+
+      it { must_have_title("Apartment Index") }
 
       it { must_have_link("edit") }
 
@@ -30,6 +31,8 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
          visit new_apartment_path
       end
 
+      it { must_have_title("New Apartment") }
+
       describe "with invalid information" do
          before do
             @before_count = Apartment.count
@@ -42,7 +45,7 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
          describe "page" do
             it { wont_have_selector('div.alert-success') }
-            it { must_have_selector('h3', text: "Create a new apartment") }
+            it { must_have_title("New Apartment") }
          end
 
       end
@@ -59,7 +62,7 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
          end
 
          describe "page" do
-            it { must_have_selector('div.alert-success') }
+            it { must_have_title('Apartment Status') }
          end
       end
    end
@@ -87,7 +90,7 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
          end
 
          describe "page" do
-            it { must_have_selector("h3", text: "Edit this apartment") }
+            it { must_have_title("Edit Apartment") }
          end
       end
 
@@ -104,12 +107,75 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
          end
 
          describe "page" do
-            it "should redirect to show page" do
+            it "should redirect to #show page" do
                current_path.must_equal(apartment_path(@apartment))
             end
 
             it { must_have_selector('div.alert-notice', text: "Updated") }
          end
+      end
+   end
+
+   describe "Show" do
+
+      def status_start_date_message_test(status)
+         status_start_date = @apartment.status_start_date.to_formatted_s(:long)
+         page.must_have_selector("#apartment-status-box p", text: "#{status} since: #{status_start_date}")
+      end
+
+      let(:tenants_count) { 3 }
+      let(:tickets_count) { 2 }
+
+      before do
+         @apartment = create(:apartment, tenants_count: tenants_count, tickets_count: tickets_count)
+         visit apartment_path(@apartment)
+      end
+
+      it "should have correct path" do
+         current_path.must_equal(apartment_path(@apartment))
+      end
+
+      it "should have correct comment" do
+         page.must_have_selector("#apartment-status-box p", text: @apartment.comment)
+      end
+
+      describe "when apartment is occupied" do
+
+         it { must_have_selector("#apartment-label h3", text: "Occupied") }
+
+         it { must_have_selector("#tenants li", count: tenants_count) }
+
+         it { must_have_selector("#tickets tbody tr", count: tickets_count) }
+
+         describe "status box" do
+
+            it "should have correct status start date message" do
+               status_start_date_message_test("Occupied")
+            end
+         end
+      end
+
+      describe "when apartment is vacant" do
+         before do
+            @apartment.occupied = false
+            @apartment.save ; @apartment.reload
+            visit apartment_path(@apartment)
+         end
+
+         it { must_have_selector("#apartment-label h3", text: "Vacant") }
+
+         it { wont_have_selector("#tenants li") }
+
+         it { wont_have_selector("#tickets tbody tr") }
+
+         describe "status box" do
+
+            it "should have correct status start date message" do
+               status_start_date_message_test("Vacant")
+            end
+
+         end
+
       end
    end
 end
