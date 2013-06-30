@@ -41,13 +41,17 @@ end
 group :test do
    gem 'minitest-spec-rails'
    gem 'minitest-reporters'
+   gem 'minitest-metadata'
    gem 'turn'
    gem 'factory_girl_rails'
    gem 'capybara'
+   gem 'capybara_minitest_spec'
+   gem 'database_cleaner'
+   gem 'poltergeist'
+   gem 'selenium-webdriver'
    gem 'shoulda'
    gem 'shoulda-matchers'
    gem 'mocha', require: false
-   gem 'capybara_minitest_spec'
 end
 
 group :doc do

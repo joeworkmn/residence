@@ -21,3 +21,20 @@
 
    <% end %>
 </div>
+
+
+<!-- Being used to test Capybara javascript drivers -->
+
+<div id="foobar">
+<button id="foo-btn"> Click </button>
+<div id="foo-text"> foo </div>
+</div>
+
+
+<script>
+   $(document).ready(function() {
+      $("#foobar").on('click', "#foo-btn", function() {
+         $("#foobar").append("<p id='foo-p'>paragraph</p>")
+      })
+   })
+</script>

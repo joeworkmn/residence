@@ -7,17 +7,16 @@ end
 
 def make_tickets
    timmy = Staff.find_by(username: 'timmy')
-   20.times do |n|
-      apt_nums = [101, 102].join(',')
-      apartment_ids = Apartment.where("number IN (#{apt_nums})").pluck(:id)
+   apt_nums = [101, 102].join(',')
+   apartment_ids = Apartment.where("number IN (#{apt_nums})").pluck(:id)
 
+   20.times do |n|
       ticket = timmy.tickets.build
       ticket.apartment_id = apartment_ids.sample
       ticket.description = Faker::Lorem.sentence(10)
       viols = Violation.all
       ticket.violations = viols.sample(rand(1..viols.size))
-      ticket.total_fine = ticket.violations.sum(:fine)
-      #ticket.total_fine = ticket.violations.map { |v| v.fine }.inject(:+)
+      ticket.total_fine = ticket.violations.map { |v| v.fine }.inject(:+)
 
       ticket.save
    end

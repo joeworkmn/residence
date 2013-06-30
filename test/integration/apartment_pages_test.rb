@@ -4,6 +4,30 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
    subject { page }
 
+=begin Test Javascript drivers
+   describe "A JS Driver" do
+      js_driver
+      before do
+         #use_js_driver
+         @apartment = create(:apartment, occupied: true)
+         visit edit_apartment_path(@apartment)
+      end
+
+
+      # Javascript isn't being processed
+      it "tries poltergeist" do
+         page.wont_have_selector("#foo-p")
+         click_button("foo-btn")
+         page.must_have_selector("#foo-p")
+      end
+
+      it "foo" do
+         page.wont_have_selector("#foo-p")
+      end
+   end
+=end
+
+
    describe "Index" do
 
       before do
@@ -129,6 +153,9 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
       before do
          @apartment = create(:apartment, tenants_count: tenants_count, tickets_count: tickets_count)
          visit apartment_path(@apartment)
+      end
+
+      describe "new tenant form" do
       end
 
       it "should have correct path" do
