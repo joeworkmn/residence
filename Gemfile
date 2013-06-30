@@ -4,54 +4,51 @@ source 'https://rubygems.org'
 #gem 'rails', '4.0.0.rc1'
 gem 'rails', '4.0.0'
 
-gem 'pg'
-
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-gem 'sass-rails', '~> 4.0.0.rc1'
-gem 'bootstrap-sass', '~> 2.3.1.3'
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
-gem 'simple_form'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
-gem 'validates_timeliness', '~> 3.0'
 gem 'bcrypt-ruby', '~> 3.0.0'
-gem 'faker', '1.1.2'
-gem 'will_paginate', '3.0.3'
+gem 'bootstrap-sass', '~> 2.3.1.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'cancan'
-gem 'ransack', git: "git://github.com/ernie/ransack", branch: 'rails-4'
-gem 'polyamorous'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'coffee-rails', '~> 4.0.0'
+gem 'faker', '1.1.2'
 gem 'jbuilder', '~> 1.0.1'
+gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'pg'
+gem 'polyamorous'
+gem 'ransack', git: "git://github.com/ernie/ransack", branch: 'rails-4'
+gem 'sass-rails', '~> 4.0.0.rc1'
+gem 'simple_form'
+gem 'uglifier', '>= 1.3.0'
+gem 'validates_timeliness', '~> 3.0'
+gem 'will_paginate', '3.0.3'
 
 group :development do
    gem 'annotate', ">=2.5.0"
    gem 'better_errors'
    gem 'binding_of_caller'
-   gem 'thin'
-   gem 'pry'
    gem 'byebug'
+   gem 'pry'
+   gem 'thin'
 end
 
 group :development, :test do
 end
 
 group :test do
-   gem 'minitest-spec-rails'
-   gem 'minitest-reporters'
-   gem 'minitest-metadata'
-   gem 'turn'
-   gem 'factory_girl_rails'
    gem 'capybara'
    gem 'capybara_minitest_spec'
    gem 'database_cleaner'
+   gem 'factory_girl_rails'
+   gem 'minitest-metadata'
+   gem 'minitest-reporters'
+   gem 'minitest-spec-rails'
+   gem 'mocha', require: false
    gem 'poltergeist'
    gem 'selenium-webdriver'
    gem 'shoulda'
    gem 'shoulda-matchers'
-   gem 'mocha', require: false
+   gem 'turn'
 end
 
 group :doc do
