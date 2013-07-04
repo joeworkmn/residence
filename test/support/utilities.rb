@@ -6,3 +6,9 @@ def fill_in_apartment_form
    fill_in "Password confirmation", with: 'password'
    fill_in "Password confirmation", with: 'password'
 end
+
+def fill_in_tenant_form
+   click_link("Add new tenant")
+   fill_in "First Name", with: "John"
+   fill_in "Last Name", with: "Doe"
+end

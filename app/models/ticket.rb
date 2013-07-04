@@ -14,9 +14,6 @@
 
 class Ticket < ActiveRecord::Base
 
-   default_scope -> { order(updated_at: :desc) }
-   scope :unpaid, -> { where(paid: false) }
-
    belongs_to :staff
    # For counter_cache, if the column isn't the pluralized version of this model (i.e tickets_count),
    # then I would have to specify the column name explicitly.
@@ -27,6 +24,9 @@ class Ticket < ActiveRecord::Base
    validates :violations, presence: { message: "Must select at least one violation." }
    validates :apartment_id, presence: { message: "Must select an apartment." }
    validates :total_fine, numericality: true
+
+   default_scope -> { order(updated_at: :desc) }
+   scope :unpaid, -> { where(paid: false) }
 
 
    def self.ransackable_attributes(auth_object = nil)

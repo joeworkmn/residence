@@ -12,7 +12,7 @@ module TenantsHelper
                raw( # Don't for the raw inside blocks!
                   # TODO Remove required: false from lname
                   f.input(:fname, label: "First Name", required: false) +
-                  f.input(:lname, label: "Last Name")  +
+                  f.input(:lname, label: "Last Name", required: false)  +
                   f.input(:email)                      +
                   f.input(:phone_primary)              +
                   f.input(:phone_secondary)            +

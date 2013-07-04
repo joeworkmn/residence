@@ -1,20 +1,33 @@
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path('../../config/environment', __FILE__)
+
+# To prevent tests running twice (doesn't work)
+if ENV.keys.grep(/ZEUS/).any?
+  require 'minitest/unit'
+  MiniTest::Unit.class_variable_set("@@installed_at_exit", true)
+end
+
 require 'rails/test_help'
+require 'pry'
 require 'capybara/rails'
 require 'capybara/poltergeist'
 #require "minitest/reporters"
 #MiniTest::Reporters.use!
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, debug: true, js_errors: false, inspector: false)
-end
 
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, debug: false, js_errors: false, inspector: true)
+end
 Capybara.javascript_driver = :selenium
+
+
 Turn.config.trace = 1
+Turn.config.format = #:dot
+
 
 # Includes support files
 Dir[Rails.root.join("test/support/**/*.rb")].each {|f| require f}
+
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
@@ -43,10 +56,9 @@ class ActionDispatch::IntegrationTest
   #before do
   #  if metadata[:js] == true
   #    Capybara.current_driver = Capybara.javascript_driver
+  #  else
+  #    Capybara.current_driver = Capybara.default_driver
   #  end
-  #end
-  #after do
-  #  Capybara.current_driver = Capybara.default_driver
   #end
 
   # Recommended if not using shared db connection.
