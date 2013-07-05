@@ -1,7 +1,5 @@
 module TicketsHelper
 
-   # TODO Create edit_ticket_link
-
    def delete_ticket_link(ticket, opts={})
       default_opts = { from: 'edit', method: :delete, data: {confirm: "Really delete?"} }
       opts = from = default_opts.merge(opts)

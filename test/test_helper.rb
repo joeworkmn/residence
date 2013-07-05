@@ -22,7 +22,7 @@ Capybara.javascript_driver = :selenium
 
 
 Turn.config.trace = 1
-Turn.config.format = #:dot
+Turn.config.format = :dot
 
 
 # Includes support files

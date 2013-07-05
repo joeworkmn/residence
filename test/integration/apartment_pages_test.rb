@@ -168,47 +168,6 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
          end
       end
 
-      describe "new tenant form" do
-         it "does not display new tenant form on page load" do
-            page.wont_have_selector("#tenant-form")
-         end
-
-         it "displays new tenant form after clicking 'Add new tenant'" do
-            click_link("Add new tenant")
-            page.must_have_selector("#tenant-form")
-         end
-
-         describe "when invalid" do
-            it "displays errors on form" do
-               click_link("Add new tenant")
-               click_button("Add Tenant")
-
-               within("#tenant-form") do
-                  page.must_have_selector("span.error", count: 2)
-               end
-            end
-         end
-
-         describe "when valid" do
-            it "should create a tenant" do
-               before_count = Tenant.count
-               fill_in_tenant_form
-               click_button("Add Tenant")
-
-               Tenant.count.must_equal(before_count + 1)
-            end
-
-            it "displays correct things on page" do
-               fill_in_tenant_form
-               click_button("Add Tenant")
-
-               page.must_have_selector("ul#tenants li", count: tenants_count + 1)
-               within("#tenant-form-message") do
-                  page.must_have_selector("div.alert-success", text: "Tenant has been added")
-               end 
-            end
-         end
-      end # End new tenant form tests.
 
       describe "when clicking edit apartment link" do
          it "visits correct apartment edit page" do
@@ -216,6 +175,123 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
             current_path.must_equal(edit_apartment_path(@apartment))
          end
       end
+
+      describe "tenant actions" do
+
+         def first_tenant_li
+            first("ul#tenants li")
+         end
+
+
+         describe "when clicking delete tenant link" do
+
+            it "should delete the tenant" do
+               before_count = @apartment.tenants.count
+               list_item = first_tenant_li
+               list_item_id = list_item[:id]
+
+               
+               list_item.click_link("delete")
+               page.driver.browser.switch_to.alert.accept
+
+               # Tests
+               page.wont_have_selector("#" + list_item_id) # Test deleted from list.
+               page.must_have_selector("div.alert-notice", text: "Tenant has been removed.") # Test alert message.
+               @apartment.tenants.count.must_equal(before_count - 1) # Test deleted from database.
+            end
+         end
+
+         describe "When relocating tenant" do
+
+            def click_relocate
+               first_tenant_li.click_link("relocate")
+            end
+
+            def relocate_menu
+               first_tenant_li.first(".dropdown-menu")
+            end
+
+            before do
+               @different_apartment = create(:apartment)
+               visit apartment_path(@apartment)
+            end
+
+            describe "when clicking relocate" do
+
+               it "displays list of apartments" do
+                  click_relocate
+
+                  first_tenant_li.must_have_selector(".dropdown-menu")
+                  relocate_menu.must_have_selector("li", text: @different_apartment.number)
+               end
+            end
+
+            describe "When selecting an apartment to relocate tenant to" do
+               # TODO Test this
+            end
+         end
+
+         describe "when clicking relocate" do
+            before do
+               @different_apartment = create(:apartment)
+               visit apartment_path(@apartment)
+            end
+
+            it "displays list of apartments" do
+               click_relocate
+
+               first_tenant_li.must_have_selector(".dropdown-menu")
+               relocate_menu.must_have_selector("li", text: @different_apartment.number)
+            end
+         end
+
+         describe "New Tenant Form" do
+            it "does not display new tenant form on page load" do
+               page.wont_have_selector("#tenant-form")
+            end
+
+            it "displays new tenant form after clicking 'Add new tenant'" do
+               click_link("Add new tenant")
+               page.must_have_selector("#tenant-form")
+            end
+
+            describe "when invalid" do
+               it "displays errors on form" do
+                  click_link("Add new tenant")
+                  click_button("Add Tenant")
+
+                  within("#tenant-form") do
+                     page.must_have_selector("span.error", count: 2)
+                  end
+               end
+            end
+
+            describe "when valid" do
+               before do
+                  fill_in_tenant_form
+               end
+               it "should create a tenant" do
+                  before_count = @apartment.tenants.count
+                  #fill_in_tenant_form
+                  click_button("Add Tenant")
+
+                  sleep 1.0 # Count test seems to check the count before tenant is actually added without the sleep.
+                  @apartment.tenants.count.must_equal(before_count + 1)
+               end
+
+               it "displays correct things on page" do
+                  #fill_in_tenant_form
+                  click_button("Add Tenant")
+
+                  page.must_have_selector("ul#tenants li", count: tenants_count + 1)
+                  within("#tenant-form-message") do
+                     page.must_have_selector("div.alert-success", text: "Tenant has been added")
+                  end 
+               end
+            end
+         end # End new tenant form tests.
+      end
+
 
    end
 end
