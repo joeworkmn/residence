@@ -192,7 +192,7 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
                
                list_item.click_link("delete")
-               page.driver.browser.switch_to.alert.accept
+               confirm_popup
 
                # Tests
                page.wont_have_selector("#" + list_item_id) # Test deleted from list.
@@ -214,34 +214,28 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
             before do
                @different_apartment = create(:apartment)
                visit apartment_path(@apartment)
+               click_relocate
             end
 
             describe "when clicking relocate" do
 
                it "displays list of apartments" do
-                  click_relocate
-
                   first_tenant_li.must_have_selector(".dropdown-menu")
                   relocate_menu.must_have_selector("li", text: @different_apartment.number)
                end
             end
 
             describe "When selecting an apartment to relocate tenant to" do
-               # TODO Test this
-            end
-         end
+               it "removes tenant from current apartment" do
+                  before_count = @apartment.tenants.count
+                  tenant_li_id = first_tenant_li[:id]
+                  relocate_menu.click_link(@different_apartment.number)
+                  confirm_popup
 
-         describe "when clicking relocate" do
-            before do
-               @different_apartment = create(:apartment)
-               visit apartment_path(@apartment)
-            end
-
-            it "displays list of apartments" do
-               click_relocate
-
-               first_tenant_li.must_have_selector(".dropdown-menu")
-               relocate_menu.must_have_selector("li", text: @different_apartment.number)
+                  sleep 1.2
+                  @apartment.tenants.count.must_equal(before_count - 1)
+                  page.wont_have_selector(tenant_li_id)
+               end
             end
          end
 

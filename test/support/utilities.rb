@@ -12,3 +12,7 @@ def fill_in_tenant_form
    fill_in "First Name", with: "John"
    fill_in "Last Name", with: "Doe"
 end
+
+def confirm_popup
+   page.driver.browser.switch_to.alert.accept
+end
