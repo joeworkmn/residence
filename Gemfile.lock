@@ -262,7 +262,6 @@ DEPENDENCIES
   sdoc
   selenium-webdriver
   shoulda
-  shoulda-matchers
   simple_form
   thin
   turn

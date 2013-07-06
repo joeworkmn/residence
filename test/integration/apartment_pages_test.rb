@@ -4,34 +4,9 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
    subject { page }
 
-=begin Test Javascript drivers
-   describe "A JS Driver" do
-      js_driver
-      before do
-         #use_js_driver
-         @apartment = create(:apartment, occupied: true)
-         visit edit_apartment_path(@apartment)
-      end
-
-
-      # Javascript isn't being processed
-      it "tries poltergeist" do
-         page.wont_have_selector("#foo-p")
-         click_button("foo-btn")
-         page.must_have_selector("#foo-p")
-      end
-
-      it "foo" do
-         page.wont_have_selector("#foo-p")
-      end
-   end
-=end
-
-
    describe "Index" do
 
       before do
-         
          3.times { |n| create(:apartment) }
          visit apartments_path
       end
@@ -124,11 +99,6 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
    describe "Show" do
 
-      def status_start_date_message_test(status)
-         status_start_date = @apartment.status_start_date.to_formatted_s(:long)
-         page.must_have_selector("#apartment-status-box p", text: "#{status} since:")
-      end
-
       let(:tenants_count) { 3 }
       let(:tickets_count) { 2 }
 
@@ -168,7 +138,6 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
          end
       end
 
-
       describe "when clicking edit apartment link" do
          it "visits correct apartment edit page" do
             click_link("Edit apartment information")
@@ -177,11 +146,6 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
       end
 
       describe "tenant actions" do
-
-         def first_tenant_li
-            first("ul#tenants li")
-         end
-
 
          describe "when clicking delete tenant link" do
 
@@ -203,39 +167,41 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
 
          describe "When relocating tenant" do
 
-            def click_relocate
-               first_tenant_li.click_link("relocate")
-            end
-
-            def relocate_menu
-               first_tenant_li.first(".dropdown-menu")
-            end
-
             before do
-               @different_apartment = create(:apartment)
+               @other_apartment = create(:apartment)
                visit apartment_path(@apartment)
                click_relocate
             end
 
             describe "when clicking relocate" do
-
                it "displays list of apartments" do
                   first_tenant_li.must_have_selector(".dropdown-menu")
-                  relocate_menu.must_have_selector("li", text: @different_apartment.number)
+                  relocate_menu.must_have_selector("li", text: @other_apartment.number)
                end
             end
 
             describe "When selecting an apartment to relocate tenant to" do
-               it "removes tenant from current apartment" do
+               it "relocates tenant" do
                   before_count = @apartment.tenants.count
+                  diff_apt_tenants_before_count = @other_apartment.tenants.count
                   tenant_li_id = first_tenant_li[:id]
-                  relocate_menu.click_link(@different_apartment.number)
+                  relocate_menu.click_link(@other_apartment.number)
                   confirm_popup
 
                   sleep 1.2
-                  @apartment.tenants.count.must_equal(before_count - 1)
-                  page.wont_have_selector(tenant_li_id)
+                  @apartment.tenants.count.must_equal(before_count - 1) # Test tenant count decreases by 1.
+                  page.wont_have_selector(tenant_li_id) # Test tenant is removed from list.
+                  page.must_have_selector("div.alert-success", text: "Tenant has been relocated") # Test success message.
+                  @other_apartment.tenants.count.must_equal(diff_apt_tenants_before_count + 1) # Test other apartment's tenant count increases by 1.
                end
+            end
+         end
+
+         describe "When clicking add to staff" do
+            it "visits promote to staff form page" do
+               tenant_id = first_tenant_id
+               first_tenant_li.click_link("add to staff")
+               current_path.must_equal(promote_to_staff_form_tenant_path(tenant_id))
             end
          end
 
@@ -285,7 +251,5 @@ class ApartmentPagesTest < ActionDispatch::IntegrationTest
             end
          end # End new tenant form tests.
       end
-
-
    end
 end

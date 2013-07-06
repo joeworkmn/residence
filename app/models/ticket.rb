@@ -23,6 +23,7 @@ class Ticket < ActiveRecord::Base
 
    validates :violations, presence: { message: "Must select at least one violation." }
    validates :apartment_id, presence: { message: "Must select an apartment." }
+   validates :staff_id, presence: true
    validates :total_fine, numericality: true
 
    default_scope -> { order(updated_at: :desc) }

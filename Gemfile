@@ -47,7 +47,6 @@ group :test do
    gem 'poltergeist'
    gem 'selenium-webdriver'
    gem 'shoulda'
-   gem 'shoulda-matchers'
    gem 'turn'
 end
 
