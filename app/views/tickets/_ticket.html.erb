@@ -1,4 +1,4 @@
-<tr id="<%= dom_id(ticket) %>">
+<tr id="<%= dom_id(ticket) %>" class="ticket-row">
    <td class='text-center'> <input type="checkbox" class='ticket-checkbox' name='ticket_ids[]' value='<%= ticket.id %>' /> </td>
    <td> <%= ticket.staff.name                                 %> </td>
    <% if local_assigns[:show_apt_num] %>

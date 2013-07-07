@@ -29,9 +29,14 @@ class Ticket < ActiveRecord::Base
    default_scope -> { order(updated_at: :desc) }
    scope :unpaid, -> { where(paid: false) }
 
+   before_save :calc_total_fine
 
    def self.ransackable_attributes(auth_object = nil)
       %w(total_fine paid created_at updated_at) + _ransackers.keys
    end
 
+
+   def calc_total_fine 
+      self.total_fine = violations.map { |v| v.fine }.inject(:+)
+   end
 end

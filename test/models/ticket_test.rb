@@ -53,6 +53,11 @@ class TicketTest < ActiveSupport::TestCase
       @ticket.must_be :valid?
    end
 
+   it "must calculate total fine" do
+      @ticket.save
+      @ticket.reload.total_fine.must_equal(@ticket.violations.map { |v| v.fine }.inject(:+))
+   end
+
    describe "unpaid scope" do
       it "should only return unpaid tickets" do
          2.times { create(:ticket, paid: true) }

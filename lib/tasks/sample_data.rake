@@ -16,7 +16,6 @@ def make_tickets
       ticket.description = Faker::Lorem.sentence(10)
       viols = Violation.all
       ticket.violations = viols.sample(rand(1..viols.size))
-      ticket.total_fine = ticket.violations.map { |v| v.fine }.inject(:+)
 
       ticket.save
    end
