@@ -52,4 +52,12 @@ class TicketTest < ActiveSupport::TestCase
       @ticket.total_fine = 5.0
       @ticket.must_be :valid?
    end
+
+   describe "unpaid scope" do
+      it "should only return unpaid tickets" do
+         2.times { create(:ticket, paid: true) }
+         create(:ticket, paid: false)
+         Ticket.unpaid.count.must_equal(1)
+      end
+   end
 end
