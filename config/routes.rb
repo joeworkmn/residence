@@ -30,6 +30,7 @@ Residence::Application.routes.draw do
    end
 
    resources :violations
+   resources :schedules
 
 
 

@@ -1,0 +1,23 @@
+<div class='row'>
+   <div class='span'>
+      <%= form_for :schedule, url: schedules_path  do |f| %>
+         <% c = 1 %>
+         <% @intervals.each do |i| %>
+
+            <div class='row-with-margin'>
+               <div class="bg-gray-lighter">
+               <%= f.fields_for "interval" + c.to_s do |b| %>
+                  <%= b.text_field :foo %> <br />
+                  <%= b.hidden_field :dates, value: i.map { |d| d } %>
+               <% end %>
+               <%= "#{Date::MONTHNAMES[i.first.month]} #{i.first.day} - #{Date::MONTHNAMES[i.last.month]} #{i.last.day}" %>
+               </div>
+            </div>
+
+            <% c += 1 %>
+         <% end %>
+
+         <%= f.submit "Submit" %>
+      <% end %>
+   </div>
+</div>
