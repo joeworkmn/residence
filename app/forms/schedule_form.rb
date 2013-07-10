@@ -5,10 +5,10 @@ class ScheduleForm
       @month = schedule_month
    end
 
+
    def self.submit(schedule_params)
       month = schedule_params.delete :month
       year  = Time.now.year
-
 
       entries = []
       schedule_params.each do |i|
@@ -18,7 +18,6 @@ class ScheduleForm
             rec[:dates].split(",").each do |d|
                entries << ScheduleEntry.new(staff_id: rec[:staff], shift_id: rec[:shift], date: d)
             end
-
          end
       end
 
