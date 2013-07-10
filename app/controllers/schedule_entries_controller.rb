@@ -1,0 +1,2 @@
+class ScheduleEntriesController < ApplicationController
+end

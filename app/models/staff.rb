@@ -22,6 +22,7 @@ class Staff < User
    ROLES = %w[manager guard]
 
    default_scope -> { staff_only } 
+   scope :guards, -> { where("'guard' = ANY(roles)") }
 
    has_secure_password
 
@@ -69,7 +70,7 @@ private
       end
       where(sql)
    end
-   
+
    def check_roles
       # If no role was chosen, roles becomes [""] which will pass validation. So set it to []
       self.roles = [] if roles.size == 1 && roles.first.blank?

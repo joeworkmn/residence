@@ -1,10 +1,20 @@
 class SchedulesController < ApplicationController
    def new
-      @intervals = ScheduleForm.new("july").intervals
+      @schedule_form = ScheduleForm.new("july")
+      @intervals = @schedule_form.intervals
+      @guards    = Staff.guards
+      @shifts    = Shift.all
    end
 
 
    def create
-      binding.pry
+      ScheduleForm.submit(params[:schedule])
    end
+
+private
+
+   def schedule_params
+      params.require(:schedule).permit!
+   end
+
 end

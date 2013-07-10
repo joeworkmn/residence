@@ -1,16 +1,23 @@
 <div class='row'>
    <div class='span'>
       <%= form_for :schedule, url: schedules_path  do |f| %>
+         <%= f.hidden_field :month, value: @schedule_form.month %>
          <% c = 1 %>
          <% @intervals.each do |i| %>
 
             <div class='row-with-margin'>
                <div class="bg-gray-lighter">
-               <%= f.fields_for "interval" + c.to_s do |b| %>
-                  <%= b.text_field :foo %> <br />
-                  <%= b.hidden_field :dates, value: i.dates %>
+               <%= f.fields_for "interval" + c.to_s do |intf| %>
+                  <% @shifts.each do |s| %>
+                     <%= intf.fields_for "shift-" + s.name do |sf| %>
+                        <h4> <%= s.name %> </h4>
+                        <%= sf.select :staff, @guards.map { |g| [g.name, g.id] } %>
+                        <%= sf.hidden_field :shift, value: s.id %>
+                        <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                     <% end %>
+                  <% end %>
                <% end %>
-               <%= i.range_text %>
+               <br /><%= i.range_text %>
                </div>
             </div>
 

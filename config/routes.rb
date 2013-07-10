@@ -1,6 +1,10 @@
 Residence::Application.routes.draw do
 
 
+  resources :shifts
+
+  resources :schedule_entries
+
    root to: "sessions#new"
 
    get '/signin', to: 'sessions#new'

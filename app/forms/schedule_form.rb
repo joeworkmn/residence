@@ -5,6 +5,28 @@ class ScheduleForm
       @month = schedule_month
    end
 
+   def self.submit(schedule_params)
+      month = schedule_params.delete :month
+      year  = Time.now.year
+
+
+      entries = []
+      schedule_params.each do |i|
+         i[1].each do |sh|
+            rec = sh[1]
+
+            rec[:dates].split(",").each do |d|
+               entries << ScheduleEntry.new(staff_id: rec[:staff], shift_id: rec[:shift], date: d)
+            end
+
+         end
+      end
+
+      schedule = Schedule.create(month: month, year: year, schedule_entries: entries)
+
+      #binding.pry
+   end
+
    def intervals
       unless @intervals
          days_in_month = Time.days_in_month(start_of_month.month)
