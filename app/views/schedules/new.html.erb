@@ -8,9 +8,9 @@
                <div class="bg-gray-lighter">
                <%= f.fields_for "interval" + c.to_s do |b| %>
                   <%= b.text_field :foo %> <br />
-                  <%= b.hidden_field :dates, value: i.map { |d| d } %>
+                  <%= b.hidden_field :dates, value: i.dates %>
                <% end %>
-               <%= "#{Date::MONTHNAMES[i.first.month]} #{i.first.day} - #{Date::MONTHNAMES[i.last.month]} #{i.last.day}" %>
+               <%= i.range_text %>
                </div>
             </div>
 

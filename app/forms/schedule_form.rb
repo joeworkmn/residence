@@ -1,8 +1,8 @@
 class ScheduleForm
-   attr_accessor :start_of_month, :intervals 
+   attr_accessor :month, :intervals
 
-   def initialize(month)
-      @start_of_month = Date.parse(month)
+   def initialize(schedule_month)
+      @month = schedule_month
    end
 
    def intervals
@@ -13,9 +13,14 @@ class ScheduleForm
          days_in_month.times { |n| days_of_month << start_of_month.advance(days: n) }
 
          intervals = []
-         days_of_month.each_slice(3) { |i| intervals << i }
+         days_of_month.each_slice(3) { |i| intervals << ScheduleRotationInterval.new(i) }
 
          @intervals = intervals
       end
    end
+
+   def start_of_month
+      Date.parse(month)
+   end
+
 end
