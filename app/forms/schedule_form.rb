@@ -17,7 +17,7 @@ class ScheduleForm
 
  
    def submit(schedule_params)
-      schedule_params.delete :meta_data
+      schedule_params = schedule_params[:entries]
 
       entries = []
       schedule_params.each do |i|

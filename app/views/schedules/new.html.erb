@@ -17,32 +17,34 @@
       <div class='span12'>
          <%= form_for :schedule, url: schedules_path  do |f| %>
 
-            <%= f.fields_for :meta_data do |nif| %>
-               <%= nif.hidden_field :month, value: @schedule_form.month %>
-               <%= nif.hidden_field :year, value: @schedule_form.year %>
-            <% end %>
+            <%= f.hidden_field :month, value: @schedule_form.month %>
+            <%= f.hidden_field :year, value: @schedule_form.year %>
 
-            <% c = 1 %>
-            <% @intervals.each do |i| %>
+            <%= f.fields_for :entries do |e| %>
+               <% c = 1 %>
+               <% @intervals.each do |i| %>
 
-               <div class='row-with-margin'>
-                  <div class="bg-gray-lighter">
-                  <%= f.fields_for "interval" + c.to_s do |intf| %>
-                     <% @shifts.each do |s| %>
-                        <%= intf.fields_for "shift-" + s.name do |sf| %>
-                           <h4> <%= s.name %> </h4>
-                           <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
-                           <%= sf.hidden_field :shift, value: s.id %>
-                           <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                  <div class='row-with-margin'>
+                     <div class="bg-gray-lighter">
+                     <%= e.fields_for "interval" + c.to_s do |intf| %>
+                        <% @shifts.each do |s| %>
+                           <%= intf.fields_for "shift-" + s.name do |sf| %>
+                              <h4> <%= s.name %> </h4>
+                              <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
+                              <%= sf.hidden_field :shift, value: s.id %>
+                              <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                           <% end %>
                         <% end %>
                      <% end %>
-                  <% end %>
-                  <br /><%= i.range_text %>
+                     <br /><%= i.range_text %>
+                     </div>
                   </div>
-               </div>
 
-               <% c += 1 %>
+                  <% c += 1 %>
+               <% end %>
+
             <% end %>
+
 
             <%= f.submit "Submit" %>
          <% end %>
