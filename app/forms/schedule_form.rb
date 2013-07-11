@@ -1,9 +1,17 @@
 class ScheduleForm
-   attr_accessor :month, :intervals
+   attr_accessor :month, :intervals, :interval_length
 
-   def initialize(schedule_month)
+   def initialize(schedule_month, options)
       @month = schedule_month
+
+      @interval_length = options[:interval_length].to_i
    end
+
+
+   def interval_length
+      @interval_length || 7
+   end
+ 
 
 
    def self.submit(schedule_params)
@@ -20,9 +28,7 @@ class ScheduleForm
             end
          end
       end
-
       schedule = Schedule.create(month: month, year: year, schedule_entries: entries)
-
       #binding.pry
    end
 
@@ -34,7 +40,7 @@ class ScheduleForm
          days_in_month.times { |n| days_of_month << start_of_month.advance(days: n) }
 
          intervals = []
-         days_of_month.each_slice(3) { |i| intervals << ScheduleRotationInterval.new(i) }
+         days_of_month.each_slice(interval_length) { |i| intervals << ScheduleRotationInterval.new(i) }
 
          @intervals = intervals
       end
@@ -43,5 +49,7 @@ class ScheduleForm
    def start_of_month
       Date.parse(month)
    end
+
+
 
 end

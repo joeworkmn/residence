@@ -1,10 +1,5 @@
 Residence::Application.routes.draw do
 
-
-  resources :shifts
-
-  resources :schedule_entries
-
    root to: "sessions#new"
 
    get '/signin', to: 'sessions#new'
@@ -34,7 +29,12 @@ Residence::Application.routes.draw do
    end
 
    resources :violations
-   resources :schedules
+   resources :schedules do
+      #post 'select_month_for', on: :new, to: 'schedules#new'
+   end
+
+   resources :schedule_entries
+   resources :shifts
 
 
 
