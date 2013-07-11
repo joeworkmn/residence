@@ -1,36 +1,39 @@
 class ScheduleForm
-   attr_accessor :month, :intervals, :interval_length
+   attr_accessor :month, :year, :interval_length
 
-   def initialize(schedule_month, options)
+   def initialize(schedule_month, schedule_year, options={})
       @month = schedule_month
+      @year  = schedule_year
 
+      # calling .to_i on nil or a non-number string returns 0
       @interval_length = options[:interval_length].to_i
    end
 
 
    def interval_length
-      @interval_length || 7
+      @interval_length = (@interval_length < 1) ? 7 : @interval_length
    end
+
+
  
-
-
-   def self.submit(schedule_params)
-      month = schedule_params.delete :month
-      year  = Time.now.year
+   def submit(schedule_params)
+      schedule_params.delete :meta_data
 
       entries = []
       schedule_params.each do |i|
          i[1].each do |sh|
             rec = sh[1]
-
             rec[:dates].split(",").each do |d|
                entries << ScheduleEntry.new(staff_id: rec[:staff], shift_id: rec[:shift], date: d)
             end
          end
       end
+
       schedule = Schedule.create(month: month, year: year, schedule_entries: entries)
       #binding.pry
    end
+
+
 
    def intervals
       unless @intervals

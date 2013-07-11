@@ -1,10 +1,12 @@
 <div class='row'>
    <div class='span5'>
       <%= form_tag new_schedule_path, method: :get do %>
-         <%= label_tag  :month, "Select month" %>
+         <%= label_tag  :month, "Select month:" %>
          <%= select_tag :month, options_for_select(Schedule.unscheduled_months.map { |m| [m, m] }, params[:month]) %>
-         <%= label_tag :interval_length, "Days between rotation" %>
-         <%= text_field_tag :interval_length, params[:interval_length] %>
+         <%= label_tag :year, "Select year:" %>
+         <%= select_tag :year, options_for_select([Time.now.year, Time.now.next_year.year]) %>
+         <%= label_tag :interval_length, "Number of days between rotation:" %>
+         <%= text_field_tag :interval_length, params[:interval_length] || 7 %>
          <%= submit_tag "Submit" %>
       <% end %>
    </div>
@@ -14,7 +16,12 @@
    <div class='row'>
       <div class='span12'>
          <%= form_for :schedule, url: schedules_path  do |f| %>
-            <%= f.hidden_field :month, value: @schedule_form.month %>
+
+            <%= f.fields_for :meta_data do |nif| %>
+               <%= nif.hidden_field :month, value: @schedule_form.month %>
+               <%= nif.hidden_field :year, value: @schedule_form.year %>
+            <% end %>
+
             <% c = 1 %>
             <% @intervals.each do |i| %>
 
@@ -24,7 +31,7 @@
                      <% @shifts.each do |s| %>
                         <%= intf.fields_for "shift-" + s.name do |sf| %>
                            <h4> <%= s.name %> </h4>
-                           <%= sf.select :staff, @guards.map { |g| [g.name, g.id] } %>
+                           <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
                            <%= sf.hidden_field :shift, value: s.id %>
                            <%= sf.hidden_field :dates, value: i.dates.join(",") %>
                         <% end %>
