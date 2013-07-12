@@ -7,80 +7,75 @@
          <%= select_tag :year, options_for_select([Time.now.year, Time.now.next_year.year]) %>
          <%= label_tag :interval_length, "Number of days between rotation:" %>
          <%= text_field_tag :interval_length, params[:interval_length] || ScheduleForm.default_interval_length %>
-         <%= submit_tag "Submit" %>
+         <br /><%= submit_tag "Submit" %>
       <% end %>
    </div>
 </div>
 
 <% unless params[:month].blank? %>
-   <div class='row'>
-      <div class='span12'>
-         <div id="schedule-form">
-            <%= form_for :schedule, url: schedules_path  do |f| %>
+   <div id="schedule-form">
 
-               <%= f.hidden_field :month, value: @schedule_form.month %>
-               <%= f.hidden_field :year, value: @schedule_form.year %>
-
-               <%= f.fields_for :entries do |e| %>
-                  <% c = 1 %>
-                  <% @intervals.each do |i| %>
-
-                     <div class='row-with-margin'>
-                        <div class="bg-gray-lighter">
-                        <%= e.fields_for "interval" + c.to_s do |intf| %>
-
-                           <div class='row'> <!-- Day Shift Row -->
-                              <%= intf.fields_for :day_shift do |dsf| %>
-                                 <% @shifts.each do |shift| %>
-
-                                    <div class='span3'> <!-- Individual shift column -->
-                                    <%= dsf.fields_for "shift-" + shift.name do |sf| %>
-
-                                       <b> <%= shift.name %> </b>
-                                       <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
-                                       <%= sf.hidden_field :shift, value: shift.id %>
-                                       <%= sf.hidden_field :dates, value: i.dates.join(",") %>
-                                       <%= sf.hidden_field :day_or_night, value: 'day' %>
-                                    <% end %>
-                                    </div> <!-- End shift column -->
-
-                                 <% end %>
-                              <% end %>
-                           </div> <!-- End Day Shift Row -->
-
-                           <div class='row'> <!-- Night Shift Row -->
-                              <%= intf.fields_for :night_shift do |nsf| %>
-                                 <% @shifts.each do |shift| %>
-
-                                    <div class='span3'> <!-- Individual shift column -->
-                                    <%= nsf.fields_for "shift-" + shift.name do |sf| %>
-
-                                       <b> <%= shift.name %> </b>
-                                       <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
-                                       <%= sf.hidden_field :shift, value: shift.id %>
-                                       <%= sf.hidden_field :dates, value: i.dates.join(",") %>
-                                       <%= sf.hidden_field :day_or_night, value: 'night' %>
-                                    <% end %>
-                                    </div> <!-- End shift column -->
-
-                                 <% end %>
-                              <% end %>
-                           </div> <!-- End Night Shift Row -->
-
-                        <% end %>
-                        <br />
-                        <span class='interval-range-text'><%= i.range_text %></span>
-                        </div>
-                     </div>
-
-                     <% c += 1 %>
-                  <% end %>
-
-               <% end %>
-
-               <%= f.submit "Submit Schedule", class: 'btn btn-primary' %>
-            <% end %> <!-- End Schedule Form. -->
-         </div>
+      <div class='row'>
+         <div class='span4'> <h3>Day Shift</h3> </div>
+         <div class='span4'> <h3>Night Shift</h3> </div>
       </div>
+
+      <%= form_for :schedule, url: schedules_path  do |f| %>
+
+         <%= f.hidden_field :month, value: @schedule_form.month %>
+         <%= f.hidden_field :year, value: @schedule_form.year %>
+
+         <%= f.fields_for :entries do |e| %>
+            <% c = 1 %>
+            <% @intervals.each do |i| %>
+
+               <div class='row-with-margin bg-gray-lighter'>
+                  <%= e.fields_for "interval" + c.to_s do |intf| %>
+
+                     <div class='span4'> <!-- Day Shift Col -->
+                        <%= intf.fields_for :day_shift do |dsf| %>
+                           <% @shifts.each do |shift| %>
+
+                              <%= dsf.fields_for "shift-" + shift.name do |sf| %>
+
+                                 <%= sf.label :staff, shift.name %>
+                                 <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
+                                 <%= sf.hidden_field :shift, value: shift.id %>
+                                 <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                                 <%= sf.hidden_field :day_or_night, value: 'day' %>
+                              <% end %>
+
+                           <% end %>
+                        <% end %>
+                     </div> <!-- End Day Shift Col -->
+
+                     <div class='span4'> <!-- Night Shift Col -->
+                        <%= intf.fields_for :night_shift do |nsf| %>
+                           <% @shifts.each do |shift| %>
+
+                              <%= nsf.fields_for "shift-" + shift.name do |sf| %>
+
+                                 <%= sf.label :staff, shift.name %>
+                                 <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
+                                 <%= sf.hidden_field :shift, value: shift.id %>
+                                 <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                                 <%= sf.hidden_field :day_or_night, value: 'night' %>
+                              <% end %>
+
+                           <% end %>
+                        <% end %>
+                     </div> <!-- End Night Shift Col -->
+
+                  <% end %>
+                  <span class='span3 interval-range-text'><%= i.range_text %> </span>
+               </div>
+
+               <% c += 1 %>
+            <% end %>
+
+         <% end %>
+
+         <%= f.submit "Submit Schedule", class: 'btn btn-primary' %>
+      <% end %> <!-- End Schedule Form. -->
    </div>
 <% end %>

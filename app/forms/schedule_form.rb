@@ -59,6 +59,7 @@ class ScheduleForm
       # Use following to get day shift records, then parse from there. :night_shift for night.
       # schedule_params.first[1][:day_shift]
 
+      # TODO Parse differently for day and night shift.
       entries = []
       schedule_params.each do |i|
          i[1].each do |sh|
