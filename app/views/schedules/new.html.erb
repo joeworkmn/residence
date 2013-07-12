@@ -6,7 +6,7 @@
          <%= label_tag :year, "Select year:" %>
          <%= select_tag :year, options_for_select([Time.now.year, Time.now.next_year.year]) %>
          <%= label_tag :interval_length, "Number of days between rotation:" %>
-         <%= text_field_tag :interval_length, params[:interval_length] || 7 %>
+         <%= text_field_tag :interval_length, params[:interval_length] || ScheduleForm.default_interval_length %>
          <%= submit_tag "Submit" %>
       <% end %>
    </div>
@@ -15,39 +15,41 @@
 <% unless params[:month].blank? %>
    <div class='row'>
       <div class='span12'>
-         <%= form_for :schedule, url: schedules_path  do |f| %>
+         <div id="schedule-form">
+            <%= form_for :schedule, url: schedules_path  do |f| %>
 
-            <%= f.hidden_field :month, value: @schedule_form.month %>
-            <%= f.hidden_field :year, value: @schedule_form.year %>
+               <%= f.hidden_field :month, value: @schedule_form.month %>
+               <%= f.hidden_field :year, value: @schedule_form.year %>
 
-            <%= f.fields_for :entries do |e| %>
-               <% c = 1 %>
-               <% @intervals.each do |i| %>
+               <%= f.fields_for :entries do |e| %>
+                  <% c = 1 %>
+                  <% @intervals.each do |i| %>
 
-                  <div class='row-with-margin'>
-                     <div class="bg-gray-lighter">
-                     <%= e.fields_for "interval" + c.to_s do |intf| %>
-                        <% @shifts.each do |s| %>
-                           <%= intf.fields_for "shift-" + s.name do |sf| %>
-                              <h4> <%= s.name %> </h4>
-                              <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
-                              <%= sf.hidden_field :shift, value: s.id %>
-                              <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                     <div class='row-with-margin'>
+                        <div class="bg-gray-lighter">
+                        <%= e.fields_for "interval" + c.to_s do |intf| %>
+                           <% @shifts.each do |s| %>
+                              <%= intf.fields_for "shift-" + s.name do |sf| %>
+                                 <h4> <%= s.name %> </h4>
+                                 <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
+                                 <%= sf.hidden_field :shift, value: s.id %>
+                                 <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                              <% end %>
                            <% end %>
                         <% end %>
-                     <% end %>
-                     <br /><%= i.range_text %>
+                        <br />
+                        <span class='interval-range-text'><%= i.range_text %></span>
+                        </div>
                      </div>
-                  </div>
 
-                  <% c += 1 %>
+                     <% c += 1 %>
+                  <% end %>
+
                <% end %>
 
-            <% end %>
-
-
-            <%= f.submit "Submit" %>
-         <% end %>
+               <%= f.submit "Submit" %>
+            <% end %> <!-- End Schedule Form. -->
+         </div>
       </div>
    </div>
 <% end %>

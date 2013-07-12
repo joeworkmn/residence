@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApartmentPagesTest < ActionDispatch::IntegrationTest
+class TicketsPagesTest < ActionDispatch::IntegrationTest
    subject { page }
 
    describe "Index" do

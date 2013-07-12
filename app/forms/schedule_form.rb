@@ -1,18 +1,51 @@
 class ScheduleForm
    attr_accessor :month, :year, :interval_length
 
-   def initialize(schedule_month, schedule_year, options={})
+   def initialize(schedule_month, options={})
       @month = schedule_month
-      @year  = schedule_year
 
+      @year  = options[:year] || Date.current.year
       # calling .to_i on nil or a non-number string returns 0
       @interval_length = options[:interval_length].to_i
    end
 
 
-   def interval_length
-      @interval_length = (@interval_length < 1) ? 7 : @interval_length
+
+   def start_of_month
+      Date.parse(month)
    end
+
+
+   def days_of_month
+      days_in_month = Time.days_in_month(start_of_month.month)
+
+      days = []
+      days_in_month.times { |n| days << start_of_month.advance(days: n) }
+      days
+   end
+
+
+   def interval_length
+      @interval_length = (@interval_length < 1) ? self.class.default_interval_length : @interval_length
+   end
+
+
+   def self.default_interval_length
+      7
+   end
+
+
+   def intervals
+      @intervals ||= make_intervals
+   end
+
+
+   def make_intervals
+      ints = []
+      days_of_month.each_slice(interval_length) { |i| ints << ScheduleRotationInterval.new(i) }
+      ints
+   end
+
 
 
  
@@ -32,27 +65,5 @@ class ScheduleForm
       schedule = Schedule.create(month: month, year: year, schedule_entries: entries)
       #binding.pry
    end
-
-
-
-   def intervals
-      unless @intervals
-         days_in_month = Time.days_in_month(start_of_month.month)
-
-         days_of_month = []
-         days_in_month.times { |n| days_of_month << start_of_month.advance(days: n) }
-
-         intervals = []
-         days_of_month.each_slice(interval_length) { |i| intervals << ScheduleRotationInterval.new(i) }
-
-         @intervals = intervals
-      end
-   end
-
-   def start_of_month
-      Date.parse(month)
-   end
-
-
 
 end
