@@ -28,14 +28,45 @@
                      <div class='row-with-margin'>
                         <div class="bg-gray-lighter">
                         <%= e.fields_for "interval" + c.to_s do |intf| %>
-                           <% @shifts.each do |s| %>
-                              <%= intf.fields_for "shift-" + s.name do |sf| %>
-                                 <h4> <%= s.name %> </h4>
-                                 <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
-                                 <%= sf.hidden_field :shift, value: s.id %>
-                                 <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+
+                           <div class='row'> <!-- Day Shift Row -->
+                              <%= intf.fields_for :day_shift do |dsf| %>
+                                 <% @shifts.each do |shift| %>
+
+                                    <div class='span3'> <!-- Individual shift column -->
+                                    <%= dsf.fields_for "shift-" + shift.name do |sf| %>
+
+                                       <h4> <%= shift.name %> </h4>
+                                       <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
+                                       <%= sf.hidden_field :shift, value: shift.id %>
+                                       <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                                       <%= sf.hidden_field :day_or_night, value: 'day' %>
+                                    <% end %>
+                                    </div> <!-- End shift column -->
+
+                                 <% end %>
                               <% end %>
-                           <% end %>
+                           </div> <!-- End Day Shift Row -->
+
+                           <div class='row'> <!-- Night Shift Row -->
+                              <%= intf.fields_for :night_shift do |nsf| %>
+                                 <% @shifts.each do |shift| %>
+
+                                    <div class='span3'> <!-- Individual shift column -->
+                                    <%= nsf.fields_for "shift-" + shift.name do |sf| %>
+
+                                       <h4> <%= shift.name %> </h4>
+                                       <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
+                                       <%= sf.hidden_field :shift, value: shift.id %>
+                                       <%= sf.hidden_field :dates, value: i.dates.join(",") %>
+                                       <%= sf.hidden_field :day_or_night, value: 'night' %>
+                                    <% end %>
+                                    </div> <!-- End shift column -->
+
+                                 <% end %>
+                              <% end %>
+                           </div> <!-- End Night Shift Row -->
+
                         <% end %>
                         <br />
                         <span class='interval-range-text'><%= i.range_text %></span>

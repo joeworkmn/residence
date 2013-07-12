@@ -54,6 +54,10 @@ class ScheduleForm
  
    def submit(schedule_params)
       schedule_params = schedule_params[:entries]
+      binding.pry
+
+      # Use following to get day shift records, then parse from there. :night_shift for night.
+      # schedule_params.first[1][:day_shift]
 
       entries = []
       schedule_params.each do |i|
