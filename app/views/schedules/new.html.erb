@@ -36,7 +36,7 @@
                                     <div class='span3'> <!-- Individual shift column -->
                                     <%= dsf.fields_for "shift-" + shift.name do |sf| %>
 
-                                       <h4> <%= shift.name %> </h4>
+                                       <b> <%= shift.name %> </b>
                                        <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
                                        <%= sf.hidden_field :shift, value: shift.id %>
                                        <%= sf.hidden_field :dates, value: i.dates.join(",") %>
@@ -55,7 +55,7 @@
                                     <div class='span3'> <!-- Individual shift column -->
                                     <%= nsf.fields_for "shift-" + shift.name do |sf| %>
 
-                                       <h4> <%= shift.name %> </h4>
+                                       <b> <%= shift.name %> </b>
                                        <%= sf.select :staff, @guards.map { |g| [g.name, g.id] }, include_blank: true %>
                                        <%= sf.hidden_field :shift, value: shift.id %>
                                        <%= sf.hidden_field :dates, value: i.dates.join(",") %>
