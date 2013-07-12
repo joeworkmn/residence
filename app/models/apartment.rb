@@ -5,6 +5,7 @@
 #  id              :integer          not null, primary key
 #  number          :integer
 #  password_digest :string(255)
+#  tickets_count   :integer          default(0), not null
 #
 
 class Apartment < ActiveRecord::Base

@@ -12,6 +12,8 @@ class SchedulesController < ApplicationController
    def create
       @schedule_form = ScheduleForm.new(params[:schedule][:month], year: params[:schedule][:year])
       @schedule_form.submit(params[:schedule])
+
+      redirect_to new_schedule_path
    end
 
 private

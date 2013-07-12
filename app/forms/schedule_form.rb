@@ -16,9 +16,12 @@ class ScheduleForm
    end
 
 
-   def days_of_month
-      days_in_month = Time.days_in_month(start_of_month.month)
+   def days_in_month
+      Time.days_in_month(start_of_month.month)
+   end
 
+
+   def days_of_month
       days = []
       days_in_month.times { |n| days << start_of_month.advance(days: n) }
       days

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: schedules
+#
+#  id         :integer          not null, primary key
+#  year       :integer
+#  month      :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Schedule < ActiveRecord::Base
    has_many :schedule_entries, dependent: :destroy
 

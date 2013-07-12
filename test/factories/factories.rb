@@ -90,5 +90,9 @@ FactoryGirl.define do
       sequence(:name)  { |n| "violation-#{n}" }
       fine { rand(1..10).to_d }
    end
+
+   factory :shift do
+      sequence(:name)  { |n| "shift-#{n}" }
+   end
    
 end
