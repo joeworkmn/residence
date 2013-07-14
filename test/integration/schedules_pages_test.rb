@@ -5,6 +5,7 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
    describe "New" do
       before do
+         create(:schedule_configuration)
          visit new_schedule_path
       end
 
@@ -57,6 +58,7 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
                Schedule.count.must_equal(before_sch_count + 1)
                ScheduleEntry.count.must_equal(before_entry_count + expected_entries_created(@sch_form))
+               Schedule.last.entries.where(day_or_night: 'night').count.must_equal(expected_entries_created(@sch_form) / 2)
             end
          end
 

@@ -34,6 +34,7 @@ Residence::Application.routes.draw do
    end
 
    resources :schedule_entries
+   resources :schedule_configurations
    resources :shifts
 
 

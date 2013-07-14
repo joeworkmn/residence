@@ -91,6 +91,10 @@ FactoryGirl.define do
       fine { rand(1..10).to_d }
    end
 
+   factory :schedule_configuration do
+      default_interval_length  7
+   end
+
    factory :shift do
       sequence(:name)  { |n| "shift-#{n}" }
    end

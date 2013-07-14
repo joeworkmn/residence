@@ -2,15 +2,16 @@
 #
 # Table name: schedules
 #
-#  id         :integer          not null, primary key
-#  year       :integer
-#  month      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id              :integer          not null, primary key
+#  year            :integer
+#  month           :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#  interval_length :integer          default(0)
 #
 
 class Schedule < ActiveRecord::Base
-   has_many :schedule_entries, dependent: :destroy
+   has_many :entries, class_name: ScheduleEntry, dependent: :destroy
 
    validates_uniqueness_of :month, scope: :year
 

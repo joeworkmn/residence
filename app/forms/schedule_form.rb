@@ -1,4 +1,5 @@
 class ScheduleForm
+
    attr_accessor :month, :year, :interval_length
 
    def initialize(schedule_month, options={})
@@ -34,7 +35,7 @@ class ScheduleForm
 
 
    def self.default_interval_length
-      7
+      ScheduleConfiguration.first.default_interval_length
    end
 
 
@@ -43,35 +44,58 @@ class ScheduleForm
    end
 
 
+ 
+   def submit(schedule_params)
+      intv_length = schedule_params[:interval_length]
+      schedule_params = schedule_params[:entries]
+      entries = []
+      #binding.pry
+
+      schedule_params.each do |i|
+         day_shift = i[1][:day_shift]
+         night_shift = i[1][:night_shift]
+         entries += make_entries(day_shift) + make_entries(night_shift)
+      end
+
+      schedule = Schedule.create(month: month, year: year, interval_length: intv_length, entries: entries)
+   end
+
+
+private
+
    def make_intervals
+      #current_month = Date::MONTHNAMES.index(month)
+      #last_month_name = Date::MONTHNAMES[current_month - 1]
+      #binding.pry
+      #last_months_schedule = ScheduleForm.new(last_month_name)
+      #last_int = last_months_schedule.intervals.last.count
+      #remaining_days = last_months_schedule.interval_length - last_int
+
+      #first_interval = []
+      #remaining_days.times { |n| first_interval << days_of_month.shift }
+
+      #days_of_month.each_slice
+
       ints = []
+      #ints << ScheduleRotationInterval.new(first_interval)
+
+
       days_of_month.each_slice(interval_length) { |i| ints << ScheduleRotationInterval.new(i) }
       ints
    end
 
-
-
- 
-   def submit(schedule_params)
-      schedule_params = schedule_params[:entries]
-      binding.pry
-
-      # Use following to get day shift records, then parse from there. :night_shift for night.
-      # schedule_params.first[1][:day_shift]
-
-      # TODO Parse differently for day and night shift.
+   def make_entries(time_shift)
       entries = []
-      schedule_params.each do |i|
-         i[1].each do |sh|
-            rec = sh[1]
-            rec[:dates].split(",").each do |d|
-               entries << ScheduleEntry.new(staff_id: rec[:staff], shift_id: rec[:shift], date: d)
-            end
+      time_shift.each do |ts|
+         rec = ts[1]
+         rec[:dates].split(',').each do |d|
+            entries << ScheduleEntry.new(staff_id: rec[:staff], 
+                                         shift_id: rec[:shift], 
+                                         day_or_night: rec[:day_or_night],
+                                         date: d)
          end
       end
-
-      schedule = Schedule.create(month: month, year: year, schedule_entries: entries)
-      #binding.pry
+      entries
    end
 
 end
