@@ -3,7 +3,9 @@ class ScheduleForm
    attr_accessor :month, :year, :interval_length
 
    def initialize(schedule_month, options={})
-      @month = schedule_month
+      raise ArgumentError, "Invalid month." unless Date::MONTHNAMES.include? schedule_month.capitalize
+
+      @month = schedule_month.capitalize
 
       @year  = options[:year] || Date.current.year
       # calling .to_i on nil or a non-number string returns 0
@@ -44,6 +46,8 @@ class ScheduleForm
    end
 
 
+
+
  
    def submit(schedule_params)
       intv_length = schedule_params[:interval_length]
@@ -62,25 +66,33 @@ class ScheduleForm
 
 
 private
+   
+   def last_months_schedule
+      current_month = Date::MONTHNAMES.index(month)
+      last_month_name = Date::MONTHNAMES[current_month - 1]
+      @last_months_schedule ||= Schedule.find_by(month: last_month_name)
+   end
 
    def make_intervals
-      #current_month = Date::MONTHNAMES.index(month)
-      #last_month_name = Date::MONTHNAMES[current_month - 1]
       #binding.pry
-      #last_months_schedule = ScheduleForm.new(last_month_name)
-      #last_int = last_months_schedule.intervals.last.count
-      #remaining_days = last_months_schedule.interval_length - last_int
-
-      #first_interval = []
-      #remaining_days.times { |n| first_interval << days_of_month.shift }
-
-      #days_of_month.each_slice
-
+      
+      days = days_of_month
       ints = []
-      #ints << ScheduleRotationInterval.new(first_interval)
 
+      if last_months_schedule
+         #binding.pry
+         carry_over = last_months_schedule.interval_length - last_months_schedule.last_interval_length
 
-      days_of_month.each_slice(interval_length) { |i| ints << ScheduleRotationInterval.new(i) }
+         if carry_over > 0
+            first_interval = []
+            carry_over.times { first_interval << days.shift }
+            ints << ScheduleRotationInterval.new(first_interval)
+         end
+      end
+
+      #binding.pry
+
+      days.each_slice(interval_length) { |i| ints << ScheduleRotationInterval.new(i) }
       ints
    end
 
@@ -92,7 +104,8 @@ private
             entries << ScheduleEntry.new(staff_id: rec[:staff], 
                                          shift_id: rec[:shift], 
                                          day_or_night: rec[:day_or_night],
-                                         date: d)
+                                         date: d,
+                                         interval_position: rec[:interval_position])
          end
       end
       entries

@@ -91,6 +91,11 @@ FactoryGirl.define do
       fine { rand(1..10).to_d }
    end
 
+   factory :schedule do
+      month            "july"
+      interval_length  7
+   end
+
    factory :schedule_configuration do
       default_interval_length  7
    end

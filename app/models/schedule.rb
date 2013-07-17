@@ -20,4 +20,9 @@ class Schedule < ActiveRecord::Base
       scheduled_months = Schedule.where(year: Time.now.year).pluck(:month)
       Date::MONTHNAMES - scheduled_months
    end
+
+
+   def last_interval_length
+      entries.select("DISTINCT(date)").where(day_or_night: 'day', interval_position: entries.maximum(:interval_position)).count
+   end
 end
