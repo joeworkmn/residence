@@ -22,7 +22,7 @@
 
          <%= f.fields_for :entries do |e| %>
 
-            <% @intervals.each_with_index do |i, c| %>
+            <% @rotation.each_with_index do |i, c| %>
 
                <div class='row-with-margin bg-gray-lighter'> <!-- Interval Row -->
                   <%= e.fields_for "interval" + c.to_s do |intf| %>

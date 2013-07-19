@@ -64,19 +64,47 @@ class ScheduleFormTest < ActiveSupport::TestCase
       end
    end
 
-   describe "Making the schedule's intervals" do
+   describe "Last month's schedule" do
+      describe "When current month is NOT January" do
+         it "Knows how to get the schedule of the previous month" do
+            create(:schedule, month: last_month, year: sch_form.year)
+            sch_form.last_months_schedule.month.must_equal(last_month) 
+            sch_form.last_months_schedule.year.must_equal(sch_form.year) 
+         end
+      end
 
-      describe "Carry over from last month's rotation" do
+      describe "When current month is January" do
+         it "Last month's schedule should be for December of the previous year" do
+            jan_form = ScheduleForm.new("January")
+            create(:schedule, month: "December", year: jan_form.year - 1)
+            jan_form.last_months_schedule.month.must_equal("December") 
+            jan_form.last_months_schedule.year.must_equal(jan_form.year - 1) 
+         end
+      end
+   end
 
+
+   describe "Schedule's Rotation" do
+
+      before { create(:schedule_configuration) }
+
+      describe "When a schedule for last month exists" do
          it "Must have a first interval that contains the rest of the days from the previous month's last interval" do
-            create(:schedule_configuration)
             last_schedule = create(:schedule, month: last_month)
             sch_form.stubs(:last_months_schedule).returns(last_schedule)
             last_schedule.stubs(:last_interval_length).returns(3)
 
             carry_over = last_schedule.interval_length - last_schedule.last_interval_length
-            sch_form.intervals.first.dates.count.must_equal(carry_over)
-            sch_form.intervals[2].dates.count.must_equal(sch_form.interval_length)
+            sch_form.rotation.first.dates.count.must_equal(carry_over)
+            sch_form.rotation[2].dates.count.must_equal(sch_form.interval_length)
+         end
+      end
+
+      describe "When a schedule for last month does NOT exists" do
+         it "Must not have any carry over from last month, and just use this months interval length for all intervals" do
+            sch_form.stubs(:last_months_schedule).returns(nil)
+            sch_form.rotation.first.dates.count.must_equal(sch_form.interval_length)
+            sch_form.rotation[2].dates.count.must_equal(sch_form.interval_length)
          end
       end
    end

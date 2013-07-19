@@ -7,7 +7,7 @@
          <%= sf.hidden_field :shift, value: shift.id %>
          <%= sf.hidden_field :dates, value: interval.dates.join(",") %>
          <%= sf.hidden_field :day_or_night, value: local_assigns[:time_shift] == :day_shift ? 'day' : 'night' %>
-         <%= sf.hidden_field :interval_position, value: @schedule_form.intervals.index(interval) %>
+         <%= sf.hidden_field :interval_position, value: @schedule_form.rotation.index(interval) %>
       <% end %>
 
    <% end %>

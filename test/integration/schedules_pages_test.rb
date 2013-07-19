@@ -24,13 +24,15 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
       describe "After submitting meta data for schedule" do
          let(:sch_month) { "February" }
+         let(:sch_year) { "2013" }
          let(:interval_length) { 3 }
          before do
             3.times { |n| create(:shift) }
             select(sch_month, from: "Select month:")
+            select(sch_year, from: "Select year:")
             fill_in("interval_length", with: interval_length)
             click_button("Submit")
-            @sch_form = ScheduleForm.new(sch_month, interval_length: interval_length)
+            @sch_form = ScheduleForm.new(sch_month, year: sch_year, interval_length: interval_length)
          end
 
          it "Displays Schedule Form" do
@@ -40,13 +42,13 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
          describe "Schedule Form" do
             it "Displays correct interval range text" do
-               first(".interval-range-text").text.must_equal(@sch_form.intervals.first.range_text)
-               all(".interval-range-text").last.text.must_equal(@sch_form.intervals.last.range_text)
+               first(".interval-range-text").text.must_equal(@sch_form.rotation.first.range_text)
+               all(".interval-range-text").last.text.must_equal(@sch_form.rotation.last.range_text)
             end
 
             it "Assigns the correct month and year to hidden fields" do 
-               find("#schedule_month").value.must_equal(@sch_form.month)
-               find("#schedule_year").value.must_equal(@sch_form.year.to_s)
+               find("#schedule_month").value.must_equal(sch_month)
+               find("#schedule_year").value.must_equal(sch_year)
             end
          end
 
@@ -60,6 +62,14 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
                ScheduleEntry.count.must_equal(before_entry_count + expected_entries_created(@sch_form))
                Schedule.last.entries.where(day_or_night: 'night').count.must_equal(expected_entries_created(@sch_form) / 2)
             end
+
+            it "Creates a schedule with the correct attribute values" do
+               click_button "Submit Schedule"
+               Schedule.last.month.must_equal(sch_month)
+               Schedule.last.year.must_equal(sch_year.to_i)
+               Schedule.last.interval_length.must_equal(interval_length)
+            end
+
          end
 
       end

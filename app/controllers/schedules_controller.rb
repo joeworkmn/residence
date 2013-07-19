@@ -2,7 +2,7 @@ class SchedulesController < ApplicationController
    def new
       if month_selected?
          @schedule_form = ScheduleForm.new(params[:month], year: params[:year], interval_length: params[:interval_length])
-         @intervals     = @schedule_form.intervals
+         @rotation     = @schedule_form.rotation
          @guards        = Staff.guards
          @shifts        = Shift.all
       end

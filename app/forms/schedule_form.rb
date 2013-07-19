@@ -12,6 +12,9 @@ class ScheduleForm
       @interval_length = options[:interval_length].to_i
    end
 
+   def year
+      @year.to_i
+   end
 
    def start_of_month
       Date.parse(month)
@@ -40,11 +43,14 @@ class ScheduleForm
    end
 
 
-   def intervals
-      @intervals ||= make_intervals
+   def rotation
+      @rotation ||= make_rotation
    end
 
 
+   def last_months_schedule
+      @last_months_schedule ||= Schedule.find_by(month: last_months_name, year: last_months_year)
+   end
 
  
    def submit(schedule_params)
@@ -57,15 +63,13 @@ class ScheduleForm
 
 
 private
-   
-   def last_months_schedule
-      current_month = Date::MONTHNAMES.index(month)
-      last_month_name = Date::MONTHNAMES[current_month - 1]
-      @last_months_schedule ||= Schedule.find_by(month: last_month_name)
-   end
 
+   #########################################################
+   ############# Rotation Helpers ##########################
+   #########################################################
 
-   def make_intervals
+   # Creates the rotation to display on the new form.
+   def make_rotation
       ints = []
 
       # If a schedule for last month was created.
@@ -96,6 +100,27 @@ private
    end
 
 
+   def last_months_name
+      current_month = Date::MONTHNAMES.index(month)
+      current_month = (january?) ? 13 : current_month
+      last_months_name = Date::MONTHNAMES[current_month - 1]
+   end
+
+
+   def last_months_year
+      (january?) ? year - 1 : year
+   end
+
+   
+   def january?
+      month == "January"
+   end
+
+
+   #############################################################
+   ################# Submit Helpers ############################
+   #############################################################
+
    # Collects all the entries from the params hash.
    def make_entries(entries_params)
       entries = []
@@ -107,6 +132,7 @@ private
       end
       entries
    end
+
 
    # Parses the timeshift portion of the params to build the entries for that timeshift.
    def parse_timeshift_params_for_entries(time_shift)
@@ -123,5 +149,7 @@ private
       end
       entries
    end
+
+   ############# End Submission helpers ############
 
 end
