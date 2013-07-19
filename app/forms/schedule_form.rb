@@ -6,12 +6,11 @@ class ScheduleForm
       raise ArgumentError, "Invalid month." unless Date::MONTHNAMES.include? schedule_month.capitalize
 
       @month = schedule_month.capitalize
-
       @year  = options[:year] || Date.current.year
+
       # calling .to_i on nil or a non-number string returns 0
       @interval_length = options[:interval_length].to_i
    end
-
 
 
    def start_of_month
@@ -47,19 +46,11 @@ class ScheduleForm
 
 
 
-
  
    def submit(schedule_params)
       intv_length = schedule_params[:interval_length]
-      schedule_params = schedule_params[:entries]
-      entries = []
-      #binding.pry
-
-      schedule_params.each do |i|
-         day_shift = i[1][:day_shift]
-         night_shift = i[1][:night_shift]
-         entries += make_entries(day_shift) + make_entries(night_shift)
-      end
+      entries_params = schedule_params[:entries]
+      entries = make_entries(entries_params)
 
       schedule = Schedule.create(month: month, year: year, interval_length: intv_length, entries: entries)
    end
@@ -73,30 +64,52 @@ private
       @last_months_schedule ||= Schedule.find_by(month: last_month_name)
    end
 
+
    def make_intervals
-      #binding.pry
-      
-      days = days_of_month
       ints = []
 
-      if last_months_schedule
-         #binding.pry
-         carry_over = last_months_schedule.interval_length - last_months_schedule.last_interval_length
+      # If a schedule for last month was created.
+      ints += carry_over_from_last_month if last_months_schedule
+      
+      # If ints is empty, return all days of month. Otherwise return 
+      # days_of_month minus whatever days were added to the first interval
+      # based on the carry over from last month's schedule.
+      remaining_days = ints.blank? ? days_of_month : days_of_month - ints.first.dates
 
-         if carry_over > 0
-            first_interval = []
-            carry_over.times { first_interval << days.shift }
-            ints << ScheduleRotationInterval.new(first_interval)
-         end
-      end
-
-      #binding.pry
-
-      days.each_slice(interval_length) { |i| ints << ScheduleRotationInterval.new(i) }
+      remaining_days.each_slice(interval_length) { |i| ints << ScheduleRotationInterval.new(i) }
       ints
    end
 
-   def make_entries(time_shift)
+
+   # Determines if there's any carry over from last month's final rotation interval and uses those
+   # days to create the first interval of this month.
+   def carry_over_from_last_month
+      days = days_of_month
+      ints = []
+      carry_over = last_months_schedule.interval_length - last_months_schedule.last_interval_length
+      if carry_over > 0
+         first_interval = []
+         carry_over.times { first_interval << days.shift }
+         ints << ScheduleRotationInterval.new(first_interval)
+      end
+      ints
+   end
+
+
+   # Collects all the entries from the params hash.
+   def make_entries(entries_params)
+      entries = []
+
+      entries_params.each do |i|
+         day_shift = i[1][:day_shift]
+         night_shift = i[1][:night_shift]
+         entries += parse_timeshift_params_for_entries(day_shift) + parse_timeshift_params_for_entries(night_shift)
+      end
+      entries
+   end
+
+   # Parses the timeshift portion of the params to build the entries for that timeshift.
+   def parse_timeshift_params_for_entries(time_shift)
       entries = []
       time_shift.each do |ts|
          rec = ts[1]
