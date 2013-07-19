@@ -1,9 +1,9 @@
 <%= form_tag new_schedule_path, method: :get do %>
    <%= label_tag  :month, "Select month:" %>
-   <%= select_tag :month, options_for_select(Schedule.unscheduled_months_for(Time.now.year).map { |m| [m, m] }, params[:month])  %>
+   <%= select_tag :month, options_for_select(sch_form_month_options, params[:month])  %>
    <%= label_tag :year, "Select year:" %>
    <%= select_tag :year, options_for_select([Time.now.year, Time.now.next_year.year]) %>
-   <%= label_tag :interval_length, "Number of days between rotation:" %>
+   <%= label_tag :interval_length, "Number of days between rotations:" %>
    <%= text_field_tag :interval_length, params[:interval_length] || ScheduleForm.default_interval_length %>
    <br /><%= submit_tag "Submit" %>
 <% end %>
