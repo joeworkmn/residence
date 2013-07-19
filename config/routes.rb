@@ -30,7 +30,7 @@ Residence::Application.routes.draw do
 
    resources :violations
    resources :schedules do
-      #post 'select_month_for', on: :new, to: 'schedules#new'
+      get 'unscheduled_months', on: :collection
    end
 
    resources :schedule_entries

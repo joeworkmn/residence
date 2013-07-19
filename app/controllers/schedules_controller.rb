@@ -16,6 +16,15 @@ class SchedulesController < ApplicationController
       redirect_to new_schedule_path
    end
 
+
+   # JSON API
+   def unscheduled_months
+      months = Schedule.unscheduled_months_for(params[:year])
+      respond_to do |format|
+         format.json { render json: months }
+      end
+   end
+
 private
 
    def month_selected?

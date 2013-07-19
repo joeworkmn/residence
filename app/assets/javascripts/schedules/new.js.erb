@@ -1,0 +1,14 @@
+$(document).ready(function() {
+   $('#meta-data-form').on('change', '#year', function() {
+      year = $(this).val()
+
+      monthSelect = $("#meta-data-form #month")
+      $.getJSON('/schedules/unscheduled_months.json', { year: year }, function(resp) {
+         options = ""
+         $.each(resp, function(k, v) {
+            options += "<option value='" + v + "'>" + v + "</option>"
+         })
+         monthSelect.html(options)
+      })
+   })
+})

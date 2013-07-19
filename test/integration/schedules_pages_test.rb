@@ -28,10 +28,7 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          let(:interval_length) { 3 }
          before do
             3.times { |n| create(:shift) }
-            select(sch_month, from: "Select month:")
-            select(sch_year, from: "Select year:")
-            fill_in("interval_length", with: interval_length)
-            click_button("Submit")
+            submit_schedule_meta_data(sch_month, sch_year, interval_length)
             @sch_form = ScheduleForm.new(sch_month, year: sch_year, interval_length: interval_length)
          end
 
@@ -53,7 +50,11 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          end
 
          describe "After submitting Schedule Form" do
+
             it "Creates a schedule and it's entries in the database" do
+               #3.times { |n| create(:guard) }
+               #submit_schedule_meta_data(sch_month, sch_year, interval_length)
+
                before_sch_count = Schedule.count
                before_entry_count = ScheduleEntry.count
                click_button "Submit Schedule"
