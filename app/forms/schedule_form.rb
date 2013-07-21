@@ -1,6 +1,8 @@
 class ScheduleForm
 
-   attr_accessor :month, :year, :interval_length
+   include ActiveModel::Model
+
+   attr_accessor :month, :year, :interval_length, :rotation
 
    def initialize(schedule_month, options={})
       raise ArgumentError, "Invalid month." unless Date::MONTHNAMES.include? schedule_month.capitalize

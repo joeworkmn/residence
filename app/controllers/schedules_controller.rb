@@ -17,6 +17,46 @@ class SchedulesController < ApplicationController
    end
 
 
+
+
+
+   def temp
+      @schedule = Schedule.find_by(month: "February")
+      @entries = @schedule.entries.order(:interval_position, :date).includes(:shift)
+      @guards = Staff.guards
+
+      @days = @entries.group_by { |e| e.date }.values
+
+#      @days = []
+#      day = []
+#
+#      cur_day = @entries.first.date
+#
+#      @entries.each do |e|
+#         if e.date == cur_day
+#            day << e
+#         else
+#            @days << day
+#            day = []
+#            cur_day = e.date
+#            day << e
+#         end
+#
+#         if e.eql?(@entries.last)
+#            @days << day
+#         end
+#      end
+
+      binding.pry
+   end
+
+
+
+
+
+
+
+
    # JSON API
    def unscheduled_months
       months = Schedule.unscheduled_months_for(params[:year])
