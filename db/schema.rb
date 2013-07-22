@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130715050037) do
+ActiveRecord::Schema.define(version: 20130722064523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20130715050037) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "interval_length", default: 0
+    t.integer  "month_position"
   end
 
   add_index "schedules", ["month", "year"], name: "index_schedules_on_month_and_year", unique: true, using: :btree

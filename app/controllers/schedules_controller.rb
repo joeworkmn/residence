@@ -2,7 +2,7 @@ class SchedulesController < ApplicationController
 
 
    def index
-      @schedules = Schedule.all.order(:year, :month)
+      @schedules = Schedule.all.order(:year, :month_position)
    end
 
 
@@ -35,9 +35,8 @@ class SchedulesController < ApplicationController
 
 
    def update
-      @schedule_form = ScheduleForm.new(params[:schedule][:month], year: params[:schedule][:year])
-      #@schedule_form.update(params[:schedule])
-      abort
+      @schedule_form = ScheduleFormUpdate.new(params[:schedule][:month], year: params[:schedule][:year])
+      @schedule_form.submit(params[:schedule])
    end
 
 

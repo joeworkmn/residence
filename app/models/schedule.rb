@@ -23,7 +23,19 @@ class Schedule < ActiveRecord::Base
    end
 
 
+   def self.order_months
+      scheds = order(:year)
+
+      scheds.each do |s|
+         pos = Date::MONTHNAMES.index(s.month)
+
+      end
+   end
+
+
    def last_interval_length
       entries.select("DISTINCT(date)").where(day_or_night: 'day', interval_position: entries.maximum(:interval_position)).count
    end
+
+
 end

@@ -60,8 +60,12 @@ class ScheduleForm
       entries_params = schedule_params[:entries]
       entries = make_entries(entries_params)
 
-      schedule = Schedule.create(month: month, year: year, interval_length: intv_length, entries: entries)
+      month_pos = Date::MONTHNAMES.index(month)
+
+      schedule = Schedule.create(month: month, month_position: month_pos, year: year, interval_length: intv_length, entries: entries)
    end
+
+
 
 
 private
@@ -153,5 +157,15 @@ private
    end
 
    ############# End Submission helpers ############
+   
+   
+   
+  
+   ############# Update helpers ############
+   
+   
+   
+   
+   ############# End Update helpers ############
 
 end

@@ -1,9 +1,9 @@
 <div class='row'>
-   <div class='span5'>
+   <div class='span4'>
       <b> Day Shift </b>
    </div>
 
-   <div class='span5'>
+   <div class='span4'>
       <b> Night Shift </b>
    </div>
 </div>
@@ -21,19 +21,23 @@
 
             <%= entries_f.fields_for "day-#{day_index}" do |dayf| %> <!-- Day Fields -->
 
-               <% day_shift = day.select { |e| e.day_or_night == 'day' }.sort %>
-               <% night_shift = day.select { |e| e.day_or_night == 'night' }.sort %>
 
-               <div class='span5'> <!-- Day Shift Column -->
-                  <% time_shift_partial_assigns = { day_fields: dayf, guards: @guards, time_shift: :day_shift, time_shift_recs: day_shift } %>
+               <div class='span4'> <!-- Day Shift Column -->
+                  <% time_shift_partial_assigns = { day_fields: dayf, 
+                                                    guards: @guards, 
+                                                    time_shift: :day_shift, 
+                                                    time_shift_recs: day_shift_entries_for(day) } %>
+
                   <%= render 'schedule_form_edit_time_shift', time_shift_partial_assigns %>
                </div> <!-- End Day Shift -->
 
-               <div class='span5'> <!-- Night Shift Column -->
+               <div class='span4'> <!-- Night Shift Column -->
                   <% time_shift_partial_assigns[:time_shift]      = :night_shift %>
-                  <% time_shift_partial_assigns[:time_shift_recs] = night_shift %>
+                  <% time_shift_partial_assigns[:time_shift_recs] = night_shift_entries_for(day) %>
                   <%= render 'schedule_form_edit_time_shift', time_shift_partial_assigns %>
                </div> <!-- End Night Shift -->
+
+               <div class='span3'> <%= Date::DAYNAMES[day.first.date.wday] + " " + day.first.date.to_formatted_s(:long) %> </div>
 
             <% end %> <!-- End Day Fields -->
 
