@@ -1,4 +1,11 @@
 class SchedulesController < ApplicationController
+
+
+   def index
+      @schedules = Schedule.all.order(:year, :month)
+   end
+
+
    def new
       if month_selected?
          @schedule_form = ScheduleForm.new(params[:month], year: params[:year], interval_length: params[:interval_length])
@@ -18,40 +25,20 @@ class SchedulesController < ApplicationController
 
 
 
-
-
-   def temp
-      @schedule = Schedule.find_by(month: "February")
+   def edit
+      @schedule = Schedule.find_by(id: params[:id])
       @entries = @schedule.entries.order(:interval_position, :date).includes(:shift)
       @guards = Staff.guards
 
       @days = @entries.group_by { |e| e.date }.values
-
-#      @days = []
-#      day = []
-#
-#      cur_day = @entries.first.date
-#
-#      @entries.each do |e|
-#         if e.date == cur_day
-#            day << e
-#         else
-#            @days << day
-#            day = []
-#            cur_day = e.date
-#            day << e
-#         end
-#
-#         if e.eql?(@entries.last)
-#            @days << day
-#         end
-#      end
-
-      binding.pry
    end
 
 
-
+   def update
+      @schedule_form = ScheduleForm.new(params[:schedule][:month], year: params[:schedule][:year])
+      #@schedule_form.update(params[:schedule])
+      abort
+   end
 
 
 

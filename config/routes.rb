@@ -29,9 +29,9 @@ Residence::Application.routes.draw do
    end
 
    resources :violations
+
    resources :schedules do
       get 'unscheduled_months', on: :collection
-      get 'temp', on: :collection
    end
 
    resources :schedule_entries
