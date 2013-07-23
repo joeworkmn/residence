@@ -27,7 +27,7 @@ class SchedulesController < ApplicationController
 
    def edit
       @schedule = Schedule.find_by(id: params[:id])
-      @entries = @schedule.entries.order(:interval_position, :date).includes(:shift)
+      @entries = @schedule.entries.order(:date, :shift_id).includes(:shift)
       @guards = Staff.guards
 
       @days = @entries.group_by { |e| e.date }.values

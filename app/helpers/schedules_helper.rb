@@ -6,10 +6,10 @@ module SchedulesHelper
 
 
    def day_shift_entries_for(day)
-      day_shift = day.select { |e| e.day_or_night == 'day' }.sort
+      day_shift = day.select { |e| e.day_or_night == 'day' }
    end
 
    def night_shift_entries_for(day)
-      night_shift = day.select { |e| e.day_or_night == 'night' }.sort
+      night_shift = day.select { |e| e.day_or_night == 'night' }
    end
 end

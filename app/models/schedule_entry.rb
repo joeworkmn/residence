@@ -16,6 +16,7 @@
 class ScheduleEntry < ActiveRecord::Base
    belongs_to :schedule
    belongs_to :shift
+   belongs_to :staff
 
    scope :night_shift, -> { where(day_or_night: 'night') }
 end

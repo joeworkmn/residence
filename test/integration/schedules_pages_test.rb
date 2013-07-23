@@ -74,5 +74,46 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          end
 
       end
-   end
+   end # End New
+
+
+   describe "Edit" do
+      js_driver
+
+
+
+      it "Displays and populates form correctly" do
+         schedule = create(:schedule)
+         first_of_month = Date.parse(schedule.month)
+         guards = []
+         shifts = []
+         3.times { guards << create(:guard) }
+         3.times { shifts << create(:shift) }
+
+         today_day_shift1     = schedule.entries.create(date: first_of_month, staff_id: guards.first.id, shift_id: shifts.first.id, day_or_night: 'day')
+         today_day_shift2     = schedule.entries.create(date: first_of_month, staff_id: guards[1].id, shift_id: shifts[1].id, day_or_night: 'day')
+         today_day_shift3     = schedule.entries.create(date: first_of_month, staff_id: guards[2].id, shift_id: shifts[2].id, day_or_night: 'day')
+
+         today_night_shift1   = schedule.entries.create(date: first_of_month, staff_id: guards[1].id, shift_id: shifts.first.id, day_or_night: 'night')
+         today_night_shift2   = schedule.entries.create(date: first_of_month, staff_id: guards.first.id, shift_id: shifts[1].id, day_or_night: 'night')
+
+         tomorrow_day_shift1  = schedule.entries.create(date: first_of_month.tomorrow, staff_id: guards[2].id, shift_id: shifts.first.id, day_or_night: 'day')
+         tomorrow_day_shift2  = schedule.entries.create(date: first_of_month.tomorrow, staff_id: guards[1].id, shift_id: shifts[1].id, day_or_night: 'day')
+
+
+         visit edit_schedule_path(schedule)
+
+         first(".day-row").find(".day-shift").first("select").value.must_equal(guards.first.id.to_s)
+         first(".day-row").find(".day-shift").all("select")[1].value.must_equal(guards[1].id.to_s)
+         first(".day-row").find(".day-shift").all("select")[2].value.must_equal(guards[2].id.to_s)
+
+         first(".day-row").find(".night-shift").first("select").value.must_equal(guards[1].id.to_s)
+         first(".day-row").find(".night-shift").all("select")[1].value.must_equal(guards.first.id.to_s)
+
+         all(".day-row")[1].find(".day-shift").first("select").value.must_equal(guards[2].id.to_s)
+         all(".day-row")[1].find(".day-shift").all("select")[1].value.must_equal(guards[1].id.to_s)
+
+      end
+
+   end # End Edit
 end

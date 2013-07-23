@@ -93,8 +93,32 @@ FactoryGirl.define do
 
    factory :schedule do
       month            "july"
+      year             2013
       interval_length  7
+
+      factory :schedule_with_entries do
+
+         ignore do
+            entries_count
+         end
+
+         after(:create) do |schedule, eval|
+            FactoryGirl.create_list(:schedule_entries, eval.entries_count, schedule: schedule)
+         end
+      end
    end
+
+
+
+   factory :schedule_entry do
+      date                { Date.today }
+      day_or_night        'day'
+
+      shift
+      association :staff, :factory => :guard
+   end
+
+
 
    factory :schedule_configuration do
       default_interval_length  7
