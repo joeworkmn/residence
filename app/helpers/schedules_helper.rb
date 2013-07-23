@@ -12,4 +12,9 @@ module SchedulesHelper
    def night_shift_entries_for(day)
       night_shift = day.select { |e| e.day_or_night == 'night' }
    end
+
+
+   def schedule_day_label(date)
+      Date::DAYNAMES[date.wday] + " " + date.to_formatted_s(:long)
+   end
 end

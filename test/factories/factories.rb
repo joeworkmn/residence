@@ -103,7 +103,7 @@ FactoryGirl.define do
          end
 
          after(:create) do |schedule, eval|
-            FactoryGirl.create_list(:schedule_entries, eval.entries_count, schedule: schedule)
+            FactoryGirl.create_list(:schedule_entry, eval.entries_count, schedule: schedule)
          end
       end
    end

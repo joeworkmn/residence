@@ -9,7 +9,7 @@ class SchedulesController < ApplicationController
    def new
       if month_selected?
          @schedule_form = ScheduleForm.new(params[:month], year: params[:year], interval_length: params[:interval_length])
-         @rotation     = @schedule_form.rotation
+         @rotation      = @schedule_form.rotation
          @guards        = Staff.guards
          @shifts        = Shift.all
       end
@@ -18,9 +18,9 @@ class SchedulesController < ApplicationController
 
    def create
       @schedule_form = ScheduleForm.new(params[:schedule][:month], year: params[:schedule][:year])
-      @schedule_form.submit(params[:schedule])
+      schedule = @schedule_form.submit(params[:schedule])
 
-      redirect_to new_schedule_path
+      redirect_to edit_schedule_path(schedule)
    end
 
 
@@ -30,7 +30,7 @@ class SchedulesController < ApplicationController
       @entries = @schedule.entries.order(:date, :shift_id).includes(:shift)
       @guards = Staff.guards
 
-      @days = @entries.group_by { |e| e.date }.values
+      @entries_grouped_by_day = @entries.group_by { |e| e.date }.values
    end
 
 
@@ -43,7 +43,7 @@ class SchedulesController < ApplicationController
 
 
 
-   # JSON API
+   # JSON
    def unscheduled_months
       months = Schedule.unscheduled_months_for(params[:year])
       respond_to do |format|

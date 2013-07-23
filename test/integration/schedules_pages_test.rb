@@ -57,7 +57,7 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
                before_sch_count = Schedule.count
                before_entry_count = ScheduleEntry.count
-               click_button "Submit Schedule"
+               submit_schedule
 
                Schedule.count.must_equal(before_sch_count + 1)
                ScheduleEntry.count.must_equal(before_entry_count + expected_entries_created(@sch_form))
@@ -65,7 +65,7 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
             end
 
             it "Creates a schedule with the correct attribute values" do
-               click_button "Submit Schedule"
+               submit_schedule
                Schedule.last.month.must_equal(sch_month)
                Schedule.last.year.must_equal(sch_year.to_i)
                Schedule.last.interval_length.must_equal(interval_length)
@@ -78,11 +78,32 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
 
    describe "Edit" do
-      js_driver
+      #js_driver
+
+      it "Displays correctly" do
+         3.times { create(:shift) }
+         create(:schedule_configuration)
+
+         visit new_schedule_path
+         submit_schedule_meta_data("May", 2013, 7)
+         submit_schedule 
+
+         schedule = Schedule.last
+         entries = schedule.entries.order(:date)
 
 
+         day_rows = all(".day-row")
 
-      it "Displays and populates form correctly" do
+         # Test count of day rows.
+         day_rows.count.must_equal(31)
+
+         # Test date label for day row.
+         day_rows.last.find(".date").text.must_equal(schedule_day_label(entries.last.date))
+
+      end
+
+
+      it "Populates form fields correctly" do
          schedule = create(:schedule)
          first_of_month = Date.parse(schedule.month)
          guards = []
@@ -90,13 +111,16 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          3.times { guards << create(:guard) }
          3.times { shifts << create(:shift) }
 
+         # Create schedule for the day shift of the first day of month.
          today_day_shift1     = schedule.entries.create(date: first_of_month, staff_id: guards.first.id, shift_id: shifts.first.id, day_or_night: 'day')
          today_day_shift2     = schedule.entries.create(date: first_of_month, staff_id: guards[1].id, shift_id: shifts[1].id, day_or_night: 'day')
          today_day_shift3     = schedule.entries.create(date: first_of_month, staff_id: guards[2].id, shift_id: shifts[2].id, day_or_night: 'day')
 
+         # Create schedule for the night shift of the first day of month.
          today_night_shift1   = schedule.entries.create(date: first_of_month, staff_id: guards[1].id, shift_id: shifts.first.id, day_or_night: 'night')
          today_night_shift2   = schedule.entries.create(date: first_of_month, staff_id: guards.first.id, shift_id: shifts[1].id, day_or_night: 'night')
 
+         # Create schedule for the day shift of the second day of month.
          tomorrow_day_shift1  = schedule.entries.create(date: first_of_month.tomorrow, staff_id: guards[2].id, shift_id: shifts.first.id, day_or_night: 'day')
          tomorrow_day_shift2  = schedule.entries.create(date: first_of_month.tomorrow, staff_id: guards[1].id, shift_id: shifts[1].id, day_or_night: 'day')
 
@@ -112,7 +136,6 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
          all(".day-row")[1].find(".day-shift").first("select").value.must_equal(guards[2].id.to_s)
          all(".day-row")[1].find(".day-shift").all("select")[1].value.must_equal(guards[1].id.to_s)
-
       end
 
    end # End Edit
