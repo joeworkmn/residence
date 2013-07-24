@@ -17,7 +17,8 @@ class SchedulesController < ApplicationController
 
 
    def create
-      @schedule_form = ScheduleForm.new(params[:schedule][:month], year: params[:schedule][:year])
+      #@schedule_form = ScheduleForm.new(params[:schedule][:month], year: params[:schedule][:year])
+      @schedule_form = ScheduleFormSubmission.new(params[:schedule][:month], year: params[:schedule][:year])
       schedule = @schedule_form.submit(params[:schedule])
 
       redirect_to edit_schedule_path(schedule)
@@ -37,6 +38,9 @@ class SchedulesController < ApplicationController
    def update
       @schedule_form = ScheduleFormUpdate.new(params[:schedule][:month], year: params[:schedule][:year])
       @schedule_form.submit(params[:schedule])
+
+      flash[:success] = "Schedule has been updated"
+      redirect_to :back
    end
 
 
