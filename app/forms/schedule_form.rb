@@ -13,21 +13,25 @@ class ScheduleForm
    end
 
 
+   # Year for this schedule.
    def year
       @year.to_i
    end
 
 
+   # First day of the schedule's month.
    def start_of_month
       Date.parse(month)
    end
 
 
+   # Number of days in the month.
    def days_in_month
       Time.days_in_month(start_of_month.month)
    end
 
 
+   # All the days of the month as an array of dates.
    def days_of_month
       days = []
       days_in_month.times { |n| days << start_of_month.advance(days: n) }
@@ -45,6 +49,7 @@ class ScheduleForm
    end
 
 
+   # The rotation for this schedule as an array of ScheduleRotationIntervals
    def rotation
       @rotation ||= make_rotation
    end
@@ -61,7 +66,7 @@ private
    ############# Rotation Helpers ##########################
    #########################################################
 
-   # Creates the rotation to display on the new form.
+   # Creates the rotation to display on the schedules#new form.
    def make_rotation
       ints = []
 
@@ -93,6 +98,7 @@ private
    end
 
 
+   # Last month is relative to the month of this schedule.
    def last_months_name
       current_month = Date::MONTHNAMES.index(month)
       current_month = (january?) ? 13 : current_month
@@ -100,11 +106,13 @@ private
    end
 
 
+   # Last month is relative to the month of this schedule.
    def last_months_year
-      (january?) ? year - 1 : year
+      (january?) ? (year - 1) : year
    end
 
    
+   # Is this schedule for January?
    def january?
       month == "January"
    end

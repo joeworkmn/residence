@@ -1,6 +1,6 @@
 # Handles the submission and creation of new Schedules and associated ScheduleEntries.
 
-class ScheduleFormSubmission < ScheduleForm
+class ScheduleForm::Submission < ScheduleForm
 
 
    def submit(schedule_params)

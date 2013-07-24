@@ -1,10 +1,14 @@
-<div class='row'>
+<%= provide(:title, "Edit Schedule") %>
+
+<div class='row-with-margin'> <h2 class='text-center'> <%= "#{@schedule.month} #{@schedule.year}" %> </h2></div>
+
+<div class='row-with-margin'>
    <div class='span4'>
-      <b> Day Shift </b>
+      <h4><b> Day Shift </b><h4>
    </div>
 
    <div class='span4'>
-      <b> Night Shift </b>
+      <h4><b> Night Shift </b><h4>
    </div>
 </div>
 

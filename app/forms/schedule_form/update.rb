@@ -1,6 +1,6 @@
 # Handles the submission of edited Schedules and associated ScheduleEntries.
 
-class ScheduleFormUpdate < ScheduleForm
+class ScheduleForm::Update < ScheduleForm
 
    def submit(schedule_params)
       entries_params = schedule_params[:entries]
