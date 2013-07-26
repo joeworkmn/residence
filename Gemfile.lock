@@ -100,6 +100,8 @@ GEM
     faye-websocket (0.4.7)
       eventmachine (>= 0.12.0)
     ffi (1.9.0)
+    haml (4.0.3)
+      tilt
     hashie (2.0.5)
     hike (1.2.3)
     http_parser.rb (0.5.3)
@@ -244,6 +246,7 @@ DEPENDENCIES
   database_cleaner
   factory_girl_rails
   faker (= 1.1.2)
+  haml
   jbuilder (~> 1.0.1)
   jquery-datatables-rails!
   jquery-rails

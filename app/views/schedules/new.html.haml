@@ -1,0 +1,46 @@
+
+- provide(:title, "New Schedule")
+
+.row
+   .span5#meta-data-form
+      = render 'meta_data_form'
+
+- unless params[:month].blank?
+
+   #schedule-form
+      .row
+         .span4 
+            %h3 Day Shift
+         .span4 
+            %h3 Night Shift
+
+      = form_for :schedule, url: schedules_path  do |f|
+
+         = f.hidden_field :month, value: @schedule_form.month
+         = f.hidden_field :year, value: @schedule_form.year
+         = f.hidden_field :interval_length, value: @schedule_form.interval_length
+
+         = f.fields_for :entries do |e|
+            - @rotation.each_with_index do |i, c|
+
+               <!-- Interval Row -->
+               .interval.row-with-margin.bg-gray-lighter
+                  = e.fields_for "interval" + c.to_s do |intf|
+
+                     - time_shift_partial_assigns = { interval_fields: intf, interval: i, time_shift: :day_shift, shifts: @shifts, guards: @guards }
+
+                     <!-- Day Shift Col -->
+                     .day-shift.span4
+                        = render 'schedule_form_time_shift', time_shift_partial_assigns
+
+                     <!-- Night Shift Col -->
+                     .night-shift.span4
+                        - time_shift_partial_assigns[:time_shift] = :night_shift
+                        = render 'schedule_form_time_shift', time_shift_partial_assigns
+
+                  %span.span3.interval-range-text= i.range_text
+                  <!-- End Interval Row -->
+
+         = f.submit "Submit Schedule", class: 'btn btn-primary'
+
+   <!-- End Schedule Form Div. -->

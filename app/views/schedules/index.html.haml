@@ -1,0 +1,10 @@
+- provide(:title, "Schedule Index")
+
+%table.display.data-table-gem
+   %thead
+      %tr
+         %th Year
+         %th Month
+
+   %tbody
+      = render @schedules
