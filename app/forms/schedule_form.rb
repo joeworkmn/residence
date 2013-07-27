@@ -1,4 +1,5 @@
 class ScheduleForm
+   include Schedulable
 
    attr_accessor :month, :year, :interval_length, :rotation
 
@@ -21,7 +22,7 @@ class ScheduleForm
 
    # First day of the schedule's month.
    def start_of_month
-      Date.parse(month)
+      Date.parse("#{month} #{year}")
    end
 
 
@@ -55,11 +56,6 @@ class ScheduleForm
    end
 
 
-   def last_months_schedule
-      @last_months_schedule ||= Schedule.find_by(month: last_months_name, year: last_months_year)
-   end
-
- 
 private
 
    #########################################################
@@ -95,26 +91,6 @@ private
          ints << ScheduleRotationInterval.new(first_interval)
       end
       ints
-   end
-
-
-   # Last month is relative to the month of this schedule.
-   def last_months_name
-      current_month = Date::MONTHNAMES.index(month)
-      current_month = (january?) ? 13 : current_month
-      last_months_name = Date::MONTHNAMES[current_month - 1]
-   end
-
-
-   # Last month is relative to the month of this schedule.
-   def last_months_year
-      (january?) ? (year - 1) : year
-   end
-
-   
-   # Is this schedule for January?
-   def january?
-      month == "January"
    end
    
 end

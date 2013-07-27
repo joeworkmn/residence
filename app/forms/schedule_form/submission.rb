@@ -5,11 +5,12 @@ class ScheduleForm::Submission < ScheduleForm
 
    def submit(schedule_params)
       intv_length = schedule_params[:interval_length]
-      entries_params = schedule_params[:entries]
-      entries = make_entries(entries_params)
       month_pos = Date::MONTHNAMES.index(month)
 
-      schedule = Schedule.create(month: month, month_position: month_pos, year: year, interval_length: intv_length, entries: entries)
+      schedule = Schedule.create(month: month, month_position: month_pos, year: year, interval_length: intv_length)
+      schedule.entries = make_entries(schedule_params[:entries])
+
+      schedule.valid? ? schedule : false
    end
 
 

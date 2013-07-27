@@ -18,7 +18,7 @@ class ScheduleEntry < ActiveRecord::Base
    belongs_to :shift
    belongs_to :staff
 
-   validates_presence_of :date, :day_or_night, :interval_position, :staff_id, :schedule_id, :shift_id
+   validates_presence_of :date, :day_or_night, :interval_position, :schedule_id, :shift_id
 
    scope :night_shift, -> { where(day_or_night: 'night') }
    scope :day_shift, -> { where(day_or_night: 'day') }

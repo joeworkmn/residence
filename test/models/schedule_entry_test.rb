@@ -30,11 +30,6 @@ class ScheduleEntryTest < ActiveSupport::TestCase
       @entry.wont_be :valid?
    end
 
-   it "Validates staff_id" do
-      @entry.staff_id = nil
-      @entry.wont_be :valid?
-   end
-
    it "Validates shift_id" do
       @entry.shift_id = nil
       @entry.wont_be :valid?

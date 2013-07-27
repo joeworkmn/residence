@@ -8,7 +8,8 @@ class SchedulesController < ApplicationController
 
    def show
       @entries = schedule.entries.order(:date, :shift_id).includes(:shift, :staff)
-      @entries_grouped_by_day = @entries.group_by { |e| e.date }.values
+      @last_months_schedule = schedule.last_months_schedule
+      @next_months_schedule = schedule.next_months_schedule
    end
 
 
@@ -23,11 +24,14 @@ class SchedulesController < ApplicationController
 
 
    def create
-      #@schedule_form = ScheduleForm.new(params[:schedule][:month], year: params[:schedule][:year])
       @schedule_form = ScheduleForm::Submission.new(params[:schedule][:month], year: params[:schedule][:year])
-      schedule = @schedule_form.submit(params[:schedule])
-
-      redirect_to edit_schedule_path(schedule)
+      #binding.pry
+      if schedule = @schedule_form.submit(params[:schedule])
+         redirect_to edit_schedule_path(schedule)
+      else
+         flash[:error] = "Form is invalid."
+         render :new
+      end
    end
 
 

@@ -2,7 +2,13 @@
 
 %h2.text-center= "#{@schedule.month} #{@schedule.year}  Schedule"
 
+
+
 #calendar
+
+   = link_to "<", @last_months_schedule if @last_months_schedule
+   = link_to ">", @next_months_schedule if @next_months_schedule
+
    = calendar_for @entries, year: @schedule.year, month: Date::MONTHNAMES.index(@schedule.month) do |calendar|
       = calendar.head('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
       - calendar.day do |date, entries|

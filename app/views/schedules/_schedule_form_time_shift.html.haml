@@ -1,5 +1,4 @@
 = interval_fields.fields_for time_shift do |time_shift_fields|
-
    - shifts.each do |shift|
       = time_shift_fields.fields_for "shift-" + shift.name do |sf|
          = sf.label :staff, shift.name

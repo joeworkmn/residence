@@ -12,11 +12,12 @@
 #
 
 class Schedule < ActiveRecord::Base
+   include Schedulable
+
    has_many :entries, class_name: ScheduleEntry, dependent: :destroy
 
    validates_presence_of :month, :year, :interval_length, :month_position
    validates_uniqueness_of :month, scope: :year
-
 
    after_initialize :capitalize_month
 
@@ -26,7 +27,6 @@ class Schedule < ActiveRecord::Base
    def self.unscheduled_months_for(year)
       scheduled_months = Schedule.where(year: year).pluck(:month)
       Date::MONTHNAMES.slice(1,12) - scheduled_months
-      #binding.pry
    end
 
 
