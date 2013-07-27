@@ -6,6 +6,11 @@ class SchedulesController < ApplicationController
    end
 
 
+   def show
+      @entries = schedule.entries.include(:shift, :staff)
+   end
+
+
    def new
       if month_selected?
          @schedule_form = ScheduleForm.new(params[:month], year: params[:year], interval_length: params[:interval_length])
@@ -27,8 +32,7 @@ class SchedulesController < ApplicationController
 
 
    def edit
-      @schedule = Schedule.find_by(id: params[:id])
-      @entries = @schedule.entries.order(:date, :shift_id).includes(:shift)
+      @entries = schedule.entries.order(:date, :shift_id).includes(:shift)
       @guards = Staff.guards
 
       @entries_grouped_by_day = @entries.group_by { |e| e.date }.values
@@ -56,6 +60,10 @@ class SchedulesController < ApplicationController
    end
 
 private
+
+   def schedule
+      @schedule ||= Schedule.find_by(id: params[:id])
+   end
 
    def month_selected?
       params[:month] && !params[:month].blank?

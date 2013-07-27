@@ -21,17 +21,19 @@ class Staff < User
    # Staff roles.
    ROLES = %w[manager guard]
 
-   default_scope -> { staff_only } 
-   scope :guards, -> { where("'guard' = ANY(roles)") }
+   has_many :tickets
+   has_many :work_days, class_name: ScheduleEntry
 
    has_secure_password
-
-   has_many :tickets
+   validates :username, presence: true, uniqueness: { case_sensitive: false }
+   validates :roles, presence: { message: "Must select at least one" }
 
    before_validation :check_roles
 
-   validates :username, presence: true, uniqueness: { case_sensitive: false }
-   validates :roles, presence: { message: "Must select at least one" }
+   default_scope -> { staff_only } 
+   scope :guards, -> { where("'guard' = ANY(roles)") }
+
+
 
 
    def remove
