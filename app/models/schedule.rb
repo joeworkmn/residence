@@ -22,7 +22,7 @@ class Schedule < ActiveRecord::Base
 
 
 
-   # Returns months that a schedule hasn't been created for yet.
+   # Returns months for a specific year that a schedule hasn't been created for yet.
    def self.unscheduled_months_for(year)
       scheduled_months = Schedule.where(year: year).pluck(:month)
       Date::MONTHNAMES.slice(1,12) - scheduled_months
@@ -30,6 +30,7 @@ class Schedule < ActiveRecord::Base
    end
 
 
+   # Returns the length of the last interval for this schedule
    def last_interval_length
       entries.select("DISTINCT(date)").where(day_or_night: 'day', interval_position: entries.maximum(:interval_position)).count
    end
