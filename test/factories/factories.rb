@@ -115,6 +115,7 @@ FactoryGirl.define do
    factory :schedule_entry do
       date                { Date.today }
       day_or_night        'day'
+      interval_position   0
 
       shift
       association :staff, :factory => :guard
