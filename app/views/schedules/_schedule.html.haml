@@ -1,3 +1,4 @@
 %tr
    %td= schedule.year
-   %td= link_to schedule.month, edit_schedule_path(schedule)
+   %td= link_to schedule.month, schedule_path(schedule)
+   %td= link_to 'edit', edit_schedule_path(schedule)

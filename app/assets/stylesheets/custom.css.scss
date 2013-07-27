@@ -70,3 +70,5 @@ div.input {
 ul#tenants {
    @extend .collection-list;
 }
+
+@import "schedules";

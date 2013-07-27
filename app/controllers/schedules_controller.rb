@@ -7,7 +7,8 @@ class SchedulesController < ApplicationController
 
 
    def show
-      @entries = schedule.entries.include(:shift, :staff)
+      @entries = schedule.entries.order(:date, :shift_id).includes(:shift, :staff)
+      @entries_grouped_by_day = @entries.group_by { |e| e.date }.values
    end
 
 

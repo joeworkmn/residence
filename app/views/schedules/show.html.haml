@@ -1,0 +1,14 @@
+- provide(:title, "View Schedule")
+
+%h2.text-center= "#{@schedule.month} #{@schedule.year}  Schedule"
+
+#calendar
+   = calendar_for @entries, year: @schedule.year, month: Date::MONTHNAMES.index(@schedule.month) do |calendar|
+      = calendar.head('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
+      - calendar.day do |date, entries|
+         = date.day
+
+         - entries.each do |e|
+            - staff_name = e.staff.nil? ? "N/A" : e.staff.fname
+            %p= "#{e.shift.name}: #{staff_name} #{e.day_or_night}"
+
