@@ -8,12 +8,19 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  interval_length :integer          default(0)
+#  month_position  :integer
 #
 
 class Schedule < ActiveRecord::Base
    has_many :entries, class_name: ScheduleEntry, dependent: :destroy
 
+   validates_presence_of :month, :year, :interval_length, :month_position
    validates_uniqueness_of :month, scope: :year
+
+
+   after_initialize :capitalize_month
+
+
 
    # Returns months that a schedule hasn't been created for yet.
    def self.unscheduled_months_for(year)
@@ -23,19 +30,14 @@ class Schedule < ActiveRecord::Base
    end
 
 
-   def self.order_months
-      scheds = order(:year)
-
-      scheds.each do |s|
-         pos = Date::MONTHNAMES.index(s.month)
-
-      end
-   end
-
-
    def last_interval_length
       entries.select("DISTINCT(date)").where(day_or_night: 'day', interval_position: entries.maximum(:interval_position)).count
    end
 
+private
+
+   def capitalize_month
+      self.month.capitalize! unless self.month.blank?
+   end
 
 end

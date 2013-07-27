@@ -28,10 +28,10 @@
             = entries_f.fields_for "day-#{day_index}" do |dayf|
 
                .span4.day-shift
-                 - time_shift_partial_assigns = { day_fields: dayf, 
-                                                  guards: @guards, 
-                                                  time_shift: :day_shift, 
-                                                  time_shift_recs: day_shift_entries_for(entries_for_day) }
+                  - time_shift_partial_assigns = { day_fields: dayf, 
+                                                   guards: @guards, 
+                                                   time_shift: :day_shift, 
+                                                   time_shift_recs: day_shift_entries_for(entries_for_day) }
 
                   = render 'schedule_form_edit_time_shift', time_shift_partial_assigns
 

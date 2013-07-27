@@ -91,15 +91,17 @@ FactoryGirl.define do
       fine { rand(1..10).to_d }
    end
 
+
    factory :schedule do
-      month            "july"
+      month            "July"
       year             2013
+      month_position   7
       interval_length  7
 
       factory :schedule_with_entries do
 
          ignore do
-            entries_count
+            entries_count 3
          end
 
          after(:create) do |schedule, eval|
