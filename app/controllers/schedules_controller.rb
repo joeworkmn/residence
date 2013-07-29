@@ -1,15 +1,17 @@
 class SchedulesController < ApplicationController
 
-
    def index
-      @schedules = Schedule.all.order(:year, :month_position)
+      @schedules = Schedule.all.order(:year)
    end
 
 
    def show
       @entries = schedule.entries.order(:date, :shift_id).includes(:shift, :staff)
+      @schedules_for_same_year = Schedule.where(year: schedule.year)
       @last_months_schedule = schedule.last_months_schedule
       @next_months_schedule = schedule.next_months_schedule
+
+      gon.schedules_path = schedules_path
    end
 
 
@@ -35,7 +37,6 @@ class SchedulesController < ApplicationController
    end
 
 
-
    def edit
       @entries = schedule.entries.order(:date, :shift_id).includes(:shift)
       @guards = Staff.guards
@@ -54,8 +55,6 @@ class SchedulesController < ApplicationController
 
 
 
-
-
    # JSON
    def unscheduled_months
       months = Schedule.unscheduled_months_for(params[:year])
@@ -63,6 +62,7 @@ class SchedulesController < ApplicationController
          format.json { render json: months }
       end
    end
+
 
 private
 

@@ -19,6 +19,10 @@ module ApplicationHelper
    end
 
 
+   def month_number(month)
+      Date::MONTHNAMES.index(month)
+   end
+
    def ransack_search_predicates(*additional_predicates)
       additional_predicates += [:eq, :not_eq, :matches, :lt, :gt, :cont, :true, :false]
    end

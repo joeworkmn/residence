@@ -19,6 +19,8 @@ class Schedule < ActiveRecord::Base
    validates_presence_of :month, :year, :interval_length, :month_position
    validates_uniqueness_of :month, scope: :year
 
+   default_scope -> { order(:month_position) }
+
    after_initialize :capitalize_month
 
 

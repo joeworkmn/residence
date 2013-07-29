@@ -24,6 +24,7 @@ gem 'validates_timeliness', '~> 3.0'
 gem 'will_paginate', '3.0.3'
 gem 'haml'
 gem 'watu_table_builder', require: 'table_builder'
+gem 'gon'
 
 group :development do
    gem 'annotate', ">=2.5.0"
