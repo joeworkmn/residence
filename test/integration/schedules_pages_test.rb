@@ -120,9 +120,31 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
    describe "Show" do
       #js_driver
 
-      it "foo" do
-         guards = NewSchedulePage.new.prepare.fill_in_guards
-         binding.pry
+      describe "Content" do
+
+         before do
+            @guards = NewSchedulePage.new.prepare.fill_in_guards
+            submit_schedule
+            @schedule = Schedule.last
+            visit schedule_path(@schedule)
+         end
+
+         it "Displays correct month and year as the header of page" do
+            find("h2#month").must_have_content("#{@schedule.month} #{@schedule.year} Schedule")
+         end
+
+         it "Displays assigned staff for the correct days and shifts" do
+            work_days = all("td:not(.notmonth)")
+            work_days.first.find(".day-shift").first(".assigned-staff").text.must_equal(@guards.first.name)
+            work_days.first.find(".day-shift").all(".assigned-staff")[1].text.must_equal(@guards[1].name)
+            work_days.first.find(".day-shift").all(".assigned-staff")[2].text.must_equal(@guards[2].name)
+
+            work_days.first.find(".night-shift").first(".assigned-staff").text.must_equal(@guards[2].name)
+            work_days.first.find(".night-shift").all(".assigned-staff")[1].text.must_equal(@guards[1].name)
+            work_days.first.find(".night-shift").all(".assigned-staff")[2].text.must_equal(@guards.first.name)
+            #binding.pry
+         end
       end
+
    end # End Show
 end

@@ -29,7 +29,7 @@ module SchedulesHelper
       entries.each do |e|
          if e.day_or_night == time_shift
             html += content_tag(:u, e.shift_name)
-            html += content_tag(:p, e.staff_name)
+            html += content_tag(:p, e.staff_name, :class => 'assigned-staff')
          end
       end
       raw(html)

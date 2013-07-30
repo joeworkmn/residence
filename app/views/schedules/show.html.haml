@@ -19,10 +19,12 @@
       .day= date.day
       .schedule-for-day
 
-        %p 
-          %b Day Shift
-        = schedule_for_day(entries, 'day') 
+        .day-shift
+          %p 
+            %b Day Shift
+          = schedule_for_day(entries, 'day') 
 
-        %p 
-          %b Night Shift
-        = schedule_for_day(entries, 'night')
+        .night-shift
+          %p 
+            %b Night Shift
+          = schedule_for_day(entries, 'night')
