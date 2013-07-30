@@ -4,13 +4,13 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
    subject { page }
 
    describe "New" do
-      before do
-         create(:schedule_configuration)
-         visit new_schedule_path
-      end
-
 
       describe "Initial page" do
+         before do
+            create(:schedule_configuration)
+            visit new_schedule_path
+         end
+
          it "Does NOT display Schedule Form." do
             page.wont_have_selector("#schedule-form")
          end
@@ -26,9 +26,9 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          let(:sch_month) { "February" }
          let(:sch_year) { "2013" }
          let(:interval_length) { 3 }
+
          before do
-            3.times { |n| create(:shift) }
-            submit_schedule_meta_data(sch_month, sch_year, interval_length)
+            NewSchedulePage.new(month: sch_month, year: sch_year, intv_len: interval_length).prepare
             @sch_form = ScheduleForm.new(sch_month, year: sch_year, interval_length: interval_length)
          end
 
@@ -52,8 +52,6 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          describe "After submitting Schedule Form" do
 
             it "Creates a schedule and it's entries in the database" do
-               #3.times { |n| create(:guard) }
-               #submit_schedule_meta_data(sch_month, sch_year, interval_length)
 
                before_sch_count = Schedule.count
                before_entry_count = ScheduleEntry.count
@@ -80,17 +78,14 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
    describe "Edit" do
       #js_driver
 
-      it "Displays correctly" do
-         3.times { create(:shift) }
-         create(:schedule_configuration)
+      let(:new_schedule_page) { NewSchedulePage.new }
 
-         visit new_schedule_path
-         submit_schedule_meta_data("May", 2013, 7)
+      it "Displays correctly" do
+         new_schedule_page.prepare
          submit_schedule 
 
          schedule = Schedule.last
          entries = schedule.entries.order(:date)
-
 
          day_rows = all(".day-row")
 
@@ -104,39 +99,30 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
 
       it "Populates form fields correctly" do
-         schedule = create(:schedule)
-         first_of_month = Date.parse(schedule.month)
-         guards = []
-         shifts = []
-         3.times { guards << create(:guard) }
-         3.times { shifts << create(:shift) }
-
-         # Create schedule for the day shift of the first day of month.
-         today_day_shift1     = schedule.entries.create(date: first_of_month, staff_id: guards.first.id, shift_id: shifts.first.id, day_or_night: 'day')
-         today_day_shift2     = schedule.entries.create(date: first_of_month, staff_id: guards[1].id, shift_id: shifts[1].id, day_or_night: 'day')
-         today_day_shift3     = schedule.entries.create(date: first_of_month, staff_id: guards[2].id, shift_id: shifts[2].id, day_or_night: 'day')
-
-         # Create schedule for the night shift of the first day of month.
-         today_night_shift1   = schedule.entries.create(date: first_of_month, staff_id: guards[1].id, shift_id: shifts.first.id, day_or_night: 'night')
-         today_night_shift2   = schedule.entries.create(date: first_of_month, staff_id: guards.first.id, shift_id: shifts[1].id, day_or_night: 'night')
-
-         # Create schedule for the day shift of the second day of month.
-         tomorrow_day_shift1  = schedule.entries.create(date: first_of_month.tomorrow, staff_id: guards[2].id, shift_id: shifts.first.id, day_or_night: 'day')
-         tomorrow_day_shift2  = schedule.entries.create(date: first_of_month.tomorrow, staff_id: guards[1].id, shift_id: shifts[1].id, day_or_night: 'day')
-
-
-         visit edit_schedule_path(schedule)
+         guards = new_schedule_page.prepare.fill_in_guards
+         submit_schedule
 
          first(".day-row").find(".day-shift").first("select").value.must_equal(guards.first.id.to_s)
          first(".day-row").find(".day-shift").all("select")[1].value.must_equal(guards[1].id.to_s)
          first(".day-row").find(".day-shift").all("select")[2].value.must_equal(guards[2].id.to_s)
 
-         first(".day-row").find(".night-shift").first("select").value.must_equal(guards[1].id.to_s)
-         first(".day-row").find(".night-shift").all("select")[1].value.must_equal(guards.first.id.to_s)
+         first(".day-row").find(".night-shift").first("select").value.must_equal(guards[2].id.to_s)
+         first(".day-row").find(".night-shift").all("select")[1].value.must_equal(guards[1].id.to_s)
+         first(".day-row").find(".night-shift").all("select")[2].value.must_equal(guards.first.id.to_s)
 
-         all(".day-row")[1].find(".day-shift").first("select").value.must_equal(guards[2].id.to_s)
+         all(".day-row")[1].find(".day-shift").first("select").value.must_equal(guards.first.id.to_s)
          all(".day-row")[1].find(".day-shift").all("select")[1].value.must_equal(guards[1].id.to_s)
       end
 
    end # End Edit
+
+
+   describe "Show" do
+      #js_driver
+
+      it "foo" do
+         guards = NewSchedulePage.new.prepare.fill_in_guards
+         binding.pry
+      end
+   end # End Show
 end

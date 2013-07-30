@@ -9,6 +9,7 @@ require File.expand_path('../../config/environment', __FILE__)
 
 require 'rails/test_help'
 require 'pry'
+require 'byebug'
 require 'capybara/rails'
 require 'capybara/poltergeist'
 #require "minitest/reporters"
@@ -22,7 +23,7 @@ Capybara.javascript_driver = :selenium
 
 
 Turn.config.trace = 1
-Turn.config.format = :dot
+#Turn.config.format = :dot
 
 
 # Includes support files
