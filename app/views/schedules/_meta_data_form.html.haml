@@ -5,4 +5,4 @@
   = select_tag :year, options_for_select([Time.now.year, Time.now.next_year.year], params[:year])
   = label_tag :interval_length, "Number of days between rotations:"
   = text_field_tag :interval_length, params[:interval_length] || ScheduleForm.default_interval_length
-  %br= submit_tag "Submit"
+  %br= submit_tag "Submit", class: 'btn'

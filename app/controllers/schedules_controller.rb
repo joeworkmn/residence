@@ -7,6 +7,9 @@ class SchedulesController < ApplicationController
 
    def show
       @entries = schedule.entries.order(:date, :shift_id).includes(:shift, :staff)
+
+      @entries = @entries.where(staff_id: current_user.id) if params[:personal_view]
+
       @schedules_for_same_year = Schedule.where(year: schedule.year)
       @last_months_schedule = schedule.last_months_schedule
       @next_months_schedule = schedule.next_months_schedule

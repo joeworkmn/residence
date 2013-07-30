@@ -1,7 +1,7 @@
 <% provide(:title, "Sign In") %>
 
 <div class='row'>
-   <div class='span3 bg-gray-lighter'>
+   <div id='tenant-signin' class='span3 bg-gray-lighter'>
       <h3> Tenant Sign In </h3>
       <%= form_for :session, url: sessions_path do |f| %>
          <%= f.label :username %>
@@ -16,8 +16,8 @@
       <% end %>
    </div>
 
-   <div class='span3 pull-right bg-gray-lighter'>
-      <h3> Admin Sign In </h3>
+   <div id='staff-signin' class='span3 pull-right bg-gray-lighter'>
+      <h3> Staff Sign In </h3>
       <%= form_for :session, url: sessions_path do |f| %>
          <%= f.label :username %>
          <%= f.text_field :username %>

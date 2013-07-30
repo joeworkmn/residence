@@ -144,6 +144,20 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
             work_days.first.find(".night-shift").all(".assigned-staff")[2].text.must_equal(@guards.first.name)
             #binding.pry
          end
+
+         describe "Personal View" do
+            #js_driver
+            it "foo" do
+               signin_user(@guards.first)
+               visit schedule_path(@schedule)
+               click_link "Personal View"
+               sleep 0.75 
+               work_days = all("td:not(.notmonth)")
+               work_days.first.must_have_content(@guards.first.name)
+               work_days.first.wont_have_content(@guards[1].name)
+
+            end
+         end
       end
 
    end # End Show

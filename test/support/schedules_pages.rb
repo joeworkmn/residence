@@ -5,28 +5,8 @@ def expected_entries_created(sch_form)
    sch_form.days_in_month * Shift.count * 2
 end
 
-
-def prepare_new_schedule_form(options = {})
-   month = options[:month]       || "May"
-   year = options[:year]         || 2013
-   intv_len = options[:intv_len] || 7
-
-   create(:schedule_configuration)
-   visit new_schedule_path
-   submit_schedule_meta_data(month: month, year: year, intv_len: intv_len)
-end
-
-
-def submit_schedule_meta_data(options = {})
-   month = options[:month]       || "May"
-   year = options[:year]         || 2013
-   intv_len = options[:intv_len] || 7
-
-   select(month, from: "Select month:")
-   select(year, from: "Select year:")
-   fill_in("interval_length", with: intv_len)
-
-   click_button("Submit")
+def click_meta_data_submit
+   click_button "Submit"
 end
 
 def submit_schedule
@@ -61,7 +41,7 @@ def night_shift_col
 end
 
 
-class NewSchedulePage  < ActionDispatch::IntegrationTest
+class NewSchedulePage < ActionDispatch::IntegrationTest
 
    attr_accessor :month, :year, :intv_len, :guards
 
@@ -87,7 +67,7 @@ class NewSchedulePage  < ActionDispatch::IntegrationTest
       select(year, from: "Select year:")
       fill_in("interval_length", with: intv_len)
 
-      click_button("Submit")
+      click_meta_data_submit
    end
 
 

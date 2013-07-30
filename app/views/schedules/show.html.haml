@@ -7,24 +7,31 @@
     = "#{@schedule.month} #{@schedule.year}  Schedule"
     = link_to ">", @next_months_schedule if @next_months_schedule
 
-  // Form doesn't actually get posted. Submit button is actually a link to schedules#show.
-  #choose-schedule
-    = form_tag do
-      = collection_select :not_used, :not_used, @schedules_for_same_year, :id, :month
-      = link_to "View Schedule", schedule_path(@schedules_for_same_year.first), class: 'btn'
+  #row
+    // Form doesn't actually get posted. Submit button is actually a link to schedules#show.
+    .span4#choose-schedule
+      = form_tag do
+        = collection_select :not_used, :not_used, @schedules_for_same_year, :id, :month
+        %br
+        = link_to "Change Month", schedule_path(@schedules_for_same_year.first), class: 'btn btn-small'
+
+    .span4.pull-right
+      = link_to "Personal View", schedule_path(@schedule, personal_view: true)
+
 
   = calendar_for @entries, year: @schedule.year, month: month_number(@schedule.month) do |calendar|
     = calendar.head('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
     - calendar.day do |date, entries|
       .day= date.day
+
       .schedule-for-day
-
         .day-shift
-          %p 
-            %b Day Shift
-          = schedule_for_day(entries, 'day') 
-
+          - unless entries.blank?
+            %p
+              %b Day Shift 
+            = schedule_for_day(entries, 'day') 
         .night-shift
-          %p 
-            %b Night Shift
-          = schedule_for_day(entries, 'night')
+          - unless entries.blank?
+            %p 
+              %b Night Shift
+            = schedule_for_day(entries, 'night')
