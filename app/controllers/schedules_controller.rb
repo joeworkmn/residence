@@ -1,6 +1,7 @@
 class SchedulesController < ApplicationController
 
    def index
+      # TODO If current_user is a guard, then only retrieve published schedules.
       @schedules = Schedule.all.order(:year)
    end
 
@@ -49,7 +50,7 @@ class SchedulesController < ApplicationController
 
 
    def update
-      @schedule_form = ScheduleForm::Update.new(params[:schedule][:month], year: params[:schedule][:year])
+      @schedule_form = ScheduleForm::Update.new(params[:id])
       @schedule_form.submit(params[:schedule])
 
       flash[:success] = "Schedule has been updated"

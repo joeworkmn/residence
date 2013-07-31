@@ -13,6 +13,10 @@ def submit_schedule
    click_button "Submit Schedule"
 end
 
+def update_schedule
+   click_button "Update Schedule"
+end
+
 def create_shifts(count = 3)
    shifts = []
    count.times { shifts << create(:shift) }
@@ -25,7 +29,9 @@ def create_guards(count = 3)
    guards
 end
 
-
+def publish
+   "Publish?"
+end
 
 # #new view
 def interval_row
@@ -52,12 +58,13 @@ class NewSchedulePage < ActionDispatch::IntegrationTest
    end
 
 
-   def prepare
+   def prepare(options = {})
       create_shifts
       self.guards = create_guards
       create(:schedule_configuration)
       visit new_schedule_path
       submit_meta_data
+      check(publish) unless options[:publish] == false
       self
    end
 
@@ -85,5 +92,7 @@ class NewSchedulePage < ActionDispatch::IntegrationTest
 
       guards
    end
+
+
 
 end

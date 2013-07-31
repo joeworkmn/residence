@@ -40,7 +40,13 @@
 
                   %span.span3.interval-range-text= i.range_text
                   <!-- End Interval Row -->
-
+         %br
+         %br
+         = f.label     :published?, "Publish?"
+         = f.check_box :published?
+         %br
+         %br
+         %br
          = f.submit "Submit Schedule", class: 'btn btn-primary'
 
    <!-- End Schedule Form Div. -->

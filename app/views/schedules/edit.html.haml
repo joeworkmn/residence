@@ -1,47 +1,55 @@
 = provide(:title, "Edit Schedule")
 
 .row-with-margin
-   %h2.text-center= "#{@schedule.month} #{@schedule.year}"
+  %h2.text-center= "#{@schedule.month} #{@schedule.year}"
 
 .row-with-margin
-   .span4
-      %h4 
-         %b Day Shift
+  .span4
+    %h4 
+      %b Day Shift
 
-   .span4
-      %h4
-         %b Night Shift
+  .span4
+    %h4
+      %b Night Shift
 
 = form_for @schedule do |f|
 
-   = f.hidden_field :year, value: @schedule.year
-   = f.hidden_field :month, value: @schedule.month
+  = f.hidden_field :year, value: @schedule.year
+  = f.hidden_field :month, value: @schedule.month
 
-   = f.fields_for :entries do |entries_f|
+  = f.fields_for :entries do |entries_f|
 
-      - @entries_grouped_by_day.each_with_index do |entries_for_day, day_index|
+    - @entries_grouped_by_day.each_with_index do |entries_for_day, day_index|
 
-         <!-- Day Row -->
-         .bg-gray-lighter.row-with-margin.day-row
+      <!-- Day Row -->
+      .bg-gray-lighter.row-with-margin.day-row
 
-            <!-- Day Fields -->
-            = entries_f.fields_for "day-#{day_index}" do |dayf|
+        <!-- Day Fields -->
+        = entries_f.fields_for "day-#{day_index}" do |dayf|
 
-               .span4.day-shift
-                  - time_shift_partial_assigns = { day_fields: dayf, 
-                                                   guards: @guards, 
-                                                   time_shift: :day_shift, 
-                                                   time_shift_recs: day_shift_entries_for(entries_for_day) }
+          .span4.day-shift
+            - time_shift_partial_assigns = { day_fields: dayf, 
+                                              guards: @guards, 
+                                              time_shift: :day_shift, 
+                                              time_shift_recs: day_shift_entries_for(entries_for_day) }
 
-                  = render 'schedule_form_edit_time_shift', time_shift_partial_assigns
-
-
-               .span4.night-shift
-                  - time_shift_partial_assigns[:time_shift]      = :night_shift
-                  - time_shift_partial_assigns[:time_shift_recs] = night_shift_entries_for(entries_for_day)
-                  = render 'schedule_form_edit_time_shift', time_shift_partial_assigns
+            = render 'schedule_form_edit_time_shift', time_shift_partial_assigns
 
 
-               .span3.date= schedule_day_label(entries_for_day.first.date)
+          .span4.night-shift
+            - time_shift_partial_assigns[:time_shift]      = :night_shift
+            - time_shift_partial_assigns[:time_shift_recs] = night_shift_entries_for(entries_for_day)
+            = render 'schedule_form_edit_time_shift', time_shift_partial_assigns
 
-   = f.submit "Update Schedule", class: 'btn btn-primary'
+
+          .span3.date= schedule_day_label(entries_for_day.first.date)
+
+  %br
+  %br
+  = f.label :published, "Publish?"
+  = f.check_box :published?
+  %br
+  %br
+  %br
+
+  = f.submit "Update Schedule", class: 'btn btn-primary'

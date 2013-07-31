@@ -64,9 +64,19 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
 
             it "Creates a schedule with the correct attribute values" do
                submit_schedule
-               Schedule.last.month.must_equal(sch_month)
-               Schedule.last.year.must_equal(sch_year.to_i)
-               Schedule.last.interval_length.must_equal(interval_length)
+               schedule = Schedule.last
+               schedule.month.must_equal(sch_month)
+               schedule.year.must_equal(sch_year.to_i)
+               schedule.interval_length.must_equal(interval_length)
+               schedule.published?.must_equal(true)
+            end
+
+            describe "Unpublished" do
+               it "Should not be published" do
+                  uncheck(publish)
+                  submit_schedule
+                  Schedule.last.published?.must_equal(false)
+               end
             end
 
          end
@@ -95,6 +105,9 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          # Test date label for day row.
          day_rows.last.find(".date").text.must_equal(schedule_day_label(entries.last.date))
 
+         # Test Publish? check box is checked.
+         find_field(publish).must_be :checked?
+
       end
 
 
@@ -114,16 +127,27 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          all(".day-row")[1].find(".day-shift").all("select")[1].value.must_equal(guards[1].id.to_s)
       end
 
+      describe "Unpublish" do
+         it "Must be unpublished after unchecking 'Publish?' check box" do
+            new_schedule_page.prepare
+            submit_schedule 
+            uncheck(publish)
+            update_schedule
+
+            Schedule.last.published?.must_equal(false)
+         end
+      end
+
    end # End Edit
 
 
    describe "Show" do
-      #js_driver
 
       describe "Content" do
 
          before do
-            @guards = NewSchedulePage.new.prepare.fill_in_guards
+            schedule_page = NewSchedulePage.new
+            @guards = schedule_page.prepare.fill_in_guards
             submit_schedule
             @schedule = Schedule.last
             visit schedule_path(@schedule)
@@ -146,16 +170,14 @@ class SchedulesPagesTest < ActionDispatch::IntegrationTest
          end
 
          describe "Personal View" do
-            #js_driver
             it "foo" do
-               signin_user(@guards.first)
+               signin_staff(@guards.first)
                visit schedule_path(@schedule)
                click_link "Personal View"
                sleep 0.75 
                work_days = all("td:not(.notmonth)")
                work_days.first.must_have_content(@guards.first.name)
                work_days.first.wont_have_content(@guards[1].name)
-
             end
          end
       end

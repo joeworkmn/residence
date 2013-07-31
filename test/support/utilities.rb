@@ -5,12 +5,22 @@ def confirm_popup
 end
 
 
-def signin_user(user)
+def signin_user(user, signin_selector)
    visit signin_path
 
-   within("#staff-signin") do
+   within(signin_selector) do
       fill_in "Username", with: user.username
       fill_in "Password", with: "password"
       click_button "Sign in"
    end
+end
+
+
+def signin_staff(user)
+   signin_user(user, "#staff-signin")
+end
+
+
+def signin_tenant(user)
+   signin_user(user, "#tenant-signin")
 end

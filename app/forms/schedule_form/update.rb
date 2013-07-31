@@ -1,8 +1,18 @@
 # Handles the submission of edited Schedules and associated ScheduleEntries.
 
 class ScheduleForm::Update < ScheduleForm
+   attr_accessor :id, :schedule
+
+   def initialize(id)
+      @id = id
+   end
+
 
    def submit(schedule_params)
+
+      schedule.published = schedule_params[:published]
+      schedule.save ; schedule.reload
+      
       entries_params = schedule_params[:entries]
 
       entries_params.each do |e|
@@ -21,7 +31,13 @@ class ScheduleForm::Update < ScheduleForm
       time_shift.each do |ts|
          record = ts[1]
          # Update record.
-         ScheduleEntry.update(record[:entry_id], staff_id: record[:staff])
+         #ScheduleEntry.update(record[:entry_id], staff_id: record[:staff])
+         schedule.entries.update(record[:entry_id], staff_id: record[:staff])
       end
+   end
+
+
+   def schedule
+      @schedule ||= Schedule.find_by(id: id)
    end
 end
