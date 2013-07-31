@@ -1,37 +1,34 @@
 - provide(:title, "View Schedule")
 
-#calendar
+.row
+  .span12
+    = render 'month_controls', schedule: @schedule, 
+          last_months_schedule: @last_months_schedule, 
+          next_months_schedule: @next_months_schedule
 
-  %h2#month
-    = link_to "<", @last_months_schedule if @last_months_schedule
-    = "#{@schedule.month} #{@schedule.year}  Schedule"
-    = link_to ">", @next_months_schedule if @next_months_schedule
+.row
+  // Form doesn't actually get posted. Submit button is actually a link to schedules#show.
+  .span4#choose-schedule
+    = render 'change_schedule_form', schedules: @schedules_for_same_year
 
-  #row
-    // Form doesn't actually get posted. Submit button is actually a link to schedules#show.
-    .span4#choose-schedule
-      = form_tag do
-        = collection_select :not_used, :not_used, @schedules_for_same_year, :id, :month
-        %br
-        = link_to "Change Month", schedule_path(@schedules_for_same_year.first), class: 'btn btn-small'
+  .span4.pull-right
+    = link_to "Personal View", schedule_path(@schedule, personal_view: true)
 
-    .span4.pull-right
-      = link_to "Personal View", schedule_path(@schedule, personal_view: true)
+.row
+  .span12#calendar
+    = calendar_for @entries, year: @schedule.year, month: month_number(@schedule.month) do |calendar|
+      = calendar.head('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
+      - calendar.day do |date, entries|
+        .day= date.day
 
-
-  = calendar_for @entries, year: @schedule.year, month: month_number(@schedule.month) do |calendar|
-    = calendar.head('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
-    - calendar.day do |date, entries|
-      .day= date.day
-
-      .schedule-for-day
-        .day-shift
-          - unless entries.blank?
-            %p
-              %b Day Shift 
-            = schedule_for_day(entries, 'day') 
-        .night-shift
-          - unless entries.blank?
-            %p 
-              %b Night Shift
-            = schedule_for_day(entries, 'night')
+        .schedule-for-day
+          .day-shift
+            - unless entries.blank?
+              %p
+                %b Day Shift 
+              = schedule_for_day(entries, 'day') 
+          .night-shift
+            - unless entries.blank?
+              %p 
+                %b Night Shift
+              = schedule_for_day(entries, 'night')

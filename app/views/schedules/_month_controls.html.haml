@@ -1,0 +1,4 @@
+%h2#month-controls
+  = link_to "<", poly_path(last_months_schedule) if last_months_schedule
+  = "#{schedule.month} #{schedule.year}  Schedule"
+  = link_to ">", poly_path(next_months_schedule) if next_months_schedule

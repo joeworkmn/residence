@@ -34,4 +34,5 @@ module SchedulesHelper
       end
       raw(html)
    end
+
 end

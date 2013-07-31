@@ -1,7 +1,19 @@
 = provide(:title, "Edit Schedule")
 
-.row-with-margin
-  %h2.text-center= "#{@schedule.month} #{@schedule.year}"
+//.row-with-margin
+//  %h2.text-center= "#{@schedule.month} #{@schedule.year}"
+
+.row
+  .span12
+    = render 'month_controls', schedule: @schedule, 
+          last_months_schedule: @last_months_schedule, 
+          next_months_schedule: @next_months_schedule
+
+.row
+  // Form doesn't actually get posted. Submit button is actually a link to schedules#show.
+  .span4#choose-schedule
+    = render 'change_schedule_form', schedules: @schedules_for_same_year
+
 
 .row-with-margin
   .span4
@@ -11,6 +23,7 @@
   .span4
     %h4
       %b Night Shift
+
 
 = form_for @schedule do |f|
 

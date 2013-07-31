@@ -1,0 +1,4 @@
+= form_tag do
+  = collection_select :not_used, :not_used, schedules, :id, :month
+  %br
+  = link_to "Change Month", schedule_path(schedules.first), class: 'btn btn-small'
