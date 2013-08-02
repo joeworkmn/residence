@@ -1,6 +1,7 @@
 class ApartmentsController < ApplicationController
 
    def index
+      TestMailer.test_email.deliver
       @apartments = Apartment.includes(:status)
    end
    
