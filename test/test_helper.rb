@@ -8,6 +8,7 @@ require File.expand_path('../../config/environment', __FILE__)
 #end
 
 require 'rails/test_help'
+require 'minitest/spec'
 require 'pry'
 require 'byebug'
 require 'capybara/rails'
@@ -34,6 +35,7 @@ class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
 
   # Add more helper methods to be used by all tests here...
+  extend MiniTest::Spec::DSL
 end
 
 

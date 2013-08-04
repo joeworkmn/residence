@@ -46,7 +46,6 @@ group :test do
    gem 'factory_girl_rails'
    gem 'minitest-metadata'
    gem 'minitest-reporters'
-   gem 'minitest-spec-rails'
    gem 'mocha', require: false
    gem 'poltergeist'
    gem 'selenium-webdriver'
