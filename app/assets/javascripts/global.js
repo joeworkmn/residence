@@ -99,3 +99,7 @@ function setDatePickerIfDateType(attrSelect) {
       attrSelect.next().next().datepicker("destroy")
    }
 }
+
+function setTicketMessage(message) {
+   $("#ticket-result-message").html(message).delay(5000).fadeOut()
+}

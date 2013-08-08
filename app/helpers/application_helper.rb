@@ -39,4 +39,13 @@ module ApplicationHelper
    def ransack_search_predicates(*additional_predicates)
       additional_predicates += [:eq, :not_eq, :matches, :lt, :gt, :cont, :true, :false]
    end
+
+   def link_to_add_search_conditions(name, f, type)
+      new_object = f.object.send "build_#{type}"
+      id = "new_#{type}"
+      fields = f.send("#{type}_fields", new_object, child_index: id) do |builder|
+        render("search_condition_fields", f: builder)
+      end
+      link_to(name, '#', :class => "add_condition", data: {id: id, fields: fields.gsub("\n", "")})
+   end
 end

@@ -1,4 +1,4 @@
-$("#main-flash-messages").html("<%= j render('layouts/flash_messages') %>")
+setTicketMessage("<%= j content_message(notice: "Ticket(s) have been deleted.") %>")
 <% @tickets.each do |t| %>
    <% if t.destroyed? %>
       deleteDTRow('<%= dom_id(t) %>')

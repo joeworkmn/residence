@@ -1,0 +1,7 @@
+.search-condition
+  = f.attribute_fields do |a|
+    = a.attribute_select({ associations: [:apartment, :violations] }, class: "attribute-select")
+  = f.predicate_select({ only: ransack_search_predicates, compounds: false }, class: "predicate-select")
+  = f.value_fields do |v|
+    = v.text_field :value
+  = link_to "Remove Fields", "#", class: "remove_condition"

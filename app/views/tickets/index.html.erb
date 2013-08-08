@@ -1,18 +1,13 @@
 <% provide(:title, "Ticket Index") %>
 
-<%= search_form_for @search do |f| %>
+<%= search_form_for @search, id: 'search-form' do |f| %>
    <%= f.condition_fields do |c| %>
-      <div class='search-conditions'>
-         <%= c.attribute_fields do |a| %>
-            <%= a.attribute_select({ associations: [:apartment, :violations] }, class: "attribute-select") %>
-         <% end %>
-         <%= c.predicate_select({ only: ransack_search_predicates, compounds: false }, class: "predicate-select") %>
-         <%= c.value_fields do |v| %>
-            <%= v.text_field :value %>
-         <% end %>
-      </div>
+      <%= render 'search_condition_fields', f: c %>
    <% end %>
 
+   <%= link_to_add_search_conditions("Add Conditions", f, :condition) %>
+   <br />
+   <br />
    <%= f.submit "Filter", class: 'btn' %>
 <% end %>
 
