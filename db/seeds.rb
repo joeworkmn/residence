@@ -16,12 +16,12 @@
       a = (a.length < 2) ? "0#{a}" : a
       apt_num = f + a
       as = ApartmentStatus.new(occupied: false, status_start_date: Time.now)
-      Apartment.create(number: apt_num, password: 'password', status: as)
+      Apartment.create(number: apt_num, password: 'password', password_confirmation: 'password', status: as)
    end
 end
 
 
-Staff.create(fname: "John", lname: "Doe", username: 'jdoe', password: 'password', phone_primary: '111-1111', phone_secondary: '111-1112', roles: ['manager'])
+staff = Staff.create(fname: "John", lname: "Doe", username: 'jdoe', password: 'password', phone_primary: '111-1111', phone_secondary: '111-1112', roles: ['manager'])
 Staff.create(fname: "Tim", lname: "Duncan", username: 'timmy', password: 'password', phone_primary: '111-2221', roles: ['guard'])
 
 

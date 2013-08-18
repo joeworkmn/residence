@@ -17,6 +17,11 @@
 #
 
 class Staff < User
+   # Include default devise modules. Others available are:
+   # :token_authenticatable, :confirmable,
+   # :lockable, :timeoutable and :omniauthable
+   devise :database_authenticatable, 
+          :recoverable, :rememberable, :trackable, :validatable
 
    # Staff roles.
    ROLES = %w[manager guard]
@@ -24,7 +29,6 @@ class Staff < User
    has_many :tickets
    has_many :work_days, class_name: ScheduleEntry
 
-   has_secure_password
    validates :username, presence: true, uniqueness: { case_sensitive: false }
    validates :roles, presence: { message: "Must select at least one" }
 
@@ -63,6 +67,10 @@ class Staff < User
    end
 
 private
+   
+   def email_required?
+      false
+   end
 
    def self.staff_only
       sql = ""

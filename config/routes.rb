@@ -1,13 +1,9 @@
 Residence::Application.routes.draw do
+   devise_for :staffs
 
-   root to: "sessions#new"
+   root to: "pages#home"
 
-   get '/signin', to: 'sessions#new'
-   delete '/signout', to: 'sessions#destroy'
    get '/home', to: 'pages#home'
-
-
-   resources :sessions, only: [:create, :destroy]
 
    resources :users
    resources :staffs
