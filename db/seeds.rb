@@ -28,3 +28,5 @@ Staff.create(fname: "Tim", lname: "Duncan", username: 'timmy', password: 'passwo
 Violation.create(name: 'Noise')
 Violation.create(name: 'Loittering', fine: 5)
 Violation.create(name: 'Parking', fine: 7)
+
+ScheduleConfiguration.create(default_interval_length: 5)
