@@ -1,4 +1,5 @@
 Residence::Application.routes.draw do
+   devise_for :apartments
    devise_for :staffs
 
    root to: "pages#home"

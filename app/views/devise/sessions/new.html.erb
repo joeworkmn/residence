@@ -2,7 +2,11 @@
 
 <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div class="form-inputs">
-    <%= f.input :username, :required => false, :autofocus => true %>
+    <% if resource.instance_of? Staff %>
+       <%= f.input :username, :required => false, :autofocus => true %>
+    <% else %>
+       <%= f.input :number, :label => "Apartment #", :required => false, :autofocus => true %>
+    <% end %>
     <%= f.input :password, :required => false %>
     <%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>
   </div>

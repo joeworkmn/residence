@@ -60,7 +60,7 @@ div.input {
 
 .collection-list {
    list-style: none;
-    > li { // the > means only immediate children. I.E only immediate <li> children of .collection-list.
+   > li { // the > means only immediate children. I.E only immediate <li> children of .collection-list.
       margin-left: -20px;
       margin-bottom: 20px;
       border-bottom: 1px solid $grayLight;
