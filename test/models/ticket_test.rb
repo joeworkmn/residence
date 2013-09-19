@@ -2,7 +2,6 @@ require 'test_helper'
 
 class TicketTest < ActiveSupport::TestCase
    before { @ticket = build(:ticket) }
-
    subject { @ticket }
 
    it "must be valid" do
