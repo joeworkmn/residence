@@ -1,1 +1,1 @@
-## First Rails 4 app.
+### First Rails 4 app.
